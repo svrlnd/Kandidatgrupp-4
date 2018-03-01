@@ -31,7 +31,9 @@ public class GUI extends javax.swing.JFrame {
         
         // JÄmför med ControlUI lab 2 här för att skapa MapPanel
         
-        jPanel1 = new javax.swing.JPanel();
+        //jPanel1 = new javax.swing.JPanel();
+        jPanel1 = new MapPanel(ds);
+        
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
