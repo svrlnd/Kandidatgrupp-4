@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 /*
  * Den här klassen är inkopierad från lab 2 rakt av. 
- * Jag, Anna tror att vi kommer behöva den men annars ändrar vi det i efterhand.
+ * Jag, Anna, tror att vi kommer behöva den men annars ändrar vi det i efterhand.
  */
 
 public class DataStore {
