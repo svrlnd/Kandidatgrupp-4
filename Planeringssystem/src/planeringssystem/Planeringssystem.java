@@ -23,7 +23,7 @@ public class Planeringssystem {
         /*
          * Reads in the file with the map. For now it is street.txt. Don´t know where the file will be stored.
          */
-        ds.setFileName("C:\\Users\\Lenovo\\Documents\\KTS\\3\\TNK111 Kandidatprojekt\\NetBeansProjects\\Lab 2\\streets.txt");
+        ds.setFileName("streets.txt");
         ds.readNet();
         
         /*

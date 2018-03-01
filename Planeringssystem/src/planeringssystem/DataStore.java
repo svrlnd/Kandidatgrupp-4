@@ -108,7 +108,7 @@ public class DataStore {
         
         // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
         // koordinater!
-        robotX = nodeX[70]; 
+        robotX = nodeX[70];
         robotY = nodeY[70];
     }   
 }
