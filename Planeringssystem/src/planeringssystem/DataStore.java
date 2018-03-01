@@ -103,11 +103,12 @@ public class DataStore {
             networkRead = true;  // Indicate that all network data is in place in the DataStore
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-        robotX = nodeX[70];
+        // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
+        // koordinater!
+        robotX = nodeX[70]; 
         robotY = nodeY[70];
     }   
 }
