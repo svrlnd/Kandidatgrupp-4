@@ -15,7 +15,7 @@ public class Planeringssystem {
     GUI gui;
 
     Planeringssystem(){
-            /*
+        /*
          * Initialize the DataStore call where all "global" data will be stored
          */
         ds = new DataStore();
@@ -39,7 +39,7 @@ public class Planeringssystem {
     public static void main(String[] args) {
         
         Planeringssystem x = new Planeringssystem();
-        
+        // annda430
     }
 
 }
