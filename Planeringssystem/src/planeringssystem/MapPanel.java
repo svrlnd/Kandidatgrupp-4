@@ -51,6 +51,7 @@ public class MapPanel extends JPanel {
             }
 
             // Draw arcs
+            g.setColor(RED_COLOR);
             for (int i = 0; i < ds.arcs; i++) {
                 if (ds.arcColor[i] == 0) {
                     g.setColor(DARK_COLOR);

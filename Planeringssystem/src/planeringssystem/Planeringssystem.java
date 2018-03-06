@@ -6,7 +6,8 @@ public class Planeringssystem {
     GUI gui;
     RobotRead rr;
     Thread t1;
-
+    OptPlan op;
+    
     Planeringssystem(){
         /*
          * Initialize the DataStore call where all "global" data will be stored
@@ -21,6 +22,13 @@ public class Planeringssystem {
         ds.readNet();
         
         /*
+         * Initialize an optplan
+         */
+        op = new OptPlan(ds);
+        op.createPlan();
+        
+        
+        /*
          * För att få fram kartan verkar det som att vi behöver ändra lite i GUI.
         */
         gui = new GUI(ds);
@@ -29,11 +37,11 @@ public class Planeringssystem {
         /*
          * Initialize RobotRead with its Thread
          */
-        
         rr = new RobotRead(ds, gui);
         t1 = new Thread(rr);
-        t1.start();         
-
+        t1.start();     
+        
+       
     }
     /**
      * @param args the command line arguments

@@ -20,8 +20,8 @@ public class OptPlan {
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
         
-        int start_node = 1;
-        int dest_node = 50;
+        int start_node = 71;
+        int dest_node = 41;
         
         //Set up network
         for (int i = 0; i < ds.nodes; i++){
@@ -30,7 +30,7 @@ public class OptPlan {
         }
         for (int i = 0; i < ds.arcs; i++){
             Edge lane = new Edge ("" +  (i+1), nodes.get(ds.arcStart[i]-1),
-            nodes.get(ds.arcEnd[i] - 1), 1); //Last argument is arccost
+            nodes.get(ds.arcEnd[i] - 1), ds.arcCost[i]-1); //Last argument is arccost
             edges.add(lane);
         }
         
@@ -44,11 +44,10 @@ public class OptPlan {
         //Hämta kortast rutt
         for (int i = 0; i < path.size()-1; i++){
             for (int j = 0; j < ds.arcs; j++){
-                if (ds.arcStart[j] == Integer.parseInt(path.get(i+1).getId())
+                if (ds.arcStart[j] == Integer.parseInt(path.get(i).getId())
                         && ds.arcEnd[j] == Integer.parseInt(path.get(i+1).getId())){
-                    
                     System.out.println("Arc: " + j);
-                    ds.arcColor[j]=1;
+                    ds.arcColor[j] = 1;
                 }
             }
         }  
