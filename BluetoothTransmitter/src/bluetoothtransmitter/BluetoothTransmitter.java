@@ -10,7 +10,7 @@ public class BluetoothTransmitter {
             main(String args[]) {
         try {
             StreamConnection anslutning = (StreamConnection) Connector.open(
-                    "btspp://001060D1CDC2:5"
+                    "btspp://001060D1CDC2:5" // Här ska vi istället ta in info om BT-adress och kanal från textruta i GUIn
             );
             PrintStream bluetooth_ut
                     = new PrintStream(anslutning.openOutputStream());
