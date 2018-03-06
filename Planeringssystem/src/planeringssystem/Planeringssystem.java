@@ -19,6 +19,7 @@ public class Planeringssystem {
          * Initialize the DataStore call where all "global" data will be stored
          */
         ds = new DataStore();
+        //testing testing
 
         /*
          * Reads in the file with the map. For now it is street.txt. Don´t know where the file will be stored.
