@@ -4,6 +4,8 @@ public class Planeringssystem {
     
     DataStore ds;
     GUI gui;
+    RobotRead rr;
+    Thread t1;
 
     Planeringssystem(){
         /*
@@ -23,6 +25,14 @@ public class Planeringssystem {
         */
         gui = new GUI(ds);
         gui.setVisible(true);
+        
+        /*
+         * Initialize RobotRead with its Thread
+         */
+        
+        rr = new RobotRead(ds, gui);
+        t1 = new Thread(rr);
+        t1.start();         
 
     }
     /**
