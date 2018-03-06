@@ -1,17 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package planeringssystem;
 
 import java.io.File;
 import java.util.Scanner;
-
-/**
- *
- * @author Lenovo
- */
 
 /*
  * Den här klassen är inkopierad från lab 2 rakt av. 
