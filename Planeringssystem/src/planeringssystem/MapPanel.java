@@ -1,6 +1,7 @@
 package planeringssystem;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
@@ -17,6 +18,7 @@ public class MapPanel extends JPanel {
         final Color LIGHT_COLOR = new Color(150, 150, 150);
         final Color DARK_COLOR = new Color(0, 0, 0);
         final Color RED_COLOR = new Color(255, 0, 0);
+        final Font THE_FONT = new Font ("Fonten", Font.PLAIN,10);
         int x, y;
         int x1, y1;
         int x2, y2;
@@ -34,6 +36,7 @@ public class MapPanel extends JPanel {
             double yscale = 1.0 * height / ysize;
 
             g.setColor(Color.GREEN);
+            g.setFont(THE_FONT);
 
             // Draw robot as a large circle
             g.drawOval((int) (ds.robotX * xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY * yscale) - (circlesize + 10) / 2,
