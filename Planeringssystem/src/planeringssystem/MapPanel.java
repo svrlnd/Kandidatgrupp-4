@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
-
 public class MapPanel extends JPanel {
-     DataStore ds;
+
+    DataStore ds;
 
     MapPanel(DataStore ds) {
         this.ds = ds;
@@ -36,11 +36,10 @@ public class MapPanel extends JPanel {
             g.setColor(Color.GREEN);
 
             // Draw robot as a large circle
-            g.drawOval((int) (ds.robotX*xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY*yscale) - (circlesize + 10) / 2,
+            g.drawOval((int) (ds.robotX * xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY * yscale) - (circlesize + 10) / 2,
                     circlesize + 10, circlesize + 10);
-            g.fillOval((int) (ds.robotX*xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY*yscale) - (circlesize + 10) / 2,
+            g.fillOval((int) (ds.robotX * xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY * yscale) - (circlesize + 10) / 2,
                     circlesize + 10, circlesize + 10);
-            
 
             // Draw nodes as circles
             g.setColor(DARK_COLOR);
@@ -53,19 +52,24 @@ public class MapPanel extends JPanel {
 
             // Draw arcs
             for (int i = 0; i < ds.arcs; i++) {
-                if(ds.arcColor[i] == 0){g.setColor(DARK_COLOR);}
-                else if(ds.arcColor[i] == 1){g.setColor(RED_COLOR);}
+                if (ds.arcColor[i] == 0) {
+                    g.setColor(DARK_COLOR);
+                } else if (ds.arcColor[i] == 1) {
+                    g.setColor(RED_COLOR);
+                }
                 x1 = (int) (ds.nodeX[ds.arcStart[i] - 1] * xscale);
                 y1 = (int) (ds.nodeY[ds.arcStart[i] - 1] * yscale);
                 x2 = (int) (ds.nodeX[ds.arcEnd[i] - 1] * xscale);
                 y2 = (int) (ds.nodeY[ds.arcEnd[i] - 1] * yscale);
                 g.drawLine(x1, height - y1, x2, height - y2);
                 // System.out.println("Arc "+i+": "+ds.arcStart[i]+" "+ds.arcEnd[i]);
-                
-                
-                
+                g.drawString(toString(ds.arcCost[i]), (x1 + x2) / 2, ((height - y1) + (height - y2)) / 2);
+
             }
         }
+    } // end paintComponent
+
+    private String toString(int str) {
+        return "" + str + "";
     }
-    
 }
