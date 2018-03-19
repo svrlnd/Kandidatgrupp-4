@@ -5,7 +5,7 @@ import java.util.Random;
 public class RobotRead implements Runnable {
 
     private int sleepTime;
-    private static Random generator = new Random(); // Vet inte om vi kommer behöva denna?
+    private static Random generator = new Random(); // Vet inte om vi kommer behöva denna? Nej, tror vi kommer sätta en uppdateringstid som vi vill ha/S
     private GUI gui;
     private DataStore ds;
 
@@ -22,7 +22,12 @@ public class RobotRead implements Runnable {
             gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
             int i = 1;
-            while (i <= 20) { // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
+
+            // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
+            while (i <= 20) {
+                while (gui.getButtonState()) {
+                    Thread.sleep(sleepTime / 1000);
+                }
                 Thread.sleep(sleepTime / 20);
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
