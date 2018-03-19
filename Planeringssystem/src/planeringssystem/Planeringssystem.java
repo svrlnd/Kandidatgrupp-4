@@ -50,7 +50,6 @@ public class Planeringssystem {
         t2 = new Thread(gu);
         t2.start();
         
-       
     }
     /**
      * @param args the command line arguments
