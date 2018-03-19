@@ -22,6 +22,9 @@ public class RobotRead implements Runnable {
 
             int i = 1;
             while (i <= 20) {
+                while (gui.getButtonState()) {
+                    Thread.sleep(sleepTime / 1000);
+                }
                 Thread.sleep(sleepTime / 20);
                 gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
                 i++;
