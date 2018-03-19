@@ -2,10 +2,6 @@ package planeringssystem;
 
 import java.util.Random;
 
-/**
- *
- * @author annda430
- */
 public class GuiUpdate implements Runnable {
 
     private int sleepTime;
@@ -21,12 +17,14 @@ public class GuiUpdate implements Runnable {
     
     @Override
     public void run(){
-    try{ 
-
+    try{
+        // Hur länge GuiUpdate ska köras kanske inte behöver skrivas ut?
         gui.appendErrorMessage("GuiUpdate startar och kommer att köra i " + sleepTime + " millisekunder.");
+        
         int i = 1;
-        while(i <= 20){
-            Thread.sleep(sleepTime/20);
+        while(i <= 20){ // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
+            Thread.sleep(sleepTime / 20);
+            // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
             gui.appendErrorMessage("Jag är tråd GuiUpdate! För " + i + ":e gången.");
             ds.robotX = ds.robotX - 10; // Här kommer AGV:ns position istället läsas in
             gui.repaint();
@@ -34,6 +32,8 @@ public class GuiUpdate implements Runnable {
         }
     
     } catch (InterruptedException exception){}
+    
+    // Ska vi ha kvar denna?
     gui.appendErrorMessage("GuiUpdate är nu klar!");
     }
 
