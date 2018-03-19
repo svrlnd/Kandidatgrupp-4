@@ -33,7 +33,7 @@ public class GUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
 
-       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+  setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setFont(new java.awt.Font("Kannada MN", 1, 18)); // NOI18N

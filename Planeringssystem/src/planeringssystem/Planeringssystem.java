@@ -5,7 +5,9 @@ public class Planeringssystem {
     DataStore ds;
     GUI gui;
     RobotRead rr;
+    GuiUpdate gu;
     Thread t1;
+    Thread t2;
     OptPlan op;
     
     Planeringssystem(){
@@ -39,7 +41,14 @@ public class Planeringssystem {
          */
         rr = new RobotRead(ds, gui);
         t1 = new Thread(rr);
-        t1.start();     
+        t1.start(); 
+       
+        /*
+         * Initialize RobotRead with its Thread
+         */
+        gu = new GuiUpdate(ds, gui);
+        t2 = new Thread(gu);
+        t2.start();
         
        
     }
