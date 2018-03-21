@@ -16,7 +16,6 @@ public class GuiUpdate implements Runnable {
     }
     
     @Override
-
     public void run(){
     try{
         // Hur länge GuiUpdate ska köras kanske inte behöver skrivas ut?
@@ -37,24 +36,6 @@ public class GuiUpdate implements Runnable {
     // Ska vi ha kvar denna?
     gui.appendErrorMessage("GuiUpdate är nu klar!");
 
-    public void run() {
-        try {
-            
-            gui.appendErrorMessage("GuiUpdate startar och kommer att köra i " + sleepTime + " millisekunder.");
-            int i = 1;
-                while (gui.getButtonState()) {                    
-                    Thread.sleep(sleepTime / 1000);
-                
-                
-                gui.appendErrorMessage("Jag är tråd GuiUpdate! För " + i + ":e gången.");
-                ds.robotX = ds.robotX - 10; // Här kommer AGV:ns position istället läsas in
-                gui.repaint();
-                i++;
-            }
-            
-        } catch (InterruptedException exception) {
-        }
-        gui.appendErrorMessage("GuiUpdate är nu klar!");
     }
-    
+   
 }
