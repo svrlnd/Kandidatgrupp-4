@@ -35,7 +35,7 @@ public class Planeringssystem {
         */
         gui = new GUI(ds);
         gui.setVisible(true);
-        
+                
         /*
          * Initialize RobotRead with its Thread
          */
