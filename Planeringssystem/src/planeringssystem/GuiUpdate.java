@@ -23,6 +23,9 @@ public class GuiUpdate implements Runnable {
         
         int i = 1;
         while(i <= 20){ // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
+             while (gui.getButtonState()) {
+                    Thread.sleep(sleepTime / 1000);
+                }
             Thread.sleep(sleepTime / 20);
             // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
             gui.appendErrorMessage("Jag är tråd GuiUpdate! För " + i + ":e gången.");
