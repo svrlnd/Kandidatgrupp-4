@@ -128,7 +128,6 @@ public class DataStore {
         while (flagCoordinates) {
             robotX = rr.getCurrentX();
             robotY = rr.getCurrentY();
-            System.out.println("HEJ JAG ÄR ROBOTENS X-KOORDINAT "+robotX);
         }
 
     }
