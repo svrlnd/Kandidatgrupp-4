@@ -13,7 +13,7 @@ public class GUI extends javax.swing.JFrame {
         setTitle("Planeringssystem");
     }
 
-    public void appendCapactiy(String s) {
+    public void appendCapacity(String s) {
         jTextArea1.append(s + "\n");
         jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
     }
