@@ -8,10 +8,12 @@ public class RobotRead implements Runnable {
     private static Random generator = new Random(); // Vet inte om vi kommer behöva denna? Nej, tror vi kommer sätta en uppdateringstid som vi vill ha/S
     private GUI gui;
     private DataStore ds;
+    private HTTPanrop http; // hur initierar man denna när den är en main? Kan den vara en main?
 
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
         this.ds = ds;
+        http = new HTTPanrop();
         sleepTime = generator.nextInt(20000);
     }
 
@@ -42,7 +44,7 @@ public class RobotRead implements Runnable {
     }
     
     public int getCurrentCapacity(int cap) {
-        return cap; //minus det antal passagerare vi plockar upp på nuvarande uppdrag. 
+        return cap - http.getPassengers(); //minus det antal passagerare vi plockar upp på nuvarande uppdrag.(Just nu från endast en HHTPanropsklass) 
         //Vi måste komma på ett sätt att lägga till capacity igen när vi lämnat av folk.
     }
 }
