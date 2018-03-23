@@ -46,8 +46,7 @@ public class RobotRead implements Runnable {
         }
 
         // Ska vi ha kvar denna?
-        gui.appendErrorMessage(
-                "Robotread är nu klar");
+        gui.appendErrorMessage("Robotread är nu klar");
     }
 
     public int getCurrentCapacity(int cap) {
