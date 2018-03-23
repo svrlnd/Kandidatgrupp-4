@@ -7,7 +7,10 @@ import java.net.URL;
 
 public class HTTPanrop {
     
-    private int passengers;
+    private static int passengers;
+    private static int id;
+    private static String plats;
+    
     
     public int getPassengers () {
         return passengers;
@@ -19,7 +22,7 @@ public class HTTPanrop {
                     
             HTTPanrop http = new HTTPanrop();
             String url
-                    = //"http://tnk111.n7.se/tauppdrag.php?plats=A&id="+id+",2&passagerare=1&grupp=1";  //"http://tnk111.n7.se/tauppdrag.php?plats=A&id=1&passagerare=8&grupp=4" , "http://tnk111.n7.se/aterstall.php?scenario=1"
+                    = "http://tnk111.n7.se/tauppdrag.php?plats="+plats+"&id="+id+",2&passagerare="+passengers+"&grupp=4";  //"http://tnk111.n7.se/tauppdrag.php?plats=A&id=1&passagerare=8&grupp=4" , "http://tnk111.n7.se/aterstall.php?scenario=1"
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
             System.out.println(

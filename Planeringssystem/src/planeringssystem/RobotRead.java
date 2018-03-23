@@ -37,6 +37,12 @@ public class RobotRead implements Runnable {
         }
 
         // Ska vi ha kvar denna?
-        gui.appendErrorMessage("Robotread är nu klar");
+        gui.appendErrorMessage(
+                "Robotread är nu klar");
+    }
+    
+    public int getCurrentCapacity(int cap) {
+        return cap; //minus det antal passagerare vi plockar upp på nuvarande uppdrag. 
+        //Vi måste komma på ett sätt att lägga till capacity igen när vi lämnat av folk.
     }
 }
