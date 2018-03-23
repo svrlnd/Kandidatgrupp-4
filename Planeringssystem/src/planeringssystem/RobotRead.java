@@ -37,7 +37,7 @@ public class RobotRead implements Runnable {
                 }
                 Thread.sleep(sleepTime / 20);
                 ds.flagCoordinates = true;
-                currentX = 30; //Här ska robotens koordinater läggas till
+                currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
                 currentY = 40;
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
