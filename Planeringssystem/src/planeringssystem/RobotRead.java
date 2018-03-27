@@ -11,6 +11,7 @@ public class RobotRead implements Runnable {
     private HTTPanrop http; // hur initierar man denna när den är en main? Kan den vara en main?
     private int currentX;
     private int currentY;
+    private int currentArc;
     private int capacity;
 
     public RobotRead(DataStore ds, GUI gui) {
@@ -19,6 +20,7 @@ public class RobotRead implements Runnable {
         http = new HTTPanrop();
         currentX = 70;
         currentY = 50;
+        currentArc = 1;
         sleepTime = generator.nextInt(20000);
     }
 
@@ -37,20 +39,20 @@ public class RobotRead implements Runnable {
                 }
                 Thread.sleep(sleepTime / 20);
                 ds.flagCoordinates = true;
-                currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
-                currentY = 40;
+                //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
+                //currentY = 40;
+                currentArc = 1; // Här ska robotens aktuella länk läsas in kankse? 
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
                 capacity = getCurrentCapacity(8); // Hårdkodar att bilen har 8 platser totalt
-                gui.appendCapacity("Nuvarade kapacitet i AGV: "+capacity);
+                gui.appendCapacity("Nuvarade kapacitet i AGV: " + capacity);
                 i++;
             }
         } catch (Exception e) {
         }
 
         // Ska vi ha kvar denna?
-        gui.appendErrorMessage(
-                "Robotread är nu klar");
+        gui.appendErrorMessage("Robotread är nu klar");
     }
 
     public int getCurrentCapacity(int cap) {
@@ -64,5 +66,9 @@ public class RobotRead implements Runnable {
 
     public int getCurrentY() {
         return currentY;
+    }
+
+    public int getCurrentArc() {
+        return currentArc;
     }
 }

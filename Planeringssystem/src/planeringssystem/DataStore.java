@@ -25,8 +25,12 @@ public class DataStore {
     double robotX;
     double robotY;
     int[] arcColor;
+    int [] arcRoute;
     double dummyX;
     double dummyY;
+    int currentDummyArc;
+    int nextDummyArc;
+    String direction;
     int cap; // AGV capacity
     //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna
     RobotRead rr;
@@ -46,13 +50,17 @@ public class DataStore {
         networkRead = false;
         updateUIflag = false;
         arcColor = new int[1000];
+        arcRoute = new int[1000];
         dummyX = 0;
         dummyY = 0;
         cap = 4;
+        direction = "N";
+       
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
         gui = new GUI(this);
         rr = new RobotRead(this, gui);
         flagCoordinates = false;
+        currentDummyArc = rr.getCurrentArc();
     }
 
     public void setFileName(String newFileName) {
@@ -120,16 +128,16 @@ public class DataStore {
 
         // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
         // koordinater! 
-        /*
+        
         robotX = nodeX[70];
-        robotY = nodeY[70]; */
+        robotY = nodeY[70]; 
+        
         //Man måste få detta att uppdatera sig på något vis.. Kanske med en while-loop och en flag
         //Detta sker ändå före eftersom RobtoRead är en tråd?
-        while (flagCoordinates) {
+        /*while (flagCoordinates) {
             robotX = rr.getCurrentX();
             robotY = rr.getCurrentY();
-            System.out.println("HEJ JAG ÄR ROBOTENS X-KOORDINAT "+robotX);
-        }
+        }*/
 
     }
 }
