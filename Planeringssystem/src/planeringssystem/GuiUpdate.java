@@ -2,6 +2,8 @@ package planeringssystem;
 
 import java.util.Random;
 
+//Denna vill vi ha för att visa rutt och position på agv
+
 public class GuiUpdate implements Runnable {
     
     private int sleepTime;
