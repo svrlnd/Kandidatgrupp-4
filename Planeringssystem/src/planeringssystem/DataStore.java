@@ -30,6 +30,7 @@ public class DataStore {
     double dummyY;
     int currentDummyArc;
     int nextDummyArc;
+    String direction;
     int cap; // AGV capacity
     //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna
     RobotRead rr;
@@ -53,8 +54,7 @@ public class DataStore {
         dummyX = 0;
         dummyY = 0;
         cap = 4;
-        
-                
+        direction = "N";
        
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
         gui = new GUI(this);
