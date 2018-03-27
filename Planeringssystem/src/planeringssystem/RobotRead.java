@@ -11,6 +11,7 @@ public class RobotRead implements Runnable {
     private HTTPanrop http; // hur initierar man denna när den är en main? Kan den vara en main?
     private int currentX;
     private int currentY;
+    private int capacity;
 
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
@@ -36,10 +37,12 @@ public class RobotRead implements Runnable {
                 }
                 Thread.sleep(sleepTime / 20);
                 ds.flagCoordinates = true;
-                currentX = 30; //Här ska robotens koordinater läggas till
+                currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
                 currentY = 40;
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
+                capacity = getCurrentCapacity(8); // Hårdkodar att bilen har 8 platser totalt
+                gui.appendCapacity("Nuvarade kapacitet i AGV: "+capacity);
                 i++;
             }
         } catch (Exception e) {

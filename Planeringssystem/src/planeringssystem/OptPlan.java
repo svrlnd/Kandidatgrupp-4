@@ -20,8 +20,13 @@ public class OptPlan {
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
         
+<<<<<<< HEAD
         int start_node = 63; // Här ska vi ta in information från HTTP-anrop där vi tar ett uppdrag vid en plats = start_node/A 
         int dest_node = 17; //Samma här /A
+=======
+        int start_node = 63; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
+        int dest_node = 17; // Här ska vi istället ta in platser från HTTP-server
+>>>>>>> c463c6a421b7dbaec75a2ce21743eb358eecc57f
         
         //Set up network
         for (int i = 0; i < ds.nodes; i++){
