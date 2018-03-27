@@ -1,5 +1,7 @@
 package planeringssystem;
 
+import java.awt.event.WindowAdapter;
+
 public class Planeringssystem {
     
     DataStore ds;
@@ -35,6 +37,7 @@ public class Planeringssystem {
         */
         gui = new GUI(ds);
         gui.setVisible(true);
+
                 
         /*
          * Initialize RobotRead with its Thread
