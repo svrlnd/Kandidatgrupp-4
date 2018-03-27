@@ -8,7 +8,10 @@ import java.util.Arrays;
 
 public class HTTPanrop {
     
-    private int passengers;
+    private static int passengers;
+    private static int id;
+    private static String plats;
+    
     
     public int getPassengers () {
         return passengers;
@@ -21,7 +24,9 @@ public class HTTPanrop {
             String [] dummyList;
             
             HTTPanrop http = new HTTPanrop();
+
             String url = "http://tnk111.n7.se/listauppdrag.php?plats=A";  //"http://tnk111.n7.se/tauppdrag.php?plats=A&id=1&passagerare=8&grupp=4" , "http://tnk111.n7.se/aterstall.php?scenario=1"
+
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
             System.out.println( "\nAnropar: " + url);

@@ -10,8 +10,8 @@ import java.util.Scanner;
  * Den här klassen är inkopierad från lab 2 rakt av. 
  * Jag, Anna, tror att vi kommer behöva den men annars ändrar vi det i efterhand.
  */
-
 public class DataStore {
+
     String fileName = null;
     int nodes;
     int arcs;
@@ -27,9 +27,13 @@ public class DataStore {
     int[] arcColor;
     double dummyX;
     double dummyY;
-    
-    // Testing testing
+    int cap; // AGV capacity
+    //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna
+    RobotRead rr;
+    GUI gui;
+    boolean flagCoordinates;
 
+    // Testing testing
     public DataStore() {
         // Initialize the datastore with fixed size arrays for storing the network data
         nodes = 0;
@@ -44,7 +48,11 @@ public class DataStore {
         arcColor = new int[1000];
         dummyX = 0;
         dummyY = 0;
-
+        cap = 4;
+        // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
+        gui = new GUI(this);
+        rr = new RobotRead(this, gui);
+        flagCoordinates = false;
     }
 
     public void setFileName(String newFileName) {
@@ -96,13 +104,12 @@ public class DataStore {
                 sline = line.split(" ");
                 arcStart[i] = Integer.parseInt(sline[0].trim());
                 arcEnd[i] = Integer.parseInt(sline[1].trim());
-                
+
                 // Här beräknas längden av länkarna
-                dummyX = nodeX[arcStart[i]-1] - nodeX[arcEnd[i]-1];
-                dummyY = nodeY[arcStart[i]-1] - nodeY[arcEnd[i]-1];
+                dummyX = nodeX[arcStart[i] - 1] - nodeX[arcEnd[i] - 1];
+                dummyY = nodeY[arcStart[i] - 1] - nodeY[arcEnd[i] - 1];
                 arcCost[i] = (int) round(sqrt(pow(dummyX, 2) + pow(dummyY, 2)));
-                
-                
+
             }
 
             networkRead = true;  // Indicate that all network data is in place in the DataStore
@@ -110,10 +117,18 @@ public class DataStore {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
-        // koordinater!
+        // koordinater! 
+        /*
         robotX = nodeX[70];
-        robotY = nodeY[70];
-    }   
+        robotY = nodeY[70]; */
+        //Man måste få detta att uppdatera sig på något vis.. Kanske med en while-loop och en flag
+        //Detta sker ändå före eftersom RobtoRead är en tråd?
+        while (flagCoordinates) {
+            robotX = rr.getCurrentX();
+            robotY = rr.getCurrentY();
+        }
+
+    }
 }

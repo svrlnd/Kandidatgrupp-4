@@ -8,10 +8,17 @@ public class RobotRead implements Runnable {
     private static Random generator = new Random(); // Vet inte om vi kommer behöva denna? Nej, tror vi kommer sätta en uppdateringstid som vi vill ha/S
     private GUI gui;
     private DataStore ds;
+    private HTTPanrop http; // hur initierar man denna när den är en main? Kan den vara en main?
+    private int currentX;
+    private int currentY;
+    private int capacity;
 
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
         this.ds = ds;
+        http = new HTTPanrop();
+        currentX = 70;
+        currentY = 50;
         sleepTime = generator.nextInt(20000);
     }
 
@@ -29,8 +36,13 @@ public class RobotRead implements Runnable {
                     Thread.sleep(sleepTime / 1000);
                 }
                 Thread.sleep(sleepTime / 20);
+                ds.flagCoordinates = true;
+                currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
+                currentY = 40;
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
+                capacity = getCurrentCapacity(8); // Hårdkodar att bilen har 8 platser totalt
+                gui.appendCapacity("Nuvarade kapacitet i AGV: "+capacity);
                 i++;
             }
         } catch (Exception e) {
@@ -38,5 +50,18 @@ public class RobotRead implements Runnable {
 
         // Ska vi ha kvar denna?
         gui.appendErrorMessage("Robotread är nu klar");
+    }
+
+    public int getCurrentCapacity(int cap) {
+        return cap - http.getPassengers(); //minus det antal passagerare vi plockar upp på nuvarande uppdrag.(Just nu från endast en HHTPanropsklass) 
+        //Vi måste komma på ett sätt att lägga till capacity igen när vi lämnat av folk.
+    }
+
+    public int getCurrentX() {
+        return currentX;
+    }
+
+    public int getCurrentY() {
+        return currentY;
     }
 }
