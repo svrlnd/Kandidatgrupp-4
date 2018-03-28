@@ -30,6 +30,7 @@ public class DataStore {
     double dummyY;
     int currentDummyArc;
     int nextDummyArc;
+    int dummyArc;
     String direction;
     int cap; // AGV capacity
     //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna

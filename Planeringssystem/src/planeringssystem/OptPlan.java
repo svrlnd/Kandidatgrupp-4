@@ -68,4 +68,152 @@ public class OptPlan {
         }
         
     }
+    
+    public void createInstructions() {
+        //Gabriella testar lite, så denna borde kollas igenom en extra gång!
+        
+        //Två stycken for-loopar i en for-loop för att kunna ta fram dummyNodeStart och dummyNodeEnd
+        for (int i = 0; i < ds.arcRoute.length; i++) {
+            
+            //Måste få hjälp med att initiera dummyArc
+            //ds.dummyArcStart
+            //ds.dummyArcEnd
+        
+        for (int j = 0; j < ds.arcStart.length; j++) {
+            if (ds.arcRoute[i] == ds.arcStart[j]);{
+            //ds.dummyArcStart[i] = ds.arcStart[j];
+        }
+        }
+            
+        for (int k = 0; k < ds.arcEnd.length; k++) {
+            if (ds.arcRoute[i] == ds.arcEnd[k]);{
+            //ds.dummyArcEnd[i] = ds.arcEnd[k];
+        }
+        }
+        }
+        //Skriver ut dessa för att se om de är lika långa
+        System.out.println(ds.dummyArcStart.length);
+        System.out.println(ds.dummyArcEnd.length);
+        
+        //Nu har jag nodernas nummer, nu måste jag spara koordinaterna
+        
+        for(int m = 0; m < ds.dummyArcStart.length; m++) {
+            
+            //Måste få hjälp med att initiera dummyKoor
+            //ds.dummyKoorX
+            //ds.dummyKoorY
+            
+            for (int n = 0; n < ds.nodeX.length; n++) {
+            if (ds.dummyArcStart[m] == ds.nodeX[n]);{
+            //ds.dummyKoorX[m] = ds.nodeX[n];
+        }
+        }
+        }
+            
+        for (int o = 0; o < ds.dummyArcEnd.length; o++) {
+            
+            for (int p = 0; p < ds.nodeY.length; p++) {
+            if (ds.dummyArcEnd[o] == ds.nodeX[p]);{
+            //ds.dummyKoorY[o] = ds.nodeX[p];
+        }
+        }
+        }
+        
+        //Skriver ut dessa för att se om de är lika långa
+        System.out.println(ds.dummyKoorX.length);
+        System.out.println(ds.dummyKoorY.length);
+        
+        //Nu ska jag föröska räkna ut riktnignarna
+        
+        for (int i = 0; i < ds.dummyNodeStart; i++) {
+        //Innan detta görs måste directionNextArc initieras
+        
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) > 0 && (dummyKoorY[i+1]-dummyKoorY[i]) > 0){
+            ds.directionNextArc = "OBS, OKLAR! (Northeast)";
+        }
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) = 0 && (dummyKoorY[i+1]-dummyKoorY[i]) > 0){
+            ds.directionNextArc = "N";
+        }
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) < 0 && (dummyKoorY[i+1]-dummyKoorY[i]) > 0){
+            ds.directionNextArc = "OBS, OKLAR! (Northwest)";
+        }
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) > 0 && (dummyKoorY[i+1]-dummyKoorY[i]) = 0){
+            ds.directionNextArc = "E";
+        }
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) < 0 && (dummyKoorY[i+1]-dummyKoorY[i]) = 0){
+            ds.directionNextArc = "W";
+        }
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) > 0 && (dummyKoorY[i+1]-dummyKoorY[i]) < 0){
+            ds.directionNextArc = "OBS, OKLAR! (Southeast)";
+        }
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) = 0 && (dummyKoorY[i+1]-dummyKoorY[i]) < 0){
+            ds.directionNextArc = "S";
+        }
+        if ((dummyKoorX[i+1]-dummyKoorX[i]) < 0 && (dummyKoorY[i+1]-dummyKoorY[i]) < 0){
+            ds.directionNextArc = "OBS, OKLAR! (Southwest)";
+        }
+        }
+        
+        //Här jämförs direction med directionNextArc
+        
+        for (int i = 0; i < (något framför här?)arcRoute.legnth; i++){
+
+        if (ds.direction.equals("N")){
+            if (ds.directionNextArc.equals("N")){
+            //Skicka till roboten: "Straight";
+            }
+            if (ds.directionNextArc.equals("S")){
+            //Skicka till roboten: "U-turn";
+            }
+            if (ds.directionNextArc.equals("W")){
+            //Skicka till roboten: "Left";
+            }
+            if (ds.directionNextArc.equals("E")){
+            //Skicka till roboten: "Right";
+            }
+        }
+        if (ds.direction.equals("S")){
+            if (ds.directionNextArc.equals("N")){
+            //Skicka till roboten: "U-turn";
+            }
+            if (ds.directionNextArc.equals("S")){
+            //Skicka till roboten: "Straight";
+            }
+            if (ds.directionNextArc.equals("W")){
+            //Skicka till roboten: "Right";
+            }
+            if (ds.directionNextArc.equals("E")){
+            //Skicka till roboten: "Left";
+            }
+        }
+        if (ds.direction.equals("W")){
+            if (ds.directionNextArc.equals("N")){
+            //Skicka till roboten: "Right";
+            }
+            if (ds.directionNextArc.equals("S")){
+            //Skicka till roboten: "Left";
+            }
+            if (ds.directionNextArc.equals("W")){
+            //Skicka till roboten: "Straight";
+            }
+            if (ds.directionNextArc.equals("E")){
+            //Skicka till roboten: "U-turn";
+            }
+        }
+        if (ds.direction.equals("E")){
+            if (ds.directionNextArc.equals("N")){
+            //Skicka till roboten: "Left";
+            }
+            if (ds.directionNextArc.equals("S")){
+            //Skicka till roboten: "Right";
+            }
+            if (ds.directionNextArc.equals("W")){
+            //Skicka till roboten: "U-turn";
+            }
+            if (ds.directionNextArc.equals("E")){
+            //Skicka till roboten: "Straight";
+            }
+        }
+    }
+    }
 }
