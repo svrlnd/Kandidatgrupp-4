@@ -47,7 +47,7 @@ public class Planeringssystem {
         t1.start(); 
        
         /*
-         * Initialize RobotRead with its Thread
+         * Initialize GuiUpdate with its Thread
          */
         gu = new GuiUpdate(ds, gui);
         t2 = new Thread(gu);

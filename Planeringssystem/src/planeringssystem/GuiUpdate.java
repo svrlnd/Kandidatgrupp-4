@@ -14,7 +14,7 @@ public class GuiUpdate implements Runnable {
     public GuiUpdate(DataStore ds, GUI gui) {
         this.gui = gui;
         this.ds = ds;
-        sleepTime = generator.nextInt(20000);
+        sleepTime = generator.nextInt(20000); //Vad ska vi ha för sleeptime?
     }
     
     @Override
