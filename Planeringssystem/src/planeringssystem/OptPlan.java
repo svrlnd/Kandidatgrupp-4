@@ -66,6 +66,5 @@ public class OptPlan {
                 ds.nextDummyArc = ds.arcRoute[i + 1];
             }
         }
-        
     }
 }
