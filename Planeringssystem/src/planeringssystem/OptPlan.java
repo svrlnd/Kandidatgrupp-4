@@ -73,20 +73,16 @@ public class OptPlan {
         
         //Två stycken for-loopar i en for-loop för att kunna ta fram dummyNodeStart och dummyNodeEnd
         for (int i = 0; i < ds.arcRoute.length; i++) {
-            
-            //Måste få hjälp med att initiera dummyArc
-            //ds.dummyArcStart
-            //ds.dummyArcEnd
         
         for (int j = 0; j < ds.arcStart.length; j++) {
             if (ds.arcRoute[i] == ds.arcStart[j]);{
-            //ds.dummyArcStart[i] = ds.arcStart[j];
+            ds.dummyArcStart[i] = ds.arcStart[j];
         }
         }
             
         for (int k = 0; k < ds.arcEnd.length; k++) {
             if (ds.arcRoute[i] == ds.arcEnd[k]);{
-            //ds.dummyArcEnd[i] = ds.arcEnd[k];
+            ds.dummyArcEnd[i] = ds.arcEnd[k];
         }
         }
         }
@@ -98,13 +94,9 @@ public class OptPlan {
         
         for(int m = 0; m < ds.dummyArcStart.length; m++) {
             
-            //Måste få hjälp med att initiera dummyKoor
-            //ds.dummyKoorX
-            //ds.dummyKoorY
-            
             for (int n = 0; n < ds.nodeX.length; n++) {
             if (ds.dummyArcStart[m] == ds.nodeX[n]);{
-            //ds.dummyKoorX[m] = ds.nodeX[n];
+            ds.dummyKoorX[m] = (int) ds.nodeX[n];
         }
         }
         }
@@ -113,7 +105,7 @@ public class OptPlan {
             
             for (int p = 0; p < ds.nodeY.length; p++) {
             if (ds.dummyArcEnd[o] == ds.nodeX[p]);{
-            //ds.dummyKoorY[o] = ds.nodeX[p];
+            ds.dummyKoorY[o] = (int) ds.nodeX[p];
         }
         }
         }
@@ -124,38 +116,38 @@ public class OptPlan {
         
         //Nu ska jag föröska räkna ut riktnignarna
         
-        for (int i = 0; i < ds.dummyNodeStart; i++) {
+        for (int i = 0; i < ds.dummyArcStart.length; i++) {
         //Innan detta görs måste directionNextArc initieras
         
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) > 0 && (dummyKoorY[i+1]-dummyKoorY[i]) > 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) > 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) > 0){
             ds.directionNextArc = "OBS, OKLAR! (Northeast)";
         }
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) = 0 && (dummyKoorY[i+1]-dummyKoorY[i]) > 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) == 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) > 0){
             ds.directionNextArc = "N";
         }
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) < 0 && (dummyKoorY[i+1]-dummyKoorY[i]) > 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) < 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) > 0){
             ds.directionNextArc = "OBS, OKLAR! (Northwest)";
         }
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) > 0 && (dummyKoorY[i+1]-dummyKoorY[i]) = 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) > 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) == 0){
             ds.directionNextArc = "E";
         }
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) < 0 && (dummyKoorY[i+1]-dummyKoorY[i]) = 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) < 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) == 0){
             ds.directionNextArc = "W";
         }
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) > 0 && (dummyKoorY[i+1]-dummyKoorY[i]) < 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) > 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) < 0){
             ds.directionNextArc = "OBS, OKLAR! (Southeast)";
         }
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) = 0 && (dummyKoorY[i+1]-dummyKoorY[i]) < 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) == 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) < 0){
             ds.directionNextArc = "S";
         }
-        if ((dummyKoorX[i+1]-dummyKoorX[i]) < 0 && (dummyKoorY[i+1]-dummyKoorY[i]) < 0){
+        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) < 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) < 0){
             ds.directionNextArc = "OBS, OKLAR! (Southwest)";
         }
         }
         
         //Här jämförs direction med directionNextArc
         
-        for (int i = 0; i < (något framför här?)arcRoute.legnth; i++){
+        for (int i = 0; i < ds.arcRoute.length; i++){
 
         if (ds.direction.equals("N")){
             if (ds.directionNextArc.equals("N")){

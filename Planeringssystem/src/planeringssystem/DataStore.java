@@ -20,6 +20,10 @@ public class DataStore {
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
+    int [] dummyArcStart;
+    int [] dummyArcEnd;
+    int [] dummyKoorX;
+    int [] dummyKoorY;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
@@ -32,6 +36,7 @@ public class DataStore {
     int nextDummyArc;
     int dummyArc;
     String direction;
+    String directionNextArc;
     int cap; // AGV capacity
     //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna
     RobotRead rr;
