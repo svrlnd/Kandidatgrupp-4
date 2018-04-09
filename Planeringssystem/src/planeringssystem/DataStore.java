@@ -20,10 +20,12 @@ public class DataStore {
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
-    int [] dummyArcStart;
-    int [] dummyArcEnd;
+    //int [] dummyArcStart;
+    //int [] dummyArcEnd;
     int [] dummyKoorX;
     int [] dummyKoorY;
+    int [] a;
+    int n;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
@@ -53,6 +55,8 @@ public class DataStore {
         arcStart = new int[1000];
         arcEnd = new int[1000];
         arcCost = new int[1000];
+        //dummyArcStart = new int [1000];
+        //dummyArcEnd = new int [1000];
         networkRead = false;
         updateUIflag = false;
         arcColor = new int[1000];
