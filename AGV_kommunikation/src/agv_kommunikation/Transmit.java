@@ -8,16 +8,16 @@ public class Transmit implements Runnable {
 
     
     @Override
-    public void run() {
+    public void run() {     //denna ska ta in en vinkel som parameter från OptPlan och skriva denna till AGV:n
         try {
             StreamConnection anslutning = (StreamConnection) Connector.open(
-                    "btspp://001060D1CDC2:5" // Här ska vi istället ta in info om BT-adress och kanal
+                    "btspp://001060D1CDC2:5" // AGV adress och kanal
             );
             PrintStream bluetooth_ut
                     = new PrintStream(anslutning.openOutputStream());
 
             bluetooth_ut.println(
-                    "Hej vi är planeringssystem grupp 4"
+                    "Hej vi är planeringssystem grupp 4" // in med vinkeln i detta meddelande!
             );
             Thread.sleep(
                     500

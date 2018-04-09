@@ -18,6 +18,7 @@ public class OptPlan {
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
+
         int start_node = 1; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
         int dest_node = 10; // Här ska vi istället ta in platser från HTTP-server
 

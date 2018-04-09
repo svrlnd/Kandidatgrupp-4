@@ -31,7 +31,7 @@ public class HTTPTest {
             int[] distance = new int[100];
             //Här används robotens nuvarande posistion senare. 
             int tempX = 10;
-            int temY = 20;
+            int tempY = 20;
 
             HTTPTest http = new HTTPTest();
             String url = "http://tnk111.n7.se/listauppdrag.php?plats=A";  //"http://tnk111.n7.se/tauppdrag.php?plats=A&id=1&passagerare=8&grupp=4" , "http://tnk111.n7.se/aterstall.php?scenario=1"
@@ -68,14 +68,16 @@ public class HTTPTest {
                 }
                 i++;
             }
+            System.out.println(destinationUppdragArray.length);
 
             // Beräknar avståndet till varje uppdrag
             for (int k = 0; k < destinationUppdragArray.length; k++) {
                 String[] dummyString = new String[2];
                 dummyString = destinationUppdragArray[k].split(",");
-                int dummyIntX = Integer.parseInt(dummyString[0]);
-                int dummyIntY = Integer.parseInt(dummyString[1]);
-                // distance[k] = Math.sqrt(Math.pow((dummyIntX - tempX), 2) + Math.pow((dummyIntY - tempY), 2)); 
+                int dummyX = Integer.parseInt(dummyString[0]);
+                int dummyY = Integer.parseInt(dummyString[1]);
+                distance[k] = (int) Math.sqrt(Math.pow((dummyX - tempX), 2) + Math.pow((dummyY - tempY), 2)); 
+                System.out.println(Arrays.toString(distance));
                 
             }
 

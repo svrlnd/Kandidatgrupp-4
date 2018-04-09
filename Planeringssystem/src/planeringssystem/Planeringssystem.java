@@ -54,6 +54,17 @@ public class Planeringssystem {
         t2 = new Thread(gu);
         t2.start();
         
+        // Testing testing
+        String start = "#";
+        String enable = "1";
+        char kontroll = 'a';
+        kontroll++;
+        
+        String meddelande = start + enable + kontroll;
+        
+        System.out.println("char " + kontroll);
+        
+        //Slut på testing
     }
     /**
      * @param args the command line arguments
