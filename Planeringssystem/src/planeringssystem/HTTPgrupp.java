@@ -16,6 +16,10 @@ public class HTTPgrupp {
         try {
 
             String[] dummyList;
+            String[] dummyList2;
+            String[] date = new String [100];
+            String[] groupID = new String [100];
+            String[] msg = new String [100];
 
             HTTPanrop http = new HTTPanrop();
 
@@ -31,20 +35,33 @@ public class HTTPgrupp {
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
             StringBuffer inkommande_samlat = new StringBuffer();
-
             
             while ((inkommande_text = inkommande.readLine()) != null) {
                 inkommande_samlat.append(inkommande_text + "\n");
-
+                System.out.println(inkommande_text);
             }
 
-            dummyList = inkommande_text.split(" ");
-            System.out.println(Arrays.toString(dummyList));
+            
+            dummyList = inkommande_samlat.toString().split("\n");
+           
+//            System.out.println(Arrays.toString(dummyList));
 
+//            int i = 0;
+//            while (i < dummyList.length - 1) {
+//                int j = 0;
+//                dummyList2 = dummyList[i].split(";"); //En sak jag tänkte på: Hur blir det med 4an???
+//
+//                while (j < dummyList2.length) {
+//                    date[i] = dummyList2[0];
+//                    groupID[i] = dummyList2[1]; //Fattar den att detta är två olika noder?
+//                    msg[i] = dummyList2[2];
+//                    j++;
+//                }
+//                i++;
+//            }
             inkommande.close();
-            System.out.println(inkommande_samlat.toString());
-
-
+            //System.out.println(inkommande_samlat.toString());
+           
         } catch (Exception e) {
             System.out.print(e.toString());
         }

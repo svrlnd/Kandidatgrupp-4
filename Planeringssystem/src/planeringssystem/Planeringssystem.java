@@ -62,6 +62,7 @@ public class Planeringssystem {
         hg.putmessage(6, "Testinggrupp4");
         
         hg.getmessage(145);
+        /*
         // Testing testing såhär ska vi skicka till AGVn typ
         String start = "#";
         String enable = "1";
@@ -71,6 +72,7 @@ public class Planeringssystem {
         String meddelande = start + enable + kontroll;
         
         System.out.println("meddelande: " + meddelande);
+        */
         //Slut på testing
         
     }
