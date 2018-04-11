@@ -11,7 +11,8 @@ public class Planeringssystem {
     Thread t1;
     Thread t2;
     OptPlan op;
-    
+    HTTPgrupp hg;
+   
     Planeringssystem(){
         /*
          * Initialize the DataStore call where all "global" data will be stored
@@ -53,7 +54,14 @@ public class Planeringssystem {
         t2 = new Thread(gu);
         t2.start();
         
-        // Testing testing
+        /*
+         * Testar att skapa en instance av HTTPgrupp för att testa metoderna
+         */
+        hg = new HTTPgrupp();
+        //hg.putmessage(0, "Testinggrupp4");
+        
+        
+        // Testing testing såhär ska vi skicka till AGVn typ
         String start = "#";
         String enable = "1";
         char kontroll = 'a';
@@ -61,9 +69,9 @@ public class Planeringssystem {
         
         String meddelande = start + enable + kontroll;
         
-        System.out.println("char " + kontroll);
-        
+        System.out.println("meddelande: " + meddelande);
         //Slut på testing
+        
     }
     /**
      * @param args the command line arguments
