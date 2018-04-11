@@ -12,6 +12,7 @@ public class Planeringssystem {
     Thread t2;
     OptPlan op;
     HTTPgrupp hg;
+    HTTPanrop ha;
    
     Planeringssystem(){
         /*
@@ -60,10 +61,14 @@ public class Planeringssystem {
          */
         hg = new HTTPgrupp();
 
-        hg.putmessage(6, "Testinggrupp4");
-
+//        hg.putmessage(6, "Testinggrupp4");       
+//        hg.getmessage(145);
         
-        hg.getmessage(145);
+         /*
+         * Testar att skapa en instance av HTTPanrop för att testa metoderna
+         */
+        ha = new HTTPanrop();
+        ha.messagetype();
         /*
         // Testing testing såhär ska vi skicka till AGVn typ
 
