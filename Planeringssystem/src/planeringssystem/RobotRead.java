@@ -13,6 +13,7 @@ public class RobotRead implements Runnable {
     private int currentY;
     private int currentArc;
     private int capacity;
+    private int currentStatus;
 
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
@@ -61,14 +62,21 @@ public class RobotRead implements Runnable {
     }
 
     public int getCurrentX() {
+        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.
         return currentX;
     }
 
     public int getCurrentY() {
+        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.
         return currentY;
     }
 
     public int getCurrentArc() {
+        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.
         return currentArc;
+    }
+    
+    public String getCurrentStatus(){
+        return currentStatus;
     }
 }
