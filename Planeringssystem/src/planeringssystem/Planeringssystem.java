@@ -23,7 +23,7 @@ public class Planeringssystem {
         /*
          * Reads in the file with the map. For now it is street.txt. Don´t know where the file will be stored.
          */
-        ds.setFileName("streets.txt");
+        ds.setFileName("Karta.txt");
         ds.readNet();
         
         /*
@@ -31,6 +31,7 @@ public class Planeringssystem {
          */
         op = new OptPlan(ds);
         op.createPlan();
+        op.createInstructions();
         
         
         /*
