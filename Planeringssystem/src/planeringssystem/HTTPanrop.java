@@ -50,7 +50,7 @@ public class HTTPanrop {
         return passengers;
     }
 
-    public void messagetype() { // listaplatser
+    public String[] messagetype() { // listaplatser
         try {
 
             HTTPanrop http = new HTTPanrop();
@@ -75,7 +75,7 @@ public class HTTPanrop {
             dummyList = inkommande_samlat.toString().split("\n");
             //System.out.println(Arrays.toString(dummyList));
             
-
+/*
             for (int i = 0; i < Integer.parseInt(dummyList[0]); i++) {
                 dummyList3 = dummyList[i+1].toString().split(";");
                 platser[i] = dummyList3[0];
@@ -92,11 +92,12 @@ public class HTTPanrop {
             System.out.println("Y " + Arrays.toString(platsY));
             
 
-            inkommande.close();
+            inkommande.close();*/
 
         } catch (Exception e) {
             System.out.print("catch listaplatser: " + e.toString());
         }
+        return dummyList;
     } //listaplatser slut
 
     public void messagetype(int scenario) { //aterstall
