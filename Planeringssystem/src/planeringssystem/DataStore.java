@@ -20,10 +20,12 @@ public class DataStore {
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
-    //int [] dummyArcStart;
-    //int [] dummyArcEnd;
-    int [] dummyKoorX;
-    int [] dummyKoorY;
+    int [] dummyArcStart;
+    int [] dummyArcEnd;
+    int [] dummyStartKoorX;
+    int [] dummyStartKoorY;
+    int [] dummyEndKoorX;
+    int [] dummyEndKoorY;
     int [] a;
     int n;
     boolean networkRead;
@@ -31,7 +33,7 @@ public class DataStore {
     double robotX;
     double robotY;
     int[] arcColor;
-    int [] arcRoute;
+    int [] arcRoute; //De länkar som ingår i rutten
     double dummyX;
     double dummyY;
     int currentDummyArc;
@@ -55,8 +57,12 @@ public class DataStore {
         arcStart = new int[1000];
         arcEnd = new int[1000];
         arcCost = new int[1000];
-        //dummyArcStart = new int [1000];
-        //dummyArcEnd = new int [1000];
+        dummyArcStart = new int [1000];
+        dummyArcEnd = new int [1000];
+        dummyStartKoorX = new int [1000];
+        dummyStartKoorY = new int [1000];
+        dummyEndKoorX = new int [1000];
+        dummyEndKoorY = new int [1000];
         networkRead = false;
         updateUIflag = false;
         arcColor = new int[1000];

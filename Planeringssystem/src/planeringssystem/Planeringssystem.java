@@ -32,7 +32,7 @@ public class Planeringssystem {
          */
         op = new OptPlan(ds);
         op.createPlan();
-        //op.createInstructions();
+        op.createInstructions();
         
         
         /*
@@ -68,7 +68,7 @@ public class Planeringssystem {
          * Testar att skapa en instance av HTTPanrop för att testa metoderna
          */
         ha = new HTTPanrop();
-        ha.messagetype();
+        ha.messagetype("A");
         /*
         // Testing testing såhär ska vi skicka till AGVn typ
 

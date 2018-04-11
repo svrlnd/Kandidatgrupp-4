@@ -76,7 +76,7 @@ public class RobotRead implements Runnable {
         return currentArc;
     }
     
-    public String getCurrentStatus(){
-        return currentStatus;
-    }
+//    public String getCurrentStatus(){
+//        //return currentStatus;
+//    }
 }
