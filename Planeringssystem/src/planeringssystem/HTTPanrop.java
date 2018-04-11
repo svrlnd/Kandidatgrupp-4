@@ -12,6 +12,7 @@ public class HTTPanrop {
     private static int id;
     private static String plats;
     String[] dummyList;
+    String[] dummyList1;
     String[] dummyList2;
     String[] dummyList3;
     String[] dummyList4;
@@ -19,23 +20,34 @@ public class HTTPanrop {
     String[] platsX;
     String[] platsY;
     String[] hejhej;
+    String[] uppdragsIDArray;
+    String[] destinationPlatserArray;
+    String[] destinationUppdragArray;
+    String[] passengersArray;
+    String[] samakningArray;
+    String[] pointsArray;
+    String[] platserArray;
+    String[] destinationUppdragX;
+    String[] destinationUppdragY;
     int arraySize;
 
     public HTTPanrop() {
-        //COnstructor
+        //Constructor
         arraySize = 100;
         dummyList = new String[arraySize]; //La in 100 på alla nu för at vara på den säkra sidan, blir kanske konstigt med null.
         dummyList2 = new String[arraySize];
         dummyList3 = new String[arraySize];
         dummyList4 = new String[arraySize];
         hejhej = new String[arraySize];
-        String[] uppdragsIDArray = new String[arraySize];
-        String[] destinationPlatserArray = new String[arraySize];
-        String[] destinationUppdragArray = new String[arraySize];
-        String[] passengersArray = new String[arraySize];
-        String[] samakningArray = new String[arraySize];
-        String[] pointsArray = new String[arraySize];
-        String[] platserArray = new String[arraySize];
+        uppdragsIDArray = new String[arraySize];
+        destinationPlatserArray = new String[arraySize];
+        destinationUppdragArray = new String[arraySize];
+        passengersArray = new String[arraySize];
+        samakningArray = new String[arraySize];
+        pointsArray = new String[arraySize];
+        platserArray = new String[arraySize];
+        destinationUppdragX = new String[arraySize];
+        destinationUppdragY = new String[arraySize];
         platser = new String[arraySize];
         platsX = new String[arraySize];
         platsY = new String[arraySize];
@@ -59,10 +71,10 @@ public class HTTPanrop {
 
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
-            System.out.println("\nAnropar: " + url);
+            //System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            System.out.println("Statuskod: " + mottagen_status);
+            //System.out.println("Statuskod: " + mottagen_status);
 
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
@@ -74,23 +86,26 @@ public class HTTPanrop {
 
             dummyList = inkommande_samlat.toString().split("\n");
             //System.out.println(Arrays.toString(dummyList));
+<<<<<<< HEAD
             
 /*
+=======
+
+>>>>>>> 9c67fed81a8945dd066825d0cb778a286035e637
             for (int i = 0; i < Integer.parseInt(dummyList[0]); i++) {
-                dummyList3 = dummyList[i+1].toString().split(";");
+                dummyList3 = dummyList[i + 1].toString().split(";");
                 platser[i] = dummyList3[0];
                 hejhej[i] = dummyList3[1];
             }
-            
-            for(int j = 0; j < Integer.parseInt(dummyList[0]); j++){
-                    dummyList4 = hejhej[j].toString().split(",");
-                    platsX[j] = dummyList4[0];
-                    platsY[j] = dummyList4[1];
-                }
-            System.out.println("platser " + Arrays.toString(platser));
-            System.out.println("X " + Arrays.toString(platsX));
-            System.out.println("Y " + Arrays.toString(platsY));
-            
+
+            for (int j = 0; j < Integer.parseInt(dummyList[0]); j++) {
+                dummyList4 = hejhej[j].toString().split(",");
+                platsX[j] = dummyList4[0];
+                platsY[j] = dummyList4[1];
+            }
+            //System.out.println("platser " + Arrays.toString(platser));
+            //System.out.println("X " + Arrays.toString(platsX));
+            //System.out.println("Y " + Arrays.toString(platsY));
 
             inkommande.close();*/
 
@@ -111,10 +126,10 @@ public class HTTPanrop {
 
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
-            System.out.println("\nAnropar: " + url);
+            //System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            System.out.println("Statuskod: " + mottagen_status);
+            //System.out.println("Statuskod: " + mottagen_status);
 
 //            BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
 //            String inkommande_text;
@@ -137,13 +152,9 @@ public class HTTPanrop {
 
     public void messagetype(String plats) { // listaUppdrag
         try {
-
-            String[] dummyList;
-
+            
             HTTPanrop http = new HTTPanrop();
-
             String url = "http://tnk111.n7.se/listauppdrag.php?plats=" + plats;
-
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
             System.out.println("\nAnropar: " + url);
@@ -157,14 +168,33 @@ public class HTTPanrop {
 
             while ((inkommande_text = inkommande.readLine()) != null) {
                 inkommande_samlat.append(inkommande_text + "\n");
-
             }
 
-            dummyList = inkommande_text.split("\\n");
+            dummyList = inkommande_samlat.toString().split("\n");
             System.out.println(Arrays.toString(dummyList));
 
+            for (int i = 0; i < Integer.parseInt(dummyList[0]); i++) {
+                dummyList1 = dummyList[i+1].toString().split(";");
+                uppdragsIDArray[i] = dummyList1[0];
+                destinationUppdragArray[i] = dummyList1[1]; //Fattar den att detta är två olika noder?
+                passengersArray[i] = dummyList1[2];
+                samakningArray[i] = dummyList1[3];
+                pointsArray[i] = dummyList1[4];
+            }
+            
+            System.out.println(Arrays.toString(destinationUppdragArray));
+
+            for (int j = 0; j < Integer.parseInt(dummyList[0]); j++) {
+                dummyList2 = destinationUppdragArray[j].toString().split(",");
+                destinationUppdragX[j] = dummyList2[0];
+                destinationUppdragY[j] = dummyList2[1];
+            }
+
+            System.out.println("X " + Arrays.toString(destinationUppdragX));
+            System.out.println("Y " + Arrays.toString(destinationUppdragY));
+            
             inkommande.close();
-            System.out.println(inkommande_samlat.toString());
+            //System.out.println(inkommande_samlat.toString());
 
         } catch (Exception e) {
             System.out.print(e.toString());
@@ -182,10 +212,10 @@ public class HTTPanrop {
 
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
-            System.out.println("\nAnropar: " + url);
+            //System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            System.out.println("Statuskod: " + mottagen_status);
+            //System.out.println("Statuskod: " + mottagen_status);
 
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
@@ -197,10 +227,10 @@ public class HTTPanrop {
             }
 
             dummyList = inkommande_text.split("\\n");
-            System.out.println(Arrays.toString(dummyList));
+            //System.out.println(Arrays.toString(dummyList));
 
             inkommande.close();
-            System.out.println(inkommande_samlat.toString());
+            //System.out.println(inkommande_samlat.toString());
 
         } catch (Exception e) {
             System.out.print(e.toString());
