@@ -69,6 +69,8 @@ public class Planeringssystem {
          */
         ha = new HTTPanrop();
         ha.messagetype();
+        
+        ha.messagetype("A", 1, 8, 4);
         /*
         // Testing testing såhär ska vi skicka till AGVn typ
 

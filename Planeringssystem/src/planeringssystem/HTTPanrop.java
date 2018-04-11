@@ -102,9 +102,6 @@ public class HTTPanrop {
     public void messagetype(int scenario) { //aterstall
         try {
             // Det som är avkommenterat tror jag inte behövs /A
-//            String[] dummyList;
-//
-//            HTTPanrop http = new HTTPanrop();
 
             String url = "http://tnk111.n7.se/aterstall.php?scenario=" + scenario;
 
@@ -115,20 +112,7 @@ public class HTTPanrop {
             int mottagen_status = anslutning.getResponseCode();
             System.out.println("Statuskod: " + mottagen_status);
 
-//            BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
-//            String inkommande_text;
-//            StringBuffer inkommande_samlat = new StringBuffer();
-//
-//            while ((inkommande_text = inkommande.readLine()) != null) {
-//                inkommande_samlat.append(inkommande_text + "\n");
-//
-//            }
-//
-//            dummyList = inkommande_text.split("\\n");
-//            System.out.println(Arrays.toString(dummyList));
-//
-//            inkommande.close();
-//            System.out.println(inkommande_samlat.toString());
+
         } catch (Exception e) {
             System.out.print(e.toString());
         }
@@ -185,21 +169,6 @@ public class HTTPanrop {
 
             int mottagen_status = anslutning.getResponseCode();
             System.out.println("Statuskod: " + mottagen_status);
-
-            BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
-            String inkommande_text;
-            StringBuffer inkommande_samlat = new StringBuffer();
-
-            while ((inkommande_text = inkommande.readLine()) != null) {
-                inkommande_samlat.append(inkommande_text + "\n");
-
-            }
-
-            dummyList = inkommande_text.split("\\n");
-            System.out.println(Arrays.toString(dummyList));
-
-            inkommande.close();
-            System.out.println(inkommande_samlat.toString());
 
         } catch (Exception e) {
             System.out.print(e.toString());
