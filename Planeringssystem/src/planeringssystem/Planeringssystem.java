@@ -59,11 +59,14 @@ public class Planeringssystem {
          * Testar att skapa en instance av HTTPgrupp för att testa metoderna
          */
         hg = new HTTPgrupp();
+
         hg.putmessage(6, "Testinggrupp4");
+
         
         hg.getmessage(145);
         /*
         // Testing testing såhär ska vi skicka till AGVn typ
+
         String start = "#";
         String enable = "1";
         char kontroll = 'a';
@@ -73,6 +76,16 @@ public class Planeringssystem {
         
         System.out.println("meddelande: " + meddelande);
         */
+
+//        String start = "#";
+//        String enable = "1";
+//        char kontroll = 'a';
+//        kontroll++;
+//
+//        String meddelande = start + enable + kontroll;
+//
+//        System.out.println("meddelande: " + meddelande);
+
         //Slut på testing
         
     }
