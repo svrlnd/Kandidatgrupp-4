@@ -58,19 +58,19 @@ public class Planeringssystem {
         /*
          * Testar att skapa en instance av HTTPgrupp för att testa metoderna
          */
-        //hg = new HTTPgrupp();
-        //hg.putmessage(0, "Testinggrupp4");
+        hg = new HTTPgrupp();
+        hg.putmessage(145, "Testinggrupp4");
         
         
         // Testing testing såhär ska vi skicka till AGVn typ
-        String start = "#";
-        String enable = "1";
-        char kontroll = 'a';
-        kontroll++;
-        
-        String meddelande = start + enable + kontroll;
-        
-        System.out.println("meddelande: " + meddelande);
+//        String start = "#";
+//        String enable = "1";
+//        char kontroll = 'a';
+//        kontroll++;
+//
+//        String meddelande = start + enable + kontroll;
+//
+//        System.out.println("meddelande: " + meddelande);
         //Slut på testing
         
     }
