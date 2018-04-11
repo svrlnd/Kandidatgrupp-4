@@ -19,9 +19,8 @@ public class OptPlan {
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
 
-        int start_node = 40; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
-        int dest_node = 9; // Här ska vi istället ta in platser från HTTP-server
-
+        int start_node = 70; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
+        int dest_node = 24; // Här ska vi istället ta in platser från HTTP-server
 
         int start_arc = 1; //här vill vi läsa in vilket nod vi är på?
         int dest_arc = 17;
@@ -69,7 +68,7 @@ public class OptPlan {
             }
         }
     }
-    
+    /*
     public void createInstructions() {
         //Gabriella testar lite, så denna borde kollas igenom en extra gång!
         
@@ -97,6 +96,7 @@ public class OptPlan {
         // trimma dummyArcStart och dummyArcEnd så vi får riktig längd!
         
         //Skriver ut dessa för att se om de är lika långa
+*/
         
 //        
 //      //Nu har jag nodernas nummer, nu måste jag spara koordinaterna
@@ -234,4 +234,3 @@ public class OptPlan {
 //    }
 //        
     }
-}

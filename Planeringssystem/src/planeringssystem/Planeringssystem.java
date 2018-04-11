@@ -23,7 +23,7 @@ public class Planeringssystem {
         /*
          * Reads in the file with the map. For now it is street.txt. Don´t know where the file will be stored.
          */
-        ds.setFileName("Karta.txt");
+        ds.setFileName("streets.txt");
         ds.readNet();
         
         /*
@@ -31,7 +31,7 @@ public class Planeringssystem {
          */
         op = new OptPlan(ds);
         op.createPlan();
-        op.createInstructions();
+        //op.createInstructions();
         
         
         /*
@@ -58,7 +58,7 @@ public class Planeringssystem {
         /*
          * Testar att skapa en instance av HTTPgrupp för att testa metoderna
          */
-        hg = new HTTPgrupp();
+        //hg = new HTTPgrupp();
         //hg.putmessage(0, "Testinggrupp4");
         
         
