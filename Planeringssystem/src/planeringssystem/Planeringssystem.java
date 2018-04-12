@@ -69,12 +69,12 @@ public class Planeringssystem {
          * Testar att skapa en instance av HTTPanrop för att testa metoderna
          */
         ha = new HTTPanrop();
-<<<<<<< HEAD
+
         System.out.println("Från planeringssystem: " + Arrays.toString(ha.messagetype()));
         
-=======
+
         ha.messagetype("A");
->>>>>>> 9c67fed81a8945dd066825d0cb778a286035e637
+
         /*
         // Testing testing såhär ska vi skicka till AGVn typ
 
