@@ -86,12 +86,12 @@ public class HTTPanrop {
 
             dummyList = inkommande_samlat.toString().split("\n");
             //System.out.println(Arrays.toString(dummyList));
-<<<<<<< HEAD
+
             
 /*
-=======
 
->>>>>>> 9c67fed81a8945dd066825d0cb778a286035e637
+
+
             for (int i = 0; i < Integer.parseInt(dummyList[0]); i++) {
                 dummyList3 = dummyList[i + 1].toString().split(";");
                 platser[i] = dummyList3[0];

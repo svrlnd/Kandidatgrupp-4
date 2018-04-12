@@ -26,6 +26,7 @@ public class DataStore {
     int [] dummyStartKoorY;
     int [] dummyEndKoorX;
     int [] dummyEndKoorY;
+    int korsningLength;
     int [] a;
     int n;
     boolean networkRead;
@@ -63,6 +64,7 @@ public class DataStore {
         dummyStartKoorY = new int [1000];
         dummyEndKoorX = new int [1000];
         dummyEndKoorY = new int [1000];
+        korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
         arcColor = new int[1000];
