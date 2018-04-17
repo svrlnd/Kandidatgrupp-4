@@ -49,13 +49,10 @@ public class OptPlan {
                         && ds.arcEnd[j] == Integer.parseInt(path.get(i + 1).getId())) {
                     System.out.println("Arc: " + j);
                     ds.arcColor[j] = 1;
-                    for (int k = 0; k < path.size() - 1; k++) {
-                        ds.arcRoute[k] = j;
-                    }
+                    ds.arcRoute[i] = j;
                 }
             }
-        }
-
+        } 
         // Förklara rutt för robot, dvs meddela vilken som är nästa båge. (Använder vi ens dessa?)
         start_arc = ds.arcRoute[0];
         dest_arc = ds.arcRoute[ds.arcRoute.length - 1];// minus ett ty plats 4 (array börjar på 0)
@@ -90,14 +87,13 @@ public class OptPlan {
             }
 
             //Kontrollerar att dummtArcStart och dummyArcEnd är lika lång
-            System.out.println("hhejjejj" + ds.dummyArcStart.length);
-            System.out.println(ds.dummyArcEnd.length);
+           //System.out.println("hhejjejj" + ds.dummyArcStart.length);
+            //System.out.println(ds.dummyArcEnd.length);
 
             //VI MÅSTE FIXA EN IF-SATS SOM FIXAR LÄNGEDEN PÅ ARCROUTE FÖR JUST NU ÄR DEN 1000.
         }
 
         //Nu har vi nodernas nummer, nu måste vi spara dessa koordinaterna
-        
         //I denna loop sparas alla x-koordinater för start-noderna
         for (int m = 0; m < ds.dummyArcStart.length; m++) {
 
@@ -108,7 +104,7 @@ public class OptPlan {
                 }
             }
         }
-        
+
         //I denna loop sparas alla y-koordinater för start-noderna
         for (int l = 0; l < ds.dummyArcStart.length; l++) {
 
@@ -127,10 +123,10 @@ public class OptPlan {
                 if (ds.dummyArcEnd[o] == ds.nodeX[p]);
                 {
                     ds.dummyEndKoorX[o] = (int) ds.nodeX[p];
+                }
+            }
         }
-        }
-        }
-        
+
         //I denna loop sparas alla y-koordinater för slut-noderna
         for (int o = 0; o < ds.dummyArcEnd.length; o++) {
 
@@ -138,126 +134,146 @@ public class OptPlan {
                 if (ds.dummyArcEnd[o] == ds.nodeY[p]);
                 {
                     ds.dummyEndKoorY[o] = (int) ds.nodeY[p];
-        }
-        }
-        }
-        
-        //Skriver ut dessa för att se om de är lika långa
-        //Obs! Dessa kommer ju att vara 1000 om vi inte fixar det...
-        System.out.println(ds.dummyStartKoorX.length);
-        System.out.println(ds.dummyStartKoorY.length);
-        System.out.println(ds.dummyEndKoorX.length);
-        System.out.println(ds.dummyEndKoorY.length);
-        
-        //Nu ska vi föröska räkna ut riktnignarna
-        
-//        for (int i = 0; i < ds.dummyArcStart.length - 1; i++) {
-//        //Innan detta görs måste directionNextArc initieras
-//        
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) > 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) > 0){
-//            ds.directionNextArc = "OBS, OKLAR! (Northeast)";
-//        }
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) == 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) > 0){
-//            ds.directionNextArc = "N";
-//        }
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) < 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) > 0){
-//            ds.directionNextArc = "OBS, OKLAR! (Northwest)";
-//        }
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) > 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) == 0){
-//            ds.directionNextArc = "E";
-//        }
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) < 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) == 0){
-//            ds.directionNextArc = "W";
-//        }
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) > 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) < 0){
-//            ds.directionNextArc = "OBS, OKLAR! (Southeast)";
-//        }
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) == 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) < 0){
-//            ds.directionNextArc = "S";
-//        }
-//        if ((ds.dummyKoorX[i+1] - ds.dummyKoorX[i]) < 0 && (ds.dummyKoorY[i+1] - ds.dummyKoorY[i]) < 0){
-//            ds.directionNextArc = "OBS, OKLAR! (Southwest)";
-//        }
-//        }
-//        
-//        //Här jämförs direction med directionNextArc
-//        
-//        for (int i = 0; i < ds.arcRoute.length - 1; i++){
-//
-//        if (ds.direction.equals("N")){
-//            if (ds.directionNextArc.equals("N")){
-//            //Skicka till roboten: "Straight";
-//            System.out.println("NN Straight");
-//            }
-//            if (ds.directionNextArc.equals("S")){
-//            //Skicka till roboten: "U-turn";
-//            System.out.println("NS U-turn");
-//            }
-//            if (ds.directionNextArc.equals("W")){
-//            //Skicka till roboten: "Left";
-//            System.out.println("NW Left");
-//            }
-//            if (ds.directionNextArc.equals("E")){
-//            //Skicka till roboten: "Right";
-//            System.out.println("NE Right");
-//            }
-//        }
-//        if (ds.direction.equals("S")){
-//            if (ds.directionNextArc.equals("N")){
-//            //Skicka till roboten: "U-turn";
-//            System.out.println("SN U-turn");
-//            }
-//            if (ds.directionNextArc.equals("S")){
-//            //Skicka till roboten: "Straight";
-//            System.out.println("SS Straight");
-//            }
-//            if (ds.directionNextArc.equals("W")){
-//            //Skicka till roboten: "Right";
-//            System.out.println("SW Right");
-//            }
-//            if (ds.directionNextArc.equals("E")){
-//            //Skicka till roboten: "Left";
-//            System.out.println("SE Left");
-//            }
-//        }
-//        if (ds.direction.equals("W")){
-//            if (ds.directionNextArc.equals("N")){
-//            //Skicka till roboten: "Right";
-//            System.out.println("WN Right");
-//            }
-//            if (ds.directionNextArc.equals("S")){
-//            //Skicka till roboten: "Left";
-//            System.out.println("WS Left");
-//            }
-//            if (ds.directionNextArc.equals("W")){
-//            //Skicka till roboten: "Straight";
-//            System.out.println("WW Staright");
-//            }
-//            if (ds.directionNextArc.equals("E")){
-//            //Skicka till roboten: "U-turn";
-//            System.out.println("WE U-turn");
-//            }
-//        }
-//        if (ds.direction.equals("E")){
-//            if (ds.directionNextArc.equals("N")){
-//            //Skicka till roboten: "Left";
-//            System.out.println("EN Left");
-//            }
-//            if (ds.directionNextArc.equals("S")){
-//            //Skicka till roboten: "Right";
-//            System.out.println("ES Right");
-//            }
-//            if (ds.directionNextArc.equals("W")){
-//            //Skicka till roboten: "U-turn";
-//            System.out.println("EW U-turn");
-//            }
-//            if (ds.directionNextArc.equals("E")){
-//            //Skicka till roboten: "Straight";
-//            System.out.println("EE Straight");
-//            }
-//        }
-//        System.out.println(ds.directionNextArc);
-//    }
-//        
                 }
             }
+        }
+
+        //Skriver ut dessa för att se om de är lika långa
+        //Obs! Dessa kommer ju att vara 1000 om vi inte fixar det...
+//        System.out.println(ds.dummyStartKoorX.length);
+//        System.out.println(ds.dummyStartKoorY.length);
+//        System.out.println(ds.dummyEndKoorX.length);
+//        System.out.println(ds.dummyEndKoorY.length);
+
+        //Nu ska vi föröska räkna ut riktnignarna
+        for (int i = 0; i < ds.arcRoute.length; i++) {
+            
+
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) < 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) < 0) {
+                ds.directionNextArc = "NE";
+            }
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) == 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) < 0) {
+                ds.directionNextArc = "N";
+            }
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) > 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) < 0) {
+                ds.directionNextArc = "NW";
+            }
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) < 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) == 0) {
+                ds.directionNextArc = "E";
+            }
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) > 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) == 0) {
+                ds.directionNextArc = "W";
+            }
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) < 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) > 0) {
+                ds.directionNextArc = "SE";
+            }
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) == 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) > 0) {
+                ds.directionNextArc = "S";
+            }
+            if ((ds.dummyStartKoorX[i] - ds.dummyEndKoorX[i]) > 0 && (ds.dummyStartKoorY[i] - ds.dummyEndKoorY[i]) > 0) {
+                ds.directionNextArc = "SW";
+            }
+        }
+
+        //Här jämförs direction med directionNextArc
+        int i = 0;
+        while(ds.arcRoute[i] != 0){
+        //for (int i = 0; i < ds.arcRoute.length; i++) {
+        if(ds.arcRoute[i+2] != 0){
+            if (ds.arcCost[ds.arcRoute[i + 1] - 1] == ds.korsningLength) {
+                //Rakt fram eller vänster
+                if (ds.arcCost[ds.arcRoute[i + 2] - 1] == ds.korsningLength) { //i+2 kommer generara arcCost[-1] de två sista varven
+                    
+                System.out.println("Sväng vänster");
+                }
+                else {
+                System.out.println("Rakt fram");
+                }
+            }
+            else{
+                System.out.println("Sväng höger");
+                //Här måste vi ha en if som kollar om det är högersväng eller snesväng (Nordväst, Nordost)
+            }
+            
+            
+//
+//            if (ds.direction.equals("N")) {
+//                if (ds.directionNextArc.equals("N")) {
+//                    //Skicka till roboten: "Straight"
+//
+//                    System.out.println("NN Straight");
+//                }
+//                if (ds.directionNextArc.equals("S")) {
+//                    //Skicka till roboten: "U-turn";
+//                    System.out.println("NS U-turn");
+//                }
+//                if (ds.directionNextArc.equals("W")) {
+//                    //Skicka till roboten: "Left";
+//                    System.out.println("NW Left");
+//                }
+//                if (ds.directionNextArc.equals("E")) {
+//                    //Skicka till roboten: "Right";
+//                    System.out.println("NE Right");
+//                }
+//            }
+//            if (ds.direction.equals("S")) {
+//                if (ds.directionNextArc.equals("N")) {
+//                    //Skicka till roboten: "U-turn";
+//                    System.out.println("SN U-turn");
+//                }
+//                if (ds.directionNextArc.equals("S")) {
+//                    //Skicka till roboten: "Straight";
+//                    System.out.println("SS Straight");
+//                }
+//                if (ds.directionNextArc.equals("W")) {
+//                    //Skicka till roboten: "Right";
+//                    System.out.println("SW Right");
+//                }
+//                if (ds.directionNextArc.equals("E")) {
+//                    //Skicka till roboten: "Left";
+//                    System.out.println("SE Left");
+//                }
+//            }
+//            if (ds.direction.equals("W")) {
+//                if (ds.directionNextArc.equals("N")) {
+//                    //Skicka till roboten: "Right";
+//                    System.out.println("WN Right");
+//                }
+//                if (ds.directionNextArc.equals("S")) {
+//                    //Skicka till roboten: "Left";
+//                    System.out.println("WS Left");
+//                }
+//                if (ds.directionNextArc.equals("W")) {
+//                    //Skicka till roboten: "Straight";
+//                    System.out.println("WW Staright");
+//                }
+//                if (ds.directionNextArc.equals("E")) {
+//                    //Skicka till roboten: "U-turn";
+//                    System.out.println("WE U-turn");
+//                }
+//            }
+//            if (ds.direction.equals("E")) {
+//                if (ds.directionNextArc.equals("N")) {
+//                    //Skicka till roboten: "Left";
+//                    System.out.println("EN Left");
+//                }
+//                if (ds.directionNextArc.equals("S")) {
+//                    //Skicka till roboten: "Right";
+//                    System.out.println("ES Right");
+//                }
+//                if (ds.directionNextArc.equals("W")) {
+//                    //Skicka till roboten: "U-turn";
+//                    System.out.println("EW U-turn");
+//                }
+//                if (ds.directionNextArc.equals("E")) {
+//                    //Skicka till roboten: "Straight";
+//                    System.out.println("EE Straight");
+//                }
+//            }
+//            System.out.println(ds.directionNextArc);
+        }
+        i++;
+        }
+
+    }
+}
