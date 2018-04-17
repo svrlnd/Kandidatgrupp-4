@@ -108,8 +108,8 @@ public class DataStore {
             arcs = Integer.parseInt(line.trim());
 
             // Debug printout: network size data
-            System.out.println("Nodes: " + nodes);
-            System.out.println("Arcs: " + arcs);
+//            System.out.println("Nodes: " + nodes);
+//            System.out.println("Arcs: " + arcs);
 
             // Read nodes as number, x, y
             for (int i = 0; i < nodes; i++) {
@@ -121,7 +121,7 @@ public class DataStore {
             }
 
             // Debug printout: print data for node 1
-            System.out.println("Node 1: " + nodeX[0] + " " + nodeY[0]);
+//            System.out.println("Node 1: " + nodeX[0] + " " + nodeY[0]);
 
             // Read arc list as start node number, end node number
             for (int i = 0; i < arcs; i++) {

@@ -71,10 +71,10 @@ public class HTTPanrop {
 
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
-            //System.out.println("\nAnropar: " + url);
+            System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            //System.out.println("Statuskod: " + mottagen_status);
+            System.out.println("Statuskod: " + mottagen_status);
 
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
@@ -87,11 +87,6 @@ public class HTTPanrop {
             dummyList = inkommande_samlat.toString().split("\n");
             //System.out.println(Arrays.toString(dummyList));
 
-            
-/*
-
-
-
             for (int i = 0; i < Integer.parseInt(dummyList[0]); i++) {
                 dummyList3 = dummyList[i + 1].toString().split(";");
                 platser[i] = dummyList3[0];
@@ -103,11 +98,11 @@ public class HTTPanrop {
                 platsX[j] = dummyList4[0];
                 platsY[j] = dummyList4[1];
             }
-            //System.out.println("platser " + Arrays.toString(platser));
-            //System.out.println("X " + Arrays.toString(platsX));
-            //System.out.println("Y " + Arrays.toString(platsY));
+            System.out.println("platser " + Arrays.toString(platser));
+            System.out.println("X " + Arrays.toString(platsX));
+            System.out.println("Y " + Arrays.toString(platsY));
 
-            inkommande.close();*/
+            inkommande.close();
 
         } catch (Exception e) {
             System.out.print("catch listaplatser: " + e.toString());
@@ -171,7 +166,7 @@ public class HTTPanrop {
             }
 
             dummyList = inkommande_samlat.toString().split("\n");
-            System.out.println(Arrays.toString(dummyList));
+            //System.out.println(Arrays.toString(dummyList));
 
             for (int i = 0; i < Integer.parseInt(dummyList[0]); i++) {
                 dummyList1 = dummyList[i+1].toString().split(";");
@@ -182,7 +177,7 @@ public class HTTPanrop {
                 pointsArray[i] = dummyList1[4];
             }
             
-            System.out.println(Arrays.toString(destinationUppdragArray));
+            //System.out.println(Arrays.toString(destinationUppdragArray));
 
             for (int j = 0; j < Integer.parseInt(dummyList[0]); j++) {
                 dummyList2 = destinationUppdragArray[j].toString().split(",");
@@ -190,8 +185,8 @@ public class HTTPanrop {
                 destinationUppdragY[j] = dummyList2[1];
             }
 
-            System.out.println("X " + Arrays.toString(destinationUppdragX));
-            System.out.println("Y " + Arrays.toString(destinationUppdragY));
+//            System.out.println("X " + Arrays.toString(destinationUppdragX));
+//            System.out.println("Y " + Arrays.toString(destinationUppdragY));
             
             inkommande.close();
             //System.out.println(inkommande_samlat.toString());
