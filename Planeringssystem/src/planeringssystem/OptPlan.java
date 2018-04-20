@@ -7,19 +7,22 @@ public class OptPlan {
     private List<Vertex> nodes;
     private List<Edge> edges;
     private DataStore ds;
+    private int cost;
 
     public OptPlan(DataStore ds) {
         this.ds = ds;
     }
 
-    public void createPlan() {
+    public int createPlan(int start_node, int dest_node) {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
+        cost = 0;
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
-        int start_node = 13; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
-        int dest_node = 50;// Här ska vi istället ta in platser från HTTP-server
+
+        start_node = 13; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
+        dest_node = 50;// Här ska vi istället ta in platser från HTTP-server
 
         int start_arc = 40; //här vill vi läsa in vilket nod vi är på?
         int dest_arc = 60;
@@ -49,7 +52,6 @@ public class OptPlan {
                         && ds.arcEnd[j] == Integer.parseInt(path.get(i + 1).getId())) {
                     //System.out.println("Arc: " + j); //Skirver ut de arcs som ingår i rutten
                     ds.arcColor[j] = 1;
-                    //ds.arcRoute[i] = j;
                     ds.arcRoute.add(j);
                 }
             }
@@ -62,7 +64,10 @@ public class OptPlan {
 //        // Detta bör hända när AGV:n läser in en QR-kod som säger i vilken korsning den är
 //        for (int i = 0; i < ds.arcRoute.length; i++) {
 //            if (ds.currentDummyArc == ds.arcRoute[i]) { // && roboten är i en korsning
-//                ds.nextDummyArc = ds.arcRoute[i + 1]; }}
+//                ds.nextDummyArc = ds.arcRoute[i + 1]; }
+                
+            int a = 3;
+            return a;
     }
 
     public void createInstructions() {
@@ -375,6 +380,7 @@ public class OptPlan {
                     //Skicka till roboten: "Rakt fram";
                     System.out.println("D");
                 }
+
             }
 
             ds.direction = ds.directionNextArc;
@@ -384,6 +390,11 @@ public class OptPlan {
             //Det vi behöver fixa nu är att den tar en länk i taget men AGV vill ha två meddelanden i samma, det får vi försöka lösa...
 
         }
+
+        //instructions += "I\n";
+        //return instructions;
+
+
     }
 }
 
