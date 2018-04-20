@@ -5,6 +5,7 @@ import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.round;
 import java.util.Scanner;
+import java.util.*;
 
 /*
  * Den här klassen är inkopierad från lab 2 rakt av. 
@@ -15,17 +16,24 @@ public class DataStore {
     String fileName = null;
     int nodes;
     int arcs;
-    double[] nodeX;
-    double[] nodeY;
+    double [] nodeNumber;
+    double [] nodeX;
+    double [] nodeY;
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
-    int[] dummyArcStart;
-    int[] dummyArcEnd;
-    int[] dummyStartKoorX;
-    int[] dummyStartKoorY;
-    int[] dummyEndKoorX;
-    int[] dummyEndKoorY;
+//    int [] dummyArcStart;
+//    int [] dummyArcEnd;
+//    int [] dummyStartKoorX;
+//    int [] dummyStartKoorY;
+//    int [] dummyEndKoorX;
+//    int [] dummyEndKoorY;
+    LinkedList<Integer> dummyArcStart;
+    LinkedList<Integer> dummyArcEnd;
+    LinkedList<Integer> dummyStartKoorX;
+    LinkedList<Integer> dummyStartKoorY;
+    LinkedList<Integer> dummyEndKoorX;
+    LinkedList<Integer> dummyEndKoorY;
     int korsningLength;
     int[] a;
     int n;
@@ -34,7 +42,8 @@ public class DataStore {
     double robotX;
     double robotY;
     int[] arcColor;
-    int[] arcRoute; //De länkar som ingår i rutten
+    //int[] arcRoute; //De länkar som ingår i rutten
+    LinkedList<Integer> arcRoute;
     double dummyX;
     double dummyY;
     int currentDummyArc;
@@ -60,33 +69,42 @@ public class DataStore {
         // Initialize the datastore with fixed size arrays for storing the network data
         nodes = 0;
         arcs = 0;
+        nodeNumber = new double[1000];
         nodeX = new double[1000];
         nodeY = new double[1000];
         arcStart = new int[1000];
         arcEnd = new int[1000];
         arcCost = new int[1000];
-        dummyArcStart = new int[1000];
-        dummyArcEnd = new int[1000];
-        dummyStartKoorX = new int[1000];
-        dummyStartKoorY = new int[1000];
-        dummyEndKoorX = new int[1000];
-        dummyEndKoorY = new int[1000];
+//        dummyArcStart = new int [128];
+//        dummyArcEnd = new int [128];
+//        dummyStartKoorX = new int [128];
+//        dummyStartKoorY = new int [128];
+//        dummyEndKoorX = new int [128];
+//        dummyEndKoorY = new int [128];
+        dummyArcStart = new LinkedList<Integer>();
+        dummyArcEnd = new LinkedList<Integer>();
+        dummyStartKoorX = new LinkedList<Integer>();
+        dummyStartKoorY = new LinkedList<Integer>();
+        dummyEndKoorX = new LinkedList<Integer>();
+        dummyEndKoorY = new LinkedList<Integer>();
         korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
-        arcColor = new int[1000];
-        arcRoute = new int[1000];
+        arcColor = new int[128];
+        //arcRoute = new int[128];
+        arcRoute = new LinkedList<Integer>();
         dummyX = 0;
         dummyY = 0;
         cap = 4;
         direction = "N";
-
         enable = '1';
         ordernummer = '!';
         antal_passagerare = '0';
         korinstruktion = 'd';
         kontroll = '!';
         meddelande = "";
+        directionNextArc = "";
+
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
         gui = new GUI(this);
@@ -129,6 +147,7 @@ public class DataStore {
                 line = scanner.nextLine();
                 //split space separated data on line
                 sline = line.split(" ");
+                nodeNumber[i] = Double.parseDouble(sline[0].trim());
                 nodeX[i] = Double.parseDouble(sline[1].trim());
                 nodeY[i] = Double.parseDouble(sline[2].trim());
             }
