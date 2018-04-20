@@ -116,7 +116,11 @@ public class HTTPanrop {
         StringBuffer inkommande_samlat = new StringBuffer();
         
         try {
+
             HTTPanrop http = new HTTPanrop();
+
+            // Det som är avkommenterat tror jag inte behövs /A
+
 
             String url = "http://tnk111.n7.se/aterstall.php?scenario=" + scenario;
 
@@ -127,6 +131,7 @@ public class HTTPanrop {
             int mottagen_status = anslutning.getResponseCode();
             System.out.println("Statuskod: " + mottagen_status);
 
+
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
 
@@ -136,6 +141,7 @@ public class HTTPanrop {
 
             inkommande.close();
             
+
         } catch (Exception e) {
             System.out.print("catch i aterstall: " + e.toString());
         }
@@ -210,6 +216,7 @@ public class HTTPanrop {
             int mottagen_status = anslutning.getResponseCode();
             //System.out.println("Statuskod: " + mottagen_status);
 
+
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
             StringBuffer inkommande_samlat = new StringBuffer();
@@ -224,6 +231,7 @@ public class HTTPanrop {
 
             inkommande.close();
             //System.out.println(inkommande_samlat.toString());
+
 
         } catch (Exception e) {
             System.out.print(e.toString());

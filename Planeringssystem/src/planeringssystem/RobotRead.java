@@ -13,7 +13,7 @@ public class RobotRead implements Runnable {
     private int currentY;
     private int currentArc;
     private int capacity;
-    private int currentStatus;
+    private String currentStatus;
 
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
@@ -76,7 +76,11 @@ public class RobotRead implements Runnable {
         return currentArc;
     }
     
+    public String getCurrentStatus(){ //Kanske ska vara en int istället för String eftersom det är de 16 bytes vi får av dem.
+        return currentStatus;
+    }
 //    public String getCurrentStatus(){
 //        //return currentStatus;
 //    }
+
 }

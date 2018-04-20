@@ -91,6 +91,7 @@ public class Planeringssystem {
         //Här tänker vi att vi vill göra en loop som kör lika många varv som det finns platser i listaplatser. 
         //Sen ska avstånden beräknas för varje uppdrag som finns på respektive plats. /A och G
 
+
         //listaplatser----------------------------------------------------------
         dummyList1 = new String[Integer.parseInt(ha.messagetype()[0])];
         dummyList2 = new String[Integer.parseInt(ha.messagetype()[0])];
@@ -212,6 +213,11 @@ public class Planeringssystem {
             //slut på listaUppdrag----------------------------------------------
 
         }
+
+        ha.messagetype();
+        
+        ha.messagetype("A", 1, 8, 4);
+
 
         /*
         // Testing testing såhär ska vi skicka till AGVn typ
