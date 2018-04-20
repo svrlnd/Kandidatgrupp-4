@@ -20,10 +20,13 @@ public class DataStore {
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
-    //int [] dummyArcStart;
-    //int [] dummyArcEnd;
-    int [] dummyKoorX;
-    int [] dummyKoorY;
+    int [] dummyArcStart;
+    int [] dummyArcEnd;
+    int [] dummyStartKoorX;
+    int [] dummyStartKoorY;
+    int [] dummyEndKoorX;
+    int [] dummyEndKoorY;
+    int korsningLength;
     int [] a;
     int n;
     boolean networkRead;
@@ -31,7 +34,7 @@ public class DataStore {
     double robotX;
     double robotY;
     int[] arcColor;
-    int [] arcRoute;
+    int [] arcRoute; //De länkar som ingår i rutten
     double dummyX;
     double dummyY;
     int currentDummyArc;
@@ -55,8 +58,13 @@ public class DataStore {
         arcStart = new int[1000];
         arcEnd = new int[1000];
         arcCost = new int[1000];
-        //dummyArcStart = new int [1000];
-        //dummyArcEnd = new int [1000];
+        dummyArcStart = new int [1000];
+        dummyArcEnd = new int [1000];
+        dummyStartKoorX = new int [1000];
+        dummyStartKoorY = new int [1000];
+        dummyEndKoorX = new int [1000];
+        dummyEndKoorY = new int [1000];
+        korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
         arcColor = new int[1000];
@@ -100,8 +108,8 @@ public class DataStore {
             arcs = Integer.parseInt(line.trim());
 
             // Debug printout: network size data
-            System.out.println("Nodes: " + nodes);
-            System.out.println("Arcs: " + arcs);
+//            System.out.println("Nodes: " + nodes);
+//            System.out.println("Arcs: " + arcs);
 
             // Read nodes as number, x, y
             for (int i = 0; i < nodes; i++) {
@@ -113,7 +121,7 @@ public class DataStore {
             }
 
             // Debug printout: print data for node 1
-            System.out.println("Node 1: " + nodeX[0] + " " + nodeY[0]);
+//            System.out.println("Node 1: " + nodeX[0] + " " + nodeY[0]);
 
             // Read arc list as start node number, end node number
             for (int i = 0; i < arcs; i++) {
