@@ -7,19 +7,21 @@ public class OptPlan {
     private List<Vertex> nodes;
     private List<Edge> edges;
     private DataStore ds;
+    private int cost;
 
     public OptPlan(DataStore ds) {
         this.ds = ds;
     }
 
-    public void createPlan() {
+    public int createPlan(int start_node, int dest_node) {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
+        cost = 0;
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
-        int start_node = 67; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
-        int dest_node = 3;// Här ska vi istället ta in platser från HTTP-server
+        start_node = 67; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
+        dest_node = 3;// Här ska vi istället ta in platser från HTTP-server
 
         int start_arc = 1; //här vill vi läsa in vilket nod vi är på?
         int dest_arc = 17;
@@ -50,6 +52,7 @@ public class OptPlan {
                     //System.out.println("Arc: " + j); //Skirver ut de arcs som ingår i rutten
                     ds.arcColor[j] = 1;
                     ds.arcRoute[i] = j;
+                    cost += ds.arcCost[j];
                 }
             }
         }
@@ -63,6 +66,7 @@ public class OptPlan {
                 ds.nextDummyArc = ds.arcRoute[i + 1];
             }
         }
+        return cost;
     }
 
     public String createInstructions() {
@@ -85,13 +89,11 @@ public class OptPlan {
 //                    ds.dummyArcEnd[i] = ds.arcEnd[k + 1];
 //                }
 //            }
-
-            //Kontrollerar att dummtArcStart och dummyArcEnd är lika lång
-            //System.out.println("hhejjejj" + ds.dummyArcStart.length);
-            //System.out.println(ds.dummyArcEnd.length);
-            //VI MÅSTE FIXA EN IF-SATS SOM FIXAR LÄNGEDEN PÅ ARCROUTE FÖR JUST NU ÄR DEN 1000.
+        //Kontrollerar att dummtArcStart och dummyArcEnd är lika lång
+        //System.out.println("hhejjejj" + ds.dummyArcStart.length);
+        //System.out.println(ds.dummyArcEnd.length);
+        //VI MÅSTE FIXA EN IF-SATS SOM FIXAR LÄNGEDEN PÅ ARCROUTE FÖR JUST NU ÄR DEN 1000.
 //        }
-
 //        //Nu har vi nodernas nummer, nu måste vi spara dessa koordinaterna
 //        //I denna loop sparas alla x-koordinater för start-noderna
 //        for (int m = 0; m < ds.dummyArcStart.length; m++) {
@@ -103,7 +105,6 @@ public class OptPlan {
 //                }
 //            }
 //        }
-
 //        //I denna loop sparas alla y-koordinater för start-noderna
 //        for (int l = 0; l < ds.dummyArcStart.length; l++) {
 //
@@ -114,7 +115,6 @@ public class OptPlan {
 //                }
 //            }
 //        }
-
         //I denna loop sparas alla x-koordinater för slut-noderna
 //        for (int o = 0; o < ds.dummyArcEnd.length; o++) {
 //
@@ -125,7 +125,6 @@ public class OptPlan {
 //                }
 //            }
 //        }
-
 //        //I denna loop sparas alla y-koordinater för slut-noderna
 //        for (int o = 0; o < ds.dummyArcEnd.length; o++) {
 //
@@ -136,7 +135,6 @@ public class OptPlan {
 //                }
 //            }
 //        }
-
         //Skriver ut dessa för att se om de är lika långa
         //Obs! Dessa kommer ju att vara 1000 om vi inte fixar det...
 //        System.out.println(ds.dummyStartKoorX.length);
@@ -171,14 +169,12 @@ public class OptPlan {
 //                ds.directionNextArc = "SW";
 //            }
 //        }
-
         //Här bestäms körinstruktionerna
         int i = 0;
-        if (ds.arcCost[ds.arcRoute[0]] == ds.korsningLength && ds.arcCost[ds.arcRoute[1]] == ds.korsningLength && ds.arcCost[ds.arcRoute[2]] == ds.korsningLength){
-        instructions += "H\n"; //u-sväng
-        i = 3;
-        }
-        else if (ds.arcCost[ds.arcRoute[0]] == ds.korsningLength && ds.arcCost[ds.arcRoute[1]] == ds.korsningLength) {
+        if (ds.arcCost[ds.arcRoute[0]] == ds.korsningLength && ds.arcCost[ds.arcRoute[1]] == ds.korsningLength && ds.arcCost[ds.arcRoute[2]] == ds.korsningLength) {
+            instructions += "H\n"; //u-sväng
+            i = 3;
+        } else if (ds.arcCost[ds.arcRoute[0]] == ds.korsningLength && ds.arcCost[ds.arcRoute[1]] == ds.korsningLength) {
             instructions += "B\n"; //vänster
             i = 2;
         } else if (ds.arcCost[ds.arcRoute[0]] == ds.korsningLength) {
@@ -188,11 +184,10 @@ public class OptPlan {
             //for (int i = 0; i < ds.arcRoute.length; i++) {
             if (ds.arcRoute[i + 1] != 0 && ds.arcCost[ds.arcRoute[i + 1] - 1] == ds.korsningLength) {
                 //Rakt fram eller vänster
-                if(ds.arcRoute[i + 2] != 0 && ds.arcCost[ds.arcRoute[i + 2] - 1] == ds.korsningLength && ds.arcCost[ds.arcRoute[i + 3] - 1] == ds.korsningLength){
-                instructions += "H\n"; //u-sväng
-                i = i + 3;
-                }
-                else if (ds.arcRoute[i + 2] != 0 && ds.arcCost[ds.arcRoute[i + 2] - 1] == ds.korsningLength) { //i+2 kommer generara arcCost[-1] de två sista varven
+                if (ds.arcRoute[i + 2] != 0 && ds.arcCost[ds.arcRoute[i + 2] - 1] == ds.korsningLength && ds.arcCost[ds.arcRoute[i + 3] - 1] == ds.korsningLength) {
+                    instructions += "H\n"; //u-sväng
+                    i = i + 3;
+                } else if (ds.arcRoute[i + 2] != 0 && ds.arcCost[ds.arcRoute[i + 2] - 1] == ds.korsningLength) { //i+2 kommer generara arcCost[-1] de två sista varven
 
                     instructions += "B\n"; //vänster
                     i = i + 2;
@@ -200,7 +195,7 @@ public class OptPlan {
                     instructions += "D\n"; //rakt fram
                     i++;
                 }
-            } else if(ds.arcRoute[i+1] != 0 && ds.arcCost[ds.arcRoute[i+1]-1] != ds.korsningLength) {
+            } else if (ds.arcRoute[i + 1] != 0 && ds.arcCost[ds.arcRoute[i + 1] - 1] != ds.korsningLength) {
                 instructions += "F\n"; //höger
                 //Här måste vi ha en if som kollar om det är högersväng eller snesväng (Nordväst, Nordost)
             }
@@ -284,6 +279,6 @@ public class OptPlan {
         }
         instructions += "I\n";
         return instructions;
-        
+
     }
 }
