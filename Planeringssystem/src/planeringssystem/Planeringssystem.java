@@ -34,9 +34,10 @@ public class Planeringssystem {
          */
         op = new OptPlan(ds);
         op.createPlan();
+        op.createInstructions();
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions (bör vara lika lång som arcRoute som just nu är 100)
-        instructions = new String [ds.arcRoute.length];
-        instructions = op.createInstructions().split("\n"); // innehåller körinstruktioner, en i taget. NÄr AGVn har svarat med att de utfört et "kommando" skickas näst kommando i instructions.
+        //instructions = new String [ds.arcRoute.length];
+        //instructions = op.createInstructions().split("\n"); // innehåller körinstruktioner, en i taget. NÄr AGVn har svarat med att de utfört et "kommando" skickas näst kommando i instructions.
         
         /*
          * För att få fram kartan verkar det som att vi behöver ändra lite i GUI.
