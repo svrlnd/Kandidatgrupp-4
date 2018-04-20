@@ -91,7 +91,6 @@ public class Planeringssystem {
         //Här tänker vi att vi vill göra en loop som kör lika många varv som det finns platser i listaplatser. 
         //Sen ska avstånden beräknas för varje uppdrag som finns på respektive plats. /A och G
 
-
         //listaplatser----------------------------------------------------------
         dummyList1 = new String[Integer.parseInt(ha.messagetype()[0])];
         dummyList2 = new String[Integer.parseInt(ha.messagetype()[0])];
@@ -167,9 +166,9 @@ public class Planeringssystem {
             for (int a = 0; a < ds.arcs; a++) {
                 if (ds.arcStart[a] == closest_postive_node && ds.arcEnd[a] == closest_negative_node
                         || ds.arcEnd[a] == closest_postive_node && ds.arcStart[a] == closest_negative_node) {
-                            dest_node = ds.arcEnd[a];
-                            next_start_node = ds.arcStart[a];
-                            op.createPlan(17, dest_node);
+                    dest_node = ds.arcEnd[a];
+                    next_start_node = ds.arcStart[a];
+                    op.createPlan(17, dest_node);
                 }
 
             }
@@ -215,9 +214,9 @@ public class Planeringssystem {
         }
 
         ha.messagetype();
-        
-        ha.messagetype("A", 1, 8, 4);
 
+        //ha.messagetype("A", 1, 8, 4);      
+        
 
         /*
         // Testing testing såhär ska vi skicka till AGVn typ

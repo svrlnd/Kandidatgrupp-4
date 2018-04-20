@@ -20,21 +20,21 @@ public class DataStore {
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
-    int [] dummyArcStart;
-    int [] dummyArcEnd;
-    int [] dummyStartKoorX;
-    int [] dummyStartKoorY;
-    int [] dummyEndKoorX;
-    int [] dummyEndKoorY;
+    int[] dummyArcStart;
+    int[] dummyArcEnd;
+    int[] dummyStartKoorX;
+    int[] dummyStartKoorY;
+    int[] dummyEndKoorX;
+    int[] dummyEndKoorY;
     int korsningLength;
-    int [] a;
+    int[] a;
     int n;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
     double robotY;
     int[] arcColor;
-    int [] arcRoute; //De länkar som ingår i rutten
+    int[] arcRoute; //De länkar som ingår i rutten
     double dummyX;
     double dummyY;
     int currentDummyArc;
@@ -47,6 +47,13 @@ public class DataStore {
     RobotRead rr;
     GUI gui;
     boolean flagCoordinates;
+    //meddelande-variabler
+    char enable;
+    char ordernummer;
+    char antal_passagerare;
+    char korinstruktion;
+    char kontroll;
+    String meddelande;
 
     // Testing testing
     public DataStore() {
@@ -58,12 +65,12 @@ public class DataStore {
         arcStart = new int[1000];
         arcEnd = new int[1000];
         arcCost = new int[1000];
-        dummyArcStart = new int [1000];
-        dummyArcEnd = new int [1000];
-        dummyStartKoorX = new int [1000];
-        dummyStartKoorY = new int [1000];
-        dummyEndKoorX = new int [1000];
-        dummyEndKoorY = new int [1000];
+        dummyArcStart = new int[1000];
+        dummyArcEnd = new int[1000];
+        dummyStartKoorX = new int[1000];
+        dummyStartKoorY = new int[1000];
+        dummyEndKoorX = new int[1000];
+        dummyEndKoorY = new int[1000];
         korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
@@ -73,7 +80,14 @@ public class DataStore {
         dummyY = 0;
         cap = 4;
         direction = "N";
-       
+
+        enable = '1';
+        ordernummer = '!';
+        antal_passagerare = '0';
+        korinstruktion = 'd';
+        kontroll = '!';
+        meddelande = "";
+
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
         gui = new GUI(this);
         rr = new RobotRead(this, gui);
@@ -110,7 +124,6 @@ public class DataStore {
             // Debug printout: network size data
 //            System.out.println("Nodes: " + nodes);
 //            System.out.println("Arcs: " + arcs);
-
             // Read nodes as number, x, y
             for (int i = 0; i < nodes; i++) {
                 line = scanner.nextLine();
@@ -122,7 +135,6 @@ public class DataStore {
 
             // Debug printout: print data for node 1
 //            System.out.println("Node 1: " + nodeX[0] + " " + nodeY[0]);
-
             // Read arc list as start node number, end node number
             for (int i = 0; i < arcs; i++) {
                 line = scanner.nextLine();
@@ -146,16 +158,14 @@ public class DataStore {
 
         // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
         // koordinater! 
-        
         robotX = nodeX[70];
-        robotY = nodeY[70]; 
-        
+        robotY = nodeY[70];
+
         //Man måste få detta att uppdatera sig på något vis.. Kanske med en while-loop och en flag
         //Detta sker ändå före eftersom RobtoRead är en tråd?
         /*while (flagCoordinates) {
             robotX = rr.getCurrentX();
             robotY = rr.getCurrentY();
         }*/
-
     }
 }
