@@ -32,6 +32,7 @@ public class Planeringssystem {
     String[] pointsArray;
     String[] destinationUppdragX;
     String[] destinationUppdragY;
+    int tempis;
 
     Planeringssystem() {
         /*
@@ -51,12 +52,12 @@ public class Planeringssystem {
          */
         op = new OptPlan(ds);
 
-        op.createPlan(24,9);
+//        op.createPlan(24,9);
         op.createInstructions();
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions (bör vara lika lång som arcRoute som just nu är 100)
         //instructions = new String [ds.arcRoute.length];
         //instructions = op.createInstructions().split("\n"); // innehåller körinstruktioner, en i taget. NÄr AGVn har svarat med att de utfört et "kommando" skickas näst kommando i instructions.
-        
+
 
         /*
          * För att få fram kartan verkar det som att vi behöver ändra lite i GUI.
@@ -115,9 +116,10 @@ public class Planeringssystem {
             platsX[j] = Integer.parseInt(dummyList2[0]);
             platsY[j] = Integer.parseInt(dummyList2[1]);
         }
-        platsX[2] = 435;
-        platsY[2] = 16;
+//        platsX[2] = 435;
+//        platsY[2] = 16;
 
+        ds.min = Integer.MAX_VALUE;
         double temp = 0;
         int dest_node = 0;
         int next_start_node = 0;
@@ -127,61 +129,114 @@ public class Planeringssystem {
         double distance_negative = Double.MAX_VALUE;
         //Leta fram den positiva och den negativa nod som är närmast varje upphämtningsplats
         for (int i = 0; i < Integer.parseInt(ha.messagetype()[0]); i++) {
-            for (int j = 0; j < ds.nodes; j++) {
-                //Vilka noder har samma x-koordinat?
-                if (platsX[2] == ds.nodeX[j]) {
+            if (Integer.parseInt(ha.messagetype(platser[i])[0]) == 0) { //Kollar om det finns uppdrag på platsen
+                System.out.println("Skippis");
+            } else {
+                for (int j = 0; j < ds.nodes; j++) {
+                    //Vilka noder har samma x-koordinat?
+                    if (platsX[2] == ds.nodeX[j]) { //2 borde vara i
 
-                    //Är avstånet till dess y-koordinat positivt eller negativt?
-                    if (ds.nodeY[j] - platsY[2] < 0) {
-                        temp = Math.abs(platsY[2] - ds.nodeY[j]);
-                        if (temp < distance_negative) {
-                            distance_negative = temp;
-                            closest_negative_node = j + 1;
+                        //Är avstånet till dess y-koordinat positivt eller negativt?
+                        if (ds.nodeY[j] - platsY[2] < 0) {//2 borde vara i
+                            temp = Math.abs(platsY[2] - ds.nodeY[j]);//2 borde vara i
+                            if (temp < distance_negative) {
+                                distance_negative = temp;
+                                closest_negative_node = j + 1;
+                            }
+                        } else {
+                            temp = Math.abs(platsY[i] - ds.nodeY[j]);
+                            if (temp < distance_positive) {
+                                distance_positive = temp;
+                                closest_postive_node = j + 1;
+                            }
                         }
-                    } else {
-                        temp = Math.abs(platsY[i] - ds.nodeY[j]);
-                        if (temp < distance_positive) {
-                            distance_positive = temp;
-                            closest_postive_node = j + 1;
-                        }
-                    }
-                    //Om ingen nod hade samma x-koordinat, vilka noder har då samma y-koordinat?
-                } else if (platsY[i] == ds.nodeY[j]) {
-                    //Är avstånet till dess x-koordinat positivt eller negativt?
-                    if (ds.nodeX[j] - platsX[i] < 0) {
-                        temp = Math.abs(platsX[i] - ds.nodeX[j]);
-                        if (temp < distance_negative) {
-                            distance_negative = temp;
-                            closest_negative_node = j + 1;
-                        }
-                    } else {
-                        temp = Math.abs(platsX[i] - ds.nodeX[j]);
-                        if (temp < distance_positive) {
-                            distance_positive = temp;
-                            closest_postive_node = j + 1;
+                        //Om ingen nod hade samma x-koordinat, vilka noder har då samma y-koordinat?
+                    } else if (platsY[i] == ds.nodeY[j]) {
+                        //Är avstånet till dess x-koordinat positivt eller negativt?
+                        if (ds.nodeX[j] - platsX[i] < 0) {
+                            temp = Math.abs(platsX[i] - ds.nodeX[j]);
+                            if (temp < distance_negative) {
+                                distance_negative = temp;
+                                closest_negative_node = j + 1;
+                            }
+                        } else {
+                            temp = Math.abs(platsX[i] - ds.nodeX[j]);
+                            if (temp < distance_positive) {
+                                distance_positive = temp;
+                                closest_postive_node = j + 1;
+                            }
                         }
                     }
                 }
-            }
-            System.out.println("Närmsta positiva nod är: " + closest_postive_node);
-            System.out.println("Närmsta negativa nod är: " + closest_negative_node);
-            //Nu ska vi ta reda på vilken länk dessa noder tillhör. 
-            for (int a = 0; a < ds.arcs; a++) {
-                if (ds.arcStart[a] == closest_postive_node && ds.arcEnd[a] == closest_negative_node
-                        || ds.arcEnd[a] == closest_postive_node && ds.arcStart[a] == closest_negative_node) {
-                    dest_node = ds.arcEnd[a];
-                    next_start_node = ds.arcStart[a];
-                    op.createPlan(17, dest_node);
-                }
 
+                System.out.println("Närmsta positiva nod är: " + closest_postive_node);
+                System.out.println("Närmsta negativa nod är: " + closest_negative_node);
+                //Nu ska vi ta reda på vilken länk dessa noder tillhör. 
+                for (int a = 0; a < ds.arcs; a++) {
+                    if (ds.arcStart[a] == closest_postive_node && ds.arcEnd[a] == closest_negative_node
+                            || ds.arcEnd[a] == closest_postive_node && ds.arcStart[a] == closest_negative_node) {
+                        dest_node = ds.arcEnd[a];
+                        next_start_node = ds.arcStart[a];
+                        tempis = op.createPlan(17, dest_node);
+                        if (tempis < ds.min) {
+                            ds.min = ds.routeCost;
+                            ds.closestPlats = platser[i];
+                            System.out.println("Närmsta plats är " + ds.closestPlats);
+                        }
+                    }
+                }
             }
         }
-
+        
+        //Här ska vi bestämma vilket/vilka uppdrag som vi vill utföra.
+        //Vi måste ta det första. Vi måste hålla oss till vår kapacitet
+        //Vi måste kontrollera att samåkning tillåts.
+        
+        
+                    // Skapa arrayer för det vi vill spara 
+            uppdragsIDArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            destinationPlatserArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            destinationUppdragArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            passengersArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            samakningArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            pointsArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            //platserArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            destinationUppdragX = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            destinationUppdragY = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
+            
+            //Lägg rätt information i respektive array
+            for (int i = 0; i < Integer.parseInt(ha.messagetype(ds.closestPlats)[0]); i++) {
+                dummyList3 = ha.messagetype(ds.closestPlats)[i + 1].toString().split(";");
+                uppdragsIDArray[i] = dummyList3[0];
+                destinationUppdragArray[i] = dummyList3[1]; //Fattar den att detta är två olika noder?
+                passengersArray[i] = dummyList3[2];
+                samakningArray[i] = dummyList3[3];
+                pointsArray[i] = dummyList3[4];
+            }
+            
+            if (Integer.parseInt(passengersArray [0]) >= ds.cap){
+                //Meddela företagsgrupp att närmsta upphämtningsplats är closestPlats
+                //och att avståndet dit är tempis + resterande routeCost
+                //och att vi tänker ta första uppdraget.
+            }
+            else{
+                //Här ska vi ta fler uppdrag från listan av de som vill samåka
+//                if{
+                    //ska med en loop kontrollera om någon vill samåka. 
+                    //av de som vill samåka, ska vi hitta den som avviker från rutten så lite som möjligt mha createplan
+//                }
+            }
+        
+        
+        
+        
+        
+        
+        
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats med op.createPlan
         // Slut på listaplatser--------------------------------------------------
         // Loop för att ta fram alla uppdrag på alla de platser som fanns i listaplatser
-        for (int j = 0;
-                j < Integer.parseInt(ha.messagetype()[0]); j++) {
+        for (int j = 0; j < Integer.parseInt(ha.messagetype()[0]); j++) {
             //listaUppdrag----------------------------------------------------------
             // Skapa arrayer för det vi vill spara 
             uppdragsIDArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
@@ -219,8 +274,6 @@ public class Planeringssystem {
         ha.messagetype();
 
         //ha.messagetype("A", 1, 8, 4);      
-        
-
         /*
         // Testing testing såhär ska vi skicka till AGVn typ
 

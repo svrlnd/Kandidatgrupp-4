@@ -22,6 +22,8 @@ public class DataStore {
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
+    int routeCost;
+    int min; //Kostnaden till den närmsta upphämtningsplatsen
 //    int [] dummyArcStart;
 //    int [] dummyArcEnd;
 //    int [] dummyStartKoorX;
@@ -63,6 +65,7 @@ public class DataStore {
     char korinstruktion;
     char kontroll;
     String meddelande;
+    String closestPlats;
 
     // Testing testing
     public DataStore() {
@@ -104,6 +107,7 @@ public class DataStore {
         kontroll = '!';
         meddelande = "";
         directionNextArc = "";
+        
 
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
