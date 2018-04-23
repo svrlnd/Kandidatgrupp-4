@@ -51,7 +51,7 @@ public class Planeringssystem {
          */
         op = new OptPlan(ds);
 
-        op.createPlan(24,9);
+        //op.createPlan(24,9);
         op.createInstructions();
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions (bör vara lika lång som arcRoute som just nu är 100)
         //instructions = new String [ds.arcRoute.length];
@@ -177,7 +177,8 @@ public class Planeringssystem {
             }
         }
 
-        //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats med op.createPlan
+        //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
+        
         // Slut på listaplatser--------------------------------------------------
         // Loop för att ta fram alla uppdrag på alla de platser som fanns i listaplatser
         for (int j = 0;
@@ -216,7 +217,6 @@ public class Planeringssystem {
 
         }
 
-        ha.messagetype();
 
         //ha.messagetype("A", 1, 8, 4);      
         
