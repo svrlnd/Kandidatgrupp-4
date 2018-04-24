@@ -129,6 +129,7 @@ public class Planeringssystem {
         double distance_positive = Double.MAX_VALUE;
         double distance_negative = Double.MAX_VALUE;
         //Leta fram den positiva och den negativa nod som är närmast varje upphämtningsplats
+        //DET HÄR FUNKAR INTE OM EN UPPHÄMTNINGSPLATS LIGGER PÅ EN SNED LÄNK??
         for (int i = 0; i < Integer.parseInt(ha.messagetype()[0]); i++) {
             if (Integer.parseInt(ha.messagetype(platser[i])[0]) == 0) { //Kollar om det finns uppdrag på platsen
                 System.out.println("Skippis");
@@ -167,7 +168,7 @@ public class Planeringssystem {
                                 closest_postive_node = j + 1;
                             }
                         }
-                    }
+                    } else {System.out.println("Upphämtningsplatsen ligger på en sned länk! Vad gör vi nu?");}
                 }
 
                 System.out.println("Närmsta positiva nod är: " + closest_postive_node);
@@ -179,10 +180,10 @@ public class Planeringssystem {
                         dest_node = ds.arcEnd[a];
                         next_start_node = ds.arcStart[a];
                         tempis = op.createPlan(17, dest_node);
-                        if (tempis < ds.min) {
+                        if (tempis < ds.min) { // Vilken plats är närmast? (just nu kollar vi från nod 17 men vi vill kolla från föregående avlämningsplats typ?)
                             ds.min = ds.routeCost;
                             ds.closestPlats = platser[i];
-                            System.out.println("Närmsta plats är " + ds.closestPlats);
+                            System.out.println("Närmsta upphämtningsplats är " + ds.closestPlats);
                         }
                     }
                 }
