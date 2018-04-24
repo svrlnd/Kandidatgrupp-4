@@ -23,7 +23,7 @@ public class HTTPgrupp {
 
             HTTPanrop http = new HTTPanrop();
 
-            String url = "http://tnk111.n7.se/getmessage.php?messagetype=" + messagetype; 
+            String url = "http://tnk111.n7.se/getmessage.php?messagetype=1"; 
 
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
@@ -68,11 +68,11 @@ public class HTTPgrupp {
     } //getmessage slut
 
 
-    public void putmessage(int messagetype, String message) {
+    public void putmessage(String message) {
         try {
 
 
-            String url = "http://tnk111.n7.se/putmessage.php?groupid=4&messagetype=" + messagetype + "&message=" + message;
+            String url = "http://tnk111.n7.se/putmessage.php?groupid=4&messagetype=1&message=" + message;
             
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();

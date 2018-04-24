@@ -224,6 +224,10 @@ public class Planeringssystem {
                 //Meddela företagsgrupp att närmsta upphämtningsplats är closestPlats
                 //och att avståndet dit är tempis + resterande routeCost
                 //och att vi tänker ta första uppdraget.
+                
+                String message = ds.closestPlats + "#" + tempis + ds.routeCost + "#" + uppdragsIDArray[0];
+                hg.putmessage(message);
+                
             }
             else{
                 //Här ska vi ta fler uppdrag från listan av de som vill samåka
