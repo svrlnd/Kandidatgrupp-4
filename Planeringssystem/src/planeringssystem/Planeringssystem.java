@@ -220,7 +220,7 @@ public class Planeringssystem {
                 pointsArray[i] = dummyList3[4];
             }
             
-            if (Integer.parseInt(passengersArray [0]) >= ds.cap){
+            if (5 >= ds.cap){ //Integer.parseInt(passengersArray [0])
                 //Meddela företagsgrupp att närmsta upphämtningsplats är closestPlats
                 //och att avståndet dit är tempis + resterande routeCost
                 //och att vi tänker ta första uppdraget.
