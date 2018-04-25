@@ -27,10 +27,10 @@ public class HTTPgrupp {
 
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
-            System.out.println("\nAnropar: " + url);
+            //System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            System.out.println("Statuskod: " + mottagen_status);
+            //System.out.println("Statuskod: " + mottagen_status);
 
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
@@ -76,10 +76,10 @@ public class HTTPgrupp {
             
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
-            System.out.println("\nAnropar: " + url);
+            //System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            System.out.println("Statuskod: " + mottagen_status);
+            //System.out.println("Statuskod: " + mottagen_status);
 
         } catch (Exception e) {
             System.out.print(e.toString());
