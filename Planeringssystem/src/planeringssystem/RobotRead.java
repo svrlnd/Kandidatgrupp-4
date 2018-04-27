@@ -136,8 +136,4 @@ public class RobotRead implements Runnable {
     public String getCurrentStatus() { //Kanske ska vara en int istället för String eftersom det är de 16 bytes vi får av dem.
         return currentStatus;
     }
-//    public String getCurrentStatus(){
-//        //return currentStatus;
-//    }
-
 }

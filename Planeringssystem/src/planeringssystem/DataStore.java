@@ -24,18 +24,13 @@ public class DataStore {
     int[] arcCost;
     int routeCost;
     int min; //Kostnaden till den närmsta upphämtningsplatsen
-//    int [] dummyArcStart;
-//    int [] dummyArcEnd;
-//    int [] dummyStartKoorX;
-//    int [] dummyStartKoorY;
-//    int [] dummyEndKoorX;
-//    int [] dummyEndKoorY;
     LinkedList<Integer> dummyArcStart;
     LinkedList<Integer> dummyArcEnd;
     LinkedList<Integer> dummyStartKoorX;
     LinkedList<Integer> dummyStartKoorY;
     LinkedList<Integer> dummyEndKoorX;
     LinkedList<Integer> dummyEndKoorY;
+    LinkedList<String> instructions;
     int korsningLength;
     int[] a;
     int n;
@@ -44,7 +39,6 @@ public class DataStore {
     double robotX;
     double robotY;
     int[] arcColor;
-    //int[] arcRoute; //De länkar som ingår i rutten
     LinkedList<Integer> arcRoute;
     double dummyX;
     double dummyY;
@@ -80,23 +74,17 @@ public class DataStore {
         arcStart = new int[1000];
         arcEnd = new int[1000];
         arcCost = new int[1000];
-//        dummyArcStart = new int [128];
-//        dummyArcEnd = new int [128];
-//        dummyStartKoorX = new int [128];
-//        dummyStartKoorY = new int [128];
-//        dummyEndKoorX = new int [128];
-//        dummyEndKoorY = new int [128];
         dummyArcStart = new LinkedList<Integer>();
         dummyArcEnd = new LinkedList<Integer>();
         dummyStartKoorX = new LinkedList<Integer>();
         dummyStartKoorY = new LinkedList<Integer>();
         dummyEndKoorX = new LinkedList<Integer>();
         dummyEndKoorY = new LinkedList<Integer>();
+        instructions = new LinkedList<String>();
         korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
         arcColor = new int[128];
-        //arcRoute = new int[128];
         arcRoute = new LinkedList<Integer>();
         dummyX = 0;
         dummyY = 0;
