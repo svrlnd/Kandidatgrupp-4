@@ -19,6 +19,7 @@ public class RobotRead implements Runnable {
     private String tempMeddelande;
     private String spegling;
     private String[] agv;
+    private String[] split_in;
     private String start;
 
     public RobotRead(DataStore ds, GUI gui) {
@@ -67,10 +68,30 @@ public class RobotRead implements Runnable {
                 
 
                 //Detta borde vara i en Thread? Det ska uppdateras med 0,2 s (= 200 ms) mellanrum. 
-                ds.meddelande = start + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion
+                ds.meddelande_ut = start + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion
                         + ds.kontroll + ' ' + '.' + spegling + "$";
 
-                gui.appendErrorMessage(ds.meddelande);
+                gui.appendErrorMessage(ds.meddelande_ut);
+                ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV
+                split_in = ds.meddelande_in.split("(?!^)");
+                
+                if (Integer.parseInt(split_in [5]) != ds.kontroll){
+                    start = "1"; //Eftersom detta får AGV:n att starta om
+                } 
+                
+                if (Integer.parseInt(split_in [8]) == ds.ordernummer){
+                    ds.ordernummer += 1;
+                    //Uppdatera curNode till current arcEnd på något sätt.
+                    //Behöver vi en getCurrentarcEnd i optplan eller nånstans?
+                }
+               
+                
+                
+                
+                
+                
+                
+                
 
 //        tr = new Transceiver();
 //        tempMeddelande = tr.Transceiver(ds.meddelande);

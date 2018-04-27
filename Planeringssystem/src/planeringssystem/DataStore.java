@@ -64,8 +64,10 @@ public class DataStore {
     char antal_passagerare;
     char korinstruktion;
     char kontroll;
-    String meddelande;
+    String meddelande_in;
+    String meddelande_ut;
     String closestPlats;
+    int curNode;
 
     // Testing testing
     public DataStore() {
@@ -105,8 +107,10 @@ public class DataStore {
         antal_passagerare = '0';
         korinstruktion = 'd';
         kontroll = '!';
-        meddelande = "";
+        meddelande_in = "";
+        meddelande_ut = "";
         directionNextArc = "";
+        curNode = 17;
         
 
 
