@@ -22,6 +22,8 @@ public class DataStore {
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
+    int routeCost;
+    int min; //Kostnaden till den närmsta upphämtningsplatsen
     LinkedList<Integer> dummyArcStart;
     LinkedList<Integer> dummyArcEnd;
     LinkedList<Integer> dummyStartKoorX;
@@ -50,6 +52,14 @@ public class DataStore {
     RobotRead rr;
     GUI gui;
     boolean flagCoordinates;
+    //meddelande-variabler
+    char enable;
+    char ordernummer;
+    char antal_passagerare;
+    char korinstruktion;
+    char kontroll;
+    String meddelande;
+    String closestPlats;
 
     // Testing testing
     public DataStore() {
@@ -78,7 +88,15 @@ public class DataStore {
         dummyY = 0;
         cap = 4;
         direction = "N";
+        enable = '1';
+        ordernummer = '!';
+        antal_passagerare = '0';
+        korinstruktion = 'd';
+        kontroll = '!';
+        meddelande = "";
         directionNextArc = "";
+        
+
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
         gui = new GUI(this);

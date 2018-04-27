@@ -16,15 +16,17 @@ public class OptPlan {
     public int createPlan(int start_node, int dest_node) {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
-        cost = 0;
+        ds.routeCost = 0;
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
+
         start_node = 10; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
         dest_node = 7;// Här ska vi istället ta in platser från HTTP-server
 
-        int start_arc = 40; //här vill vi läsa in vilket nod vi är på?
-        int dest_arc = 60;
+
+//        int start_arc = 40; //här vill vi läsa in vilket nod vi är på?
+//        int dest_arc = 60;
 
         //Set up network
         for (int i = 0; i < ds.nodes; i++) {
@@ -53,10 +55,13 @@ public class OptPlan {
                     //System.out.println("Arc: " + j); //Skirver ut de arcs som ingår i rutten
                     ds.arcColor[j] = 1;
                     ds.arcRoute.add(j);
+                    ds.routeCost += ds.arcCost[j];
                 }
             }
         }
- 
+
+        System.out.println("Kostnad "+ds.routeCost);
+
 //        // Förklara rutt för robot, dvs meddela vilken som är nästa båge. (Använder vi ens dessa?)
 //        start_arc = ds.arcRoute[0];
 //        dest_arc = ds.arcRoute[ds.arcRoute.length - 1];// minus ett ty plats 4 (array börjar på 0)
@@ -65,8 +70,9 @@ public class OptPlan {
 //        for (int i = 0; i < ds.arcRoute.length; i++) {
 //            if (ds.currentDummyArc == ds.arcRoute[i]) { // && roboten är i en korsning
 //                ds.nextDummyArc = ds.arcRoute[i + 1]; }
-        int a = 3;
-        return a;
+
+            return ds.routeCost;
+
     }
 
     public void createInstructions() {

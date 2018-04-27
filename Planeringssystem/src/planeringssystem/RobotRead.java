@@ -1,5 +1,6 @@
 package planeringssystem;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class RobotRead implements Runnable {
@@ -14,6 +15,11 @@ public class RobotRead implements Runnable {
     private int currentArc;
     private int capacity;
     private String currentStatus;
+    private Transceiver tr;
+    private String tempMeddelande;
+    private String spegling;
+    private String[] agv;
+    private String start;
 
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
@@ -31,20 +37,50 @@ public class RobotRead implements Runnable {
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
             gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
-            int i = 1;
+            int i = 0;
 
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
             while (i <= 20) {
                 while (gui.getButtonState()) {
-                    Thread.sleep(sleepTime / 1000);
+                    Thread.sleep(sleepTime / 20);
                 }
+
+                /*
+                 * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
+                 */
+                tempMeddelande = "";
+                tempMeddelande = "#12345 .1234   $";
+                start = "#";
+
+                if (gui.getButtonState()) {
+                    ds.enable = '0';
+                }
+                ds.kontroll++;
+
+                //spegling = tempMeddelande.split(".");
+                agv = tempMeddelande.split("(?!^)");
+                spegling = "";
+
+                for (int j = 9; j < agv.length; j++) {
+                    spegling += agv[j];
+                }
+                
+
+                //Detta borde vara i en Thread? Det ska uppdateras med 0,2 s (= 200 ms) mellanrum. 
+                ds.meddelande = start + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion
+                        + ds.kontroll + ' ' + '.' + spegling + "$";
+
+                gui.appendErrorMessage(ds.meddelande);
+
+//        tr = new Transceiver();
+//        tempMeddelande = tr.Transceiver(ds.meddelande);
                 Thread.sleep(sleepTime / 20);
                 ds.flagCoordinates = true;
                 //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
                 //currentY = 40;
                 currentArc = 1; // Här ska robotens aktuella länk läsas in kankse? 
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
-                gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
+                //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
                 capacity = getCurrentCapacity(8); // Hårdkodar att bilen har 8 platser totalt
                 gui.appendCapacity("Nuvarade kapacitet i AGV: " + capacity);
                 i++;
@@ -75,12 +111,8 @@ public class RobotRead implements Runnable {
         //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.
         return currentArc;
     }
-    
-    public String getCurrentStatus(){ //Kanske ska vara en int istället för String eftersom det är de 16 bytes vi får av dem.
+
+    public String getCurrentStatus() { //Kanske ska vara en int istället för String eftersom det är de 16 bytes vi får av dem.
         return currentStatus;
     }
-//    public String getCurrentStatus(){
-//        //return currentStatus;
-//    }
-
 }

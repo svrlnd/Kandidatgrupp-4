@@ -31,6 +31,7 @@ public class GuiUpdate implements Runnable {
             Thread.sleep(sleepTime / 20);
             // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
             gui.appendErrorMessage("Jag är tråd GuiUpdate! För " + i + ":e gången.");
+            
             ds.robotX = ds.robotX - 10; // Här kommer AGV:ns position istället läsas in
             
             gui.repaint();

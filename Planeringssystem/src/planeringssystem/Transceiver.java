@@ -5,13 +5,12 @@ import javax.microedition.io.*;
 import javax.bluetooth.*;
 
 public class Transceiver {
-        String meddelande_in = "";
+        String meddelande_in;
     
-        public static void
-            main(String args[]) {
-            }
-    
-    public String Transceiver (String meddelande_ut){
+    public Transceiver (){
+        meddelande_in = "";
+    }
+    public String Transceiver(String meddelande_ut){
         try {
             StreamConnection anslutning = (StreamConnection) Connector.open(
                     "btspp://201601205770:1"
