@@ -35,14 +35,14 @@ public class MapPanel extends JPanel {
             double xscale = 1.0 * width / xsize;
             double yscale = 1.0 * height / ysize;
 
-            g.setColor(Color.GREEN);
+//            g.setColor(Color.GREEN);
             g.setFont(THE_FONT);
 
-            // Draw robot as a large circle
-            g.drawOval((int) (ds.robotX * xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY * yscale) - (circlesize + 10) / 2,
-                    circlesize + 10, circlesize + 10);
-            g.fillOval((int) (ds.robotX * xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY * yscale) - (circlesize + 10) / 2,
-                    circlesize + 10, circlesize + 10);
+//            // Draw robot as a large circle
+//            g.drawOval((int) (ds.robotX * xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY * yscale) - (circlesize + 10) / 2,
+//                    circlesize + 10, circlesize + 10);
+//            g.fillOval((int) (ds.robotX * xscale) - ((circlesize + 10) / 2), height - (int) (ds.robotY * yscale) - (circlesize + 10) / 2,
+//                    circlesize + 10, circlesize + 10);
 
             // Draw nodes as circles
             g.setColor(DARK_COLOR);

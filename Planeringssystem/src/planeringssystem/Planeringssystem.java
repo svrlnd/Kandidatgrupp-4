@@ -51,7 +51,7 @@ public class Planeringssystem {
          */
         op = new OptPlan(ds);
 
-        op.createPlan(24,9);
+        op.createPlan(3,4);
         op.createInstructions();
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions (bör vara lika lång som arcRoute som just nu är 100)
         //instructions = new String [ds.arcRoute.length];
@@ -164,8 +164,8 @@ public class Planeringssystem {
                     }
                 }
             }
-            System.out.println("Närmsta positiva nod är: " + closest_postive_node);
-            System.out.println("Närmsta negativa nod är: " + closest_negative_node);
+            //System.out.println("Närmsta positiva nod är: " + closest_postive_node);
+            //System.out.println("Närmsta negativa nod är: " + closest_negative_node);
             //Nu ska vi ta reda på vilken länk dessa noder tillhör. 
             for (int a = 0; a < ds.arcs; a++) {
                 if (ds.arcStart[a] == closest_postive_node && ds.arcEnd[a] == closest_negative_node
