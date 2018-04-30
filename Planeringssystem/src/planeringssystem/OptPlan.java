@@ -76,13 +76,23 @@ public class OptPlan {
 
         //Här lägger vi till den SISTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
         //Lägg till sista länken i arcroute genom att hitta noderna för upphämtning eller avlämningen
-        
         //Om: Upphämtning på en plats
         
-        ds.arcRoute.addLast(i);
-        //Om: Avlämning på ett uppdrag
-        ds.arcRoute.addLast(i);
+        //DETTA SKA GÖRAS NÄR VI VET VAD DOM ARRAYERNA HETER (VA LITE KAOS NÄR VI INSÅG ATT DET VA NOD-NUMMER ISTÄLLER FÖR KOORDINATER)
+        //DE ARRAYERNA MÅSTE LIGGA I DATASTORE FÖR ANNARS KAN VI INTE NÅ DEM HÄRIFRÅN
         
+//        for (int i = 0; i < ds.nodes; i++) {
+//            if (startnod[0] == i && slutnod[0] == i) {
+//                ds.arcRoute.addLast(i);
+//            }
+//        }
+//        //Om: Avlämning av ett uppdrag
+//        for (int i = 0; i < ds.nodes; i++) {
+//            if (destinationUppdragX[0] == i && destinationUppdragY[0] == i) {
+//                ds.arcRoute.addLast(i);
+//            }
+//        }
+
 //        // Förklara rutt för robot, dvs meddela vilken som är nästa båge. (Använder vi ens dessa?)
 //        start_arc = ds.arcRoute[0];
 //        dest_arc = ds.arcRoute[ds.arcRoute.length - 1];// minus ett ty plats 4 (array börjar på 0)
@@ -94,7 +104,7 @@ public class OptPlan {
         return ds.routeCost;
     }
 
-    public void createInstructions() {
+    public void createInstructions() { //Ändra denna till public STRING createInstructions
 
         //Loopar igenom alla länkar i arcRoute för att ta reda på startnoden och slutnoden för dessa länkar
         for (int i = 0; i < ds.arcRoute.size(); i++) {
@@ -450,7 +460,11 @@ public class OptPlan {
         ds.instructions.add("I");
         System.out.println("Update: " + ds.instructions);
 
-        //return instructions;
+//        //Här ska vi försöka få till att den bara skickar en bokstav i taget.
+//        //Det ska ske när AGVn har svarat med att den har svängt...
+//        //På något sätt måste vi splitta och sen ändra instruktion när AGVn svarar att den har svängt
+//        int i = 0;
+//        return ds.instructions.get(i);
     }
 }
 

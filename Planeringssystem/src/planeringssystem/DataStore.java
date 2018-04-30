@@ -102,7 +102,7 @@ public class DataStore {
         cap = 4;
         direction = "E";
         enable = '1';
-        ordernummer = '!';
+        ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
         antal_passagerare = '0';
         korinstruktion = 'd';
         kontroll = '!';
