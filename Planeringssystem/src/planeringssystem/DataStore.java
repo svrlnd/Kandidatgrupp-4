@@ -32,8 +32,6 @@ public class DataStore {
     LinkedList<Integer> dummyEndKoorY;
     LinkedList<String> instructions;
     //int korsningLength;
-    int[] a;
-    int n;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
@@ -102,7 +100,7 @@ public class DataStore {
         cap = 4;
         direction = "E";
         enable = '1';
-        ordernummer = '!';
+        ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
         antal_passagerare = '0';
         korinstruktion = 'd';
         kontroll = '!';

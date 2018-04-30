@@ -22,12 +22,10 @@ public class OptPlan {
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
-        
         //TA BORT DESSA KOMMENTARER IFALL VI VILL TESTA EN BESTÄMD RUTT
         //ANNARS KÖR DEN ALLTID TILL 0 JUST NU PGA. ATT DEST_NODE ÄR 0 FÖR CLOSESTPLATS KÖRS INTE NU
         //start_node = 4; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
         //dest_node = 2;// Här ska vi istället ta in platser från HTTP-server
-
         //Set up network
         for (int i = 0; i < ds.nodes; i++) {
             Vertex location = new Vertex("" + (i + 1), "Nod #" + (i + 1));
@@ -38,7 +36,7 @@ public class OptPlan {
                     nodes.get(ds.arcEnd[i] - 1), ds.arcCost[i] - 1); //Last argument is arccost
             edges.add(lane);
         }
-        
+
         Graph graph = new Graph(nodes, edges);
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
 
@@ -59,8 +57,12 @@ public class OptPlan {
             }
         }
 
+
         System.out.println("Kostnad " + ds.routeCost);
         //Här lägger vi till den första länken i arcRoute för att det ska bli rätt med körinstruktionerna!
+
+        //System.out.println("Kostnad " + ds.routeCost);
+        //Här lägger vi till den FÖRSTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
         //Lägg till första länken i arcroute genom att hitta länken för firstNode och start_Node.
         for (int i = 0; i < ds.arcs; i++) {
             if ((ds.firstNode + 1) == ds.arcStart[i] && (start_node + 1) == ds.arcEnd[i]) {
@@ -68,6 +70,35 @@ public class OptPlan {
                 ds.arcColor[i] = 1;
             }
         }
+
+        //Här lägger vi till den FÖRSTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
+
+        //Lägg till första länken i arcroute genom att hitta länken för firstNode och start_Node.
+        for (int i = 0; i < ds.arcs; i++) {
+            if ((ds.firstNode + 1) == ds.arcStart[i] && (start_node + 1) == ds.arcEnd[i]) {
+                ds.arcRoute.addFirst(i);
+                ds.arcColor[i] = 1;
+            }
+        }
+
+        //Här lägger vi till den SISTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
+        //Lägg till sista länken i arcroute genom att hitta noderna för upphämtning eller avlämningen
+        //Om: Upphämtning på en plats
+        
+        //DETTA SKA GÖRAS NÄR VI VET VAD DOM ARRAYERNA HETER (VA LITE KAOS NÄR VI INSÅG ATT DET VA NOD-NUMMER ISTÄLLER FÖR KOORDINATER)
+        //DE ARRAYERNA MÅSTE LIGGA I DATASTORE FÖR ANNARS KAN VI INTE NÅ DEM HÄRIFRÅN
+        
+//        for (int i = 0; i < ds.nodes; i++) {
+//            if (startnod[0] == i && slutnod[0] == i) {
+//                ds.arcRoute.addLast(i);
+//            }
+//        }
+//        //Om: Avlämning av ett uppdrag
+//        for (int i = 0; i < ds.nodes; i++) {
+//            if (destinationUppdragX[0] == i && destinationUppdragY[0] == i) {
+//                ds.arcRoute.addLast(i);
+//            }
+//        }
 
 //        // Förklara rutt för robot, dvs meddela vilken som är nästa båge. (Använder vi ens dessa?)
 //        start_arc = ds.arcRoute[0];
@@ -80,7 +111,7 @@ public class OptPlan {
         return ds.routeCost;
     }
 
-    public void createInstructions() {
+    public void createInstructions() { //Ändra denna till public STRING createInstructions
 
         //Loopar igenom alla länkar i arcRoute för att ta reda på startnoden och slutnoden för dessa länkar
         for (int i = 0; i < ds.arcRoute.size(); i++) {
@@ -389,7 +420,7 @@ public class OptPlan {
 
             ds.direction = ds.directionNextArc;
         }
-        
+
         System.out.println("Array: " + ds.instructions);
 
         int counter = 0;
@@ -435,8 +466,12 @@ public class OptPlan {
 
         ds.instructions.add("I");
         System.out.println("Update: " + ds.instructions);
- 
-        //return instructions;
+
+//        //Här ska vi försöka få till att den bara skickar en bokstav i taget.
+//        //Det ska ske när AGVn har svarat med att den har svängt...
+//        //På något sätt måste vi splitta och sen ändra instruktion när AGVn svarar att den har svängt
+//        int i = 0;
+//        return ds.instructions.get(i);
     }
 }
 

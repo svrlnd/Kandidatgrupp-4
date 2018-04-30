@@ -64,10 +64,15 @@ public class Planeringssystem {
         
         if (ds.counterFirstInstructions == 0) {
             a = 4;
+            //Om plats: platsens första nod
+            //Om uppdrag: uppdragets första nod
             b = ds.dest_node;
+            
         } 
         else {
             a = ds.dummyArcEnd.getLast();
+            //Om plats: platsens första nod
+            //Om uppdrag: uppdragets första nod
             b = ds.dest_node;
         }
         op.createPlan(a, b);

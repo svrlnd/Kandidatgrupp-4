@@ -33,4 +33,14 @@ public class CreateMessage {
         return message;
     }
     
+    //Här ska meddelandet till AGVn göras, just nu avmarkerat.
+//    public String createMessage(){ //Detta är till AGVn
+//        
+//        message = "#" + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion + ds.kontroll + " " + " " + spegling;
+//        
+//        //Här ska vi spegla (verkar göras i robotread)
+//        
+//        return message;
+//    }
+//    
 }
