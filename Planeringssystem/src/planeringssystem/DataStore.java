@@ -64,7 +64,15 @@ public class DataStore {
     int curNode;
     int firstNode;
     int counterFirstInstructions;
-    int dest_node;
+    int dest_node;    
+    String[] uppdragsIDArray;
+    String[] destinationPlatserArray;
+    String[] destinationUppdragArray;
+    String[] passengersArray;
+    String[] samakningArray;
+    String[] pointsArray;
+    String[] destinationUppdragX;
+    String[] destinationUppdragY;
 
     // Testing testing
     public DataStore() {
