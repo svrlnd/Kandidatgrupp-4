@@ -119,6 +119,7 @@ public class DijkstraAlgorithm {
         }
         // Put it into the correct order
         Collections.reverse(path);
+     
         return path;
     }
 

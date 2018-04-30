@@ -46,7 +46,6 @@ public class ClosestPlats {
 
         ds.min = Integer.MAX_VALUE;
         double temp = 0;
-        int dest_node = 0;
         int next_start_node = 0;
         int closest_postive_node = 345; //tillräckligt stort?
         int closest_negative_node = 345;
@@ -101,9 +100,9 @@ public class ClosestPlats {
                 for (int a = 0; a < ds.arcs; a++) {
                     if (ds.arcStart[a] == closest_postive_node && ds.arcEnd[a] == closest_negative_node
                             || ds.arcEnd[a] == closest_postive_node && ds.arcStart[a] == closest_negative_node) {
-                        dest_node = ds.arcEnd[a];
-                        next_start_node = ds.arcStart[a];
-                        tempis = op.createPlan(17, dest_node);
+                        ds.dest_node = ds.arcEnd[a];
+                        ds.firstNode = ds.arcStart[a];
+                        tempis = op.createPlan(17, ds.dest_node);
                         if (tempis < ds.min) { // Vilken plats är närmast? (just nu kollar vi från nod 17 men vi vill kolla från föregående avlämningsplats typ?)
                             ds.min = ds.routeCost;
                             ds.closestPlats = platser[i];

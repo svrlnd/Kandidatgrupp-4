@@ -31,7 +31,7 @@ public class DataStore {
     LinkedList<Integer> dummyEndKoorX;
     LinkedList<Integer> dummyEndKoorY;
     LinkedList<String> instructions;
-    int korsningLength;
+    //int korsningLength;
     int[] a;
     int n;
     boolean networkRead;
@@ -62,6 +62,9 @@ public class DataStore {
     String meddelande_ut;
     String closestPlats;
     int curNode;
+    int firstNode;
+    int counterFirstInstructions;
+    int dest_node;
 
     // Testing testing
     public DataStore() {
@@ -81,7 +84,7 @@ public class DataStore {
         dummyEndKoorX = new LinkedList<Integer>();
         dummyEndKoorY = new LinkedList<Integer>();
         instructions = new LinkedList<String>();
-        korsningLength = 23;
+        //korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
         arcColor = new int[128];
@@ -89,7 +92,7 @@ public class DataStore {
         dummyX = 0;
         dummyY = 0;
         cap = 4;
-        direction = "N";
+        direction = "E";
         enable = '1';
         ordernummer = '!';
         antal_passagerare = '0';
@@ -99,8 +102,9 @@ public class DataStore {
         meddelande_ut = "";
         directionNextArc = "";
         curNode = 17;
-        
-
+        firstNode = 1;
+        counterFirstInstructions = 0;
+        dest_node = 0;
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
         gui = new GUI(this);

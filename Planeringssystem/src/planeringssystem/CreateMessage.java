@@ -19,7 +19,8 @@ public class CreateMessage {
                 //och att avståndet dit är tempis + resterande routeCost
                 //och att vi tänker ta första uppdraget.
                 
-                message = cp.getClosestPlats(curNode) + "#" + ds.min + ds.routeCost + "#" + uppdragsIDArray[0];
+                //TA BORT DENN AVMARKERING SEN! /GABRIELLA
+                //message = cp.getClosestPlats(curNode) + "#" + ds.min + ds.routeCost + "#" + uppdragsIDArray[0];
                 
             }
             else{

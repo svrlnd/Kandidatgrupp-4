@@ -27,6 +27,8 @@ public class Planeringssystem {
     String[] pointsArray;
     String[] destinationUppdragX;
     String[] destinationUppdragY;
+    int a;
+    int b;
 
     Planeringssystem() {
         /*
@@ -44,10 +46,26 @@ public class Planeringssystem {
         /*
          * Initialize an optplan
          */
+        
+        hg = new HTTPgrupp();
+
+        ha = new HTTPanrop();
+
+        cp = new ClosestPlats(ds, ha, op);
+        
         op = new OptPlan(ds);
 
-        op.createPlan(3, 4);
+        if (ds.counterFirstInstructions == 0) {
+            a = 4;
+            b = ds.dest_node;
+        } 
+        else {
+            a = ds.dummyArcEnd.getLast();
+            b = ds.dest_node;
+        }
+        op.createPlan(a, b);
         op.createInstructions();
+        ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions 
         //(bör vara lika lång som arcRoute som just nu är 100)
         //instructions = new String [ds.arcRoute.length];
@@ -73,12 +91,6 @@ public class Planeringssystem {
         gu = new GuiUpdate(ds, gui);
         t2 = new Thread(gu);
         t2.start();
-
-        hg = new HTTPgrupp();
-
-        ha = new HTTPanrop();
-
-        cp = new ClosestPlats(ds, ha, op);
 
         //Här ska vi bestämma vilket/vilka uppdrag som vi vill utföra.
         //Vi måste ta det första. Vi måste hålla oss till vår kapacitet
@@ -149,7 +161,6 @@ public class Planeringssystem {
 //                }
 //            }
 //        }
-
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats med op.createPlan (tror inte detta stämmer längr/A)
         // Slut på listaplatser--------------------------------------------------
 //        // Slut på listaplatser--------------------------------------------------
@@ -209,10 +220,6 @@ public class Planeringssystem {
 //
 //        System.out.println("meddelande: " + meddelande);
     //Slut på testing
-
-
-
-
     /**
      * @param args the command line arguments
      */
