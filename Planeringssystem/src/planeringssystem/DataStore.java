@@ -62,6 +62,15 @@ public class DataStore {
     String meddelande_ut;
     String closestPlats;
     int curNode;
+    
+    String[] uppdragsIDArray;
+    String[] destinationPlatserArray;
+    String[] destinationUppdragArray;
+    String[] passengersArray;
+    String[] samakningArray;
+    String[] pointsArray;
+    String[] destinationUppdragX;
+    String[] destinationUppdragY;
 
     // Testing testing
     public DataStore() {

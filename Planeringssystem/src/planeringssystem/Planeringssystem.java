@@ -16,6 +16,7 @@ public class Planeringssystem {
     HTTPgrupp hg;
     HTTPanrop ha;
     ClosestPlats cp;
+    UppdragsInfo ui;
     String[] instructions;
     String[] dummyList3;
     String[] dummyList4;
@@ -77,57 +78,16 @@ public class Planeringssystem {
         hg = new HTTPgrupp();
 
         ha = new HTTPanrop();
+        
+        ui = new UppdragsInfo(ds, ha); // Vet inte om denna fungerar
 
         cp = new ClosestPlats(ds, ha, op);
-
-        //Här ska vi bestämma vilket/vilka uppdrag som vi vill utföra.
-        //Vi måste ta det första. Vi måste hålla oss till vår kapacitet
-        //Vi måste kontrollera att samåkning tillåts.
-        // Skapa arrayer för det vi vill spara 
-        uppdragsIDArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationPlatserArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationUppdragArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        passengersArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        samakningArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        pointsArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        //platserArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationUppdragX = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationUppdragY = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-
-        //Lägg rätt information i respektive array
-        for (int i = 0; i < Integer.parseInt(ha.messagetype(ds.closestPlats)[0]); i++) {
-            dummyList3 = ha.messagetype(ds.closestPlats)[i + 1].toString().split(";");
-            uppdragsIDArray[i] = dummyList3[0];
-            destinationUppdragArray[i] = dummyList3[1]; //Fattar den att detta är två olika noder?
-            passengersArray[i] = dummyList3[2];
-            samakningArray[i] = dummyList3[3];
-            pointsArray[i] = dummyList3[4];
-        }
+        
+        
+        System.out.println("Uppdragsarray: " + Arrays.toString(ds.uppdragsIDArray));
 
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
-        //Här ska vi bestämma vilket/vilka uppdrag som vi vill utföra.
-        //Vi måste ta det första. Vi måste hålla oss till vår kapacitet
-        //Vi måste kontrollera att samåkning tillåts.
-        // Skapa arrayer för det vi vill spara 
-        uppdragsIDArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationPlatserArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationUppdragArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        passengersArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        samakningArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        pointsArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        //platserArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationUppdragX = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
-        destinationUppdragY = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
 
-        //Lägg rätt information i respektive array
-        for (int i = 0; i < Integer.parseInt(ha.messagetype(ds.closestPlats)[0]); i++) {
-            dummyList3 = ha.messagetype(ds.closestPlats)[i + 1].toString().split(";");
-            uppdragsIDArray[i] = dummyList3[0];
-            destinationUppdragArray[i] = dummyList3[1]; //Fattar den att detta är två olika noder?
-            passengersArray[i] = dummyList3[2];
-            samakningArray[i] = dummyList3[3];
-            pointsArray[i] = dummyList3[4];
-        }
 
 //        if (5 >= ds.cap) { //Integer.parseInt(passengersArray [0])
 //            //Meddela företagsgrupp att närmsta upphämtningsplats är closestPlats
@@ -150,33 +110,6 @@ public class Planeringssystem {
 //            }
 //        }
 
-        //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats med op.createPlan (tror inte detta stämmer längr/A)
-        // Slut på listaplatser--------------------------------------------------
-//        // Slut på listaplatser--------------------------------------------------
-//        // Loop för att ta fram alla uppdrag på alla de platser som fanns i listaplatser
-//        for (int j = 0; j < Integer.parseInt(ha.messagetype()[0]); j++) {
-//            //listaUppdrag----------------------------------------------------------
-//            // Skapa arrayer för det vi vill spara 
-//            uppdragsIDArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            destinationPlatserArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            destinationUppdragArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            passengersArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            samakningArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            pointsArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            //platserArray = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            destinationUppdragX = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//            destinationUppdragY = new String[Integer.parseInt(ha.messagetype(platser[j])[0])];
-//
-//            //Lägg rätt information i respektive array
-//            for (int i = 0; i < Integer.parseInt(ha.messagetype(platser[j])[0]); i++) {
-//                dummyList3 = ha.messagetype(platser[j])[i + 1].toString().split(";");
-//                uppdragsIDArray[i] = dummyList3[0];
-//                destinationUppdragArray[i] = dummyList3[1]; //Fattar den att detta är två olika noder?
-//                passengersArray[i] = dummyList3[2];
-//                samakningArray[i] = dummyList3[3];
-//                pointsArray[i] = dummyList3[4];
-//            }
-//
 //            //Ta fram koordinater för avlämningsplatserna för de uppdrag som finns på den aktuella platsen (ha.messagetype(platser[j]))
 //            for (int i = 0; i < Integer.parseInt(ha.messagetype(platser[j])[0]); i++) {
 //                dummyList4 = destinationUppdragArray[i].toString().split(",");
