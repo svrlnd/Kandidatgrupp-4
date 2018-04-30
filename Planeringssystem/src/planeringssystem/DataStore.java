@@ -32,8 +32,6 @@ public class DataStore {
     LinkedList<Integer> dummyEndKoorY;
     LinkedList<String> instructions;
     //int korsningLength;
-    int[] a;
-    int n;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
