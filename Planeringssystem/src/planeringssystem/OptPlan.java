@@ -20,12 +20,10 @@ public class OptPlan {
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
-        
         //TA BORT DESSA KOMMENTARER IFALL VI VILL TESTA EN BESTÄMD RUTT
         //ANNARS KÖR DEN ALLTID TILL 0 JUST NU PGA. ATT DEST_NODE ÄR 0 FÖR CLOSESTPLATS KÖRS INTE NU
         //start_node = 4; // Här ska vi istället ta AGVs nuvarande position, från BT-klassen
         //dest_node = 2;// Här ska vi istället ta in platser från HTTP-server
-
         //Set up network
         for (int i = 0; i < ds.nodes; i++) {
             Vertex location = new Vertex("" + (i + 1), "Nod #" + (i + 1));
@@ -36,7 +34,7 @@ public class OptPlan {
                     nodes.get(ds.arcEnd[i] - 1), ds.arcCost[i] - 1); //Last argument is arccost
             edges.add(lane);
         }
-        
+
         Graph graph = new Graph(nodes, edges);
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
 
@@ -58,7 +56,7 @@ public class OptPlan {
         }
 
         //System.out.println("Kostnad " + ds.routeCost);
-        //Här lägger vi till den första länken i arcRoute för att det ska bli rätt med körinstruktionerna!
+        //Här lägger vi till den FÖRSTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
         //Lägg till första länken i arcroute genom att hitta länken för firstNode och start_Node.
         for (int i = 0; i < ds.arcs; i++) {
             if ((ds.firstNode + 1) == ds.arcStart[i] && (start_node + 1) == ds.arcEnd[i]) {
@@ -67,6 +65,24 @@ public class OptPlan {
             }
         }
 
+        //Här lägger vi till den FÖRSTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
+        //Lägg till första länken i arcroute genom att hitta länken för firstNode och start_Node.
+        for (int i = 0; i < ds.arcs; i++) {
+            if ((ds.firstNode + 1) == ds.arcStart[i] && (start_node + 1) == ds.arcEnd[i]) {
+                ds.arcRoute.addFirst(i);
+                ds.arcColor[i] = 1;
+            }
+        }
+
+        //Här lägger vi till den SISTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
+        //Lägg till sista länken i arcroute genom att hitta noderna för upphämtning eller avlämningen
+        
+        //Om: Upphämtning på en plats
+        
+        ds.arcRoute.addLast(i);
+        //Om: Avlämning på ett uppdrag
+        ds.arcRoute.addLast(i);
+        
 //        // Förklara rutt för robot, dvs meddela vilken som är nästa båge. (Använder vi ens dessa?)
 //        start_arc = ds.arcRoute[0];
 //        dest_arc = ds.arcRoute[ds.arcRoute.length - 1];// minus ett ty plats 4 (array börjar på 0)
@@ -387,7 +403,7 @@ public class OptPlan {
 
             ds.direction = ds.directionNextArc;
         }
-        
+
         System.out.println("Array: " + ds.instructions);
 
         int counter = 0;
@@ -433,7 +449,7 @@ public class OptPlan {
 
         ds.instructions.add("I");
         System.out.println("Update: " + ds.instructions);
- 
+
         //return instructions;
     }
 }

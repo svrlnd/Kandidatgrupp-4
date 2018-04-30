@@ -112,7 +112,7 @@ public class HTTPanrop {
         return dummyList;
     } //listaplatser slut
 
-    public String messagetype(int scenario) { //aterstall
+    public void messagetype(int scenario) { //aterstall
         StringBuffer inkommande_samlat = new StringBuffer();
         
         try {
@@ -121,7 +121,6 @@ public class HTTPanrop {
 
             // Det som är avkommenterat tror jag inte behövs /A
 
-
             String url = "http://tnk111.n7.se/aterstall.php?scenario=" + scenario;
 
             URL urlobjekt = new URL(url);
@@ -129,23 +128,11 @@ public class HTTPanrop {
             System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            System.out.println("Statuskod: " + mottagen_status);
-
-
-            BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
-            String inkommande_text;
-
-            while ((inkommande_text = inkommande.readLine()) != null) {
-                inkommande_samlat.append(inkommande_text + "\n");
-            }
-
-            inkommande.close();
-            
+            System.out.println("Statuskod: " + mottagen_status);            
 
         } catch (Exception e) {
             System.out.print("catch i aterstall: " + e.toString());
         }
-        return inkommande_samlat.toString();
     }//aterstall slut
 
     public String[] messagetype(String plats) { // listaUppdrag
