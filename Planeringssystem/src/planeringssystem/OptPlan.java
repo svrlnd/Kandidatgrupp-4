@@ -17,6 +17,8 @@ public class OptPlan {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
         ds.routeCost = 0;
+        
+        System.out.println("Kostnad " + ds.routeCost);
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
@@ -57,7 +59,7 @@ public class OptPlan {
             }
         }
 
-        //System.out.println("Kostnad " + ds.routeCost);
+        System.out.println("Kostnad " + ds.routeCost);
         //Här lägger vi till den första länken i arcRoute för att det ska bli rätt med körinstruktionerna!
         //Lägg till första länken i arcroute genom att hitta länken för firstNode och start_Node.
         for (int i = 0; i < ds.arcs; i++) {

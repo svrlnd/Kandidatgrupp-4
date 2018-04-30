@@ -1,5 +1,7 @@
 package planeringssystem;
 
+import java.util.Arrays;
+
 public class UppdragsInfo {
 
     private DataStore ds;
@@ -13,11 +15,13 @@ public class UppdragsInfo {
 
     //Tog detta från mainen och hoppas att det ska göra samma sak fast i denna void
     
-    public void UppdragsInfo() {
+    public void UppdragsInfo(DataStore ds, HTTPanrop ha) {
         //Här ska vi bestämma vilket/vilka uppdrag som vi vill utföra.
         //Vi måste ta det första. Vi måste hålla oss till vår kapacitet
         //Vi måste kontrollera att samåkning tillåts.
         //Skapa arrayer för det vi vill spara 
+        System.out.println("Yo "+ds.closestPlats);
+        
         ds.uppdragsIDArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
         ds.destinationPlatserArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
         ds.destinationUppdragArray = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
@@ -36,6 +40,7 @@ public class UppdragsInfo {
             ds.passengersArray[i] = dummyList[2];
             ds.samakningArray[i] = dummyList[3];
             ds.pointsArray[i] = dummyList[4];
+            System.out.println(ds.destinationUppdragArray[i]);
         }
     }
 

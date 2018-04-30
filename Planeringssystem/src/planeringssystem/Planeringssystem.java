@@ -51,13 +51,17 @@ public class Planeringssystem {
         hg = new HTTPgrupp();
 
         ha = new HTTPanrop();
-        
-        ha.messagetype(1);
 
         cp = new ClosestPlats(ds, ha, op);
         
+        cp.getClosestPlats(41);
+        
         op = new OptPlan(ds);
-
+        
+        ui = new UppdragsInfo(ds, ha); // Vet inte om denna fungerar
+        
+        ui.UppdragsInfo(ds, ha);
+        
         if (ds.counterFirstInstructions == 0) {
             a = 4;
             b = ds.dest_node;
@@ -94,32 +98,9 @@ public class Planeringssystem {
         gu = new GuiUpdate(ds, gui);
         t2 = new Thread(gu);
         t2.start();
-        
-        ui = new UppdragsInfo(ds, ha); // Vet inte om denna fungerar
+
 
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
-
-
-//        if (5 >= ds.cap) { //Integer.parseInt(passengersArray [0])
-//            //Meddela företagsgrupp att närmsta upphämtningsplats är closestPlats
-//            //och att avståndet dit är tempis + resterande routeCost
-//            //och att vi tänker ta första uppdraget.
-//            ds.cap -= 1;//Integer.parseInt(passengersArray[0]);
-//            String message = ds.closestPlats + "#" + tempis + ds.routeCost + "#" + "1"; //uppdragsIDArray[0]
-//            hg.putmessage(message);
-//
-//        } else {
-//            //Här ska vi ta fler uppdrag från listan av de som vill samåka
-//            //Ska med en loop kontrollera om någon vill samåka.
-//            for (int i = 0; i < samakningArray.length; i++) {
-//
-//                if (Integer.parseInt(samakningArray[i]) == 1) {
-//                    //av de som vill samåka, ska vi hitta den som avviker från rutten så lite som möjligt mha createplan. 
-//                    //Vi tänker att vi behöver en ny funktion i optplan som beräknar detta genom att kika på vilka arcROutes som 
-//                    //liknar varandra mest av de uppdrag som finns på upphämtningsplatsen
-//                }
-//            }
-//        }
 
 //            //Ta fram koordinater för avlämningsplatserna för de uppdrag som finns på den aktuella platsen (ha.messagetype(platser[j]))
 //            for (int i = 0; i < Integer.parseInt(ha.messagetype(platser[j])[0]); i++) {

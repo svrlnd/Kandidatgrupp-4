@@ -67,7 +67,8 @@ public class RobotRead implements Runnable {
                 }
                 
 
-                //Detta borde vara i en Thread? Det ska uppdateras med 0,2 s (= 200 ms) mellanrum. 
+                //Detta borde vara i en Thread? Det ska uppdateras med 0,2 s (= 200 ms) mellanrum.
+                //Vi gjorde en createmessage till i createmessage
                 ds.meddelande_ut = start + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion
                         + ds.kontroll + ' ' + '.' + spegling + "$";
 
