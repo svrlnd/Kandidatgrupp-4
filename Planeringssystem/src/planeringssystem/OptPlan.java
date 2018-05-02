@@ -486,6 +486,9 @@ public class OptPlan {
 //        //På något sätt måste vi splitta och sen ändra instruktion när AGVn svarar att den har svängt
 //        int i = 0;
 //        return ds.instructions.get(i);
+//        if(AGV = svängt) {
+//            i++;
+//        }
     }
 }
 
