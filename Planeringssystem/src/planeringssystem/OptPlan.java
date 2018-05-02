@@ -43,6 +43,8 @@ public class OptPlan {
                 }
             }
         }
+        
+        ds.routeCost = cost;
 
         return cost;
     }

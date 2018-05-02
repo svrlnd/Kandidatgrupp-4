@@ -32,6 +32,7 @@ public class UppdragsInfo {
         ds.destinationUppdragX = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
         ds.destinationUppdragY = new String[Integer.parseInt(ha.messagetype(ds.closestPlats)[0])];
 
+
         //Lägg rätt information i respektive array
         for (int i = 0; i < Integer.parseInt(ha.messagetype(ds.closestPlats)[0]); i++) {
             dummyList = ha.messagetype(ds.closestPlats)[i + 1].toString().split(";");
