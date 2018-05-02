@@ -17,6 +17,7 @@ public class Planeringssystem {
     HTTPanrop ha;
     ClosestPlats cp;
     UppdragsInfo ui;
+    CreateMessage cm;
     String[] instructions;
     String[] dummyList3;
     String[] dummyList4;
@@ -51,14 +52,22 @@ public class Planeringssystem {
         ha = new HTTPanrop();
 
         op = new OptPlan(ds);
-
+        
         cp = new ClosestPlats(ds, ha, op);
-
+        
+        
+        
         cp.getClosestPlats();
-
-        ui = new UppdragsInfo(ds, ha); // Vet inte om denna fungerar
-
+        
+        ui = new UppdragsInfo(ds, ha);
+        
         ui.UppdragsInfo(ds, ha);
+        
+        cm = new CreateMessage(ds,cp);
+        
+        System.out.println(cm.createMessage());
+        
+        
 
         op.createPlan(ds.a, ds.dest_node);
         op.createInstructions();
