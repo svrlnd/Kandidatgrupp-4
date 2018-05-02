@@ -21,6 +21,7 @@ public class DataStore {
     double[] nodeY;
     int[] arcStart;
     int[] arcEnd;
+    int[] closeArc;
     int[] arcCost;
     int routeCost;
     int min; //Kostnaden till den närmsta upphämtningsplatsen
@@ -61,8 +62,8 @@ public class DataStore {
     String meddelande_in;
     String meddelande_ut;
     String closestPlats;
-    int curNode;
     int firstNode;
+    int lastNode;
     int counterFirstInstructions;
     int dest_node;
     String[] uppdragsIDArray;
@@ -74,8 +75,13 @@ public class DataStore {
     String[] destinationUppdragX;
     String[] destinationUppdragY;
     int a;
-    int b;
-
+    String[] platsLista;
+    String[] startSlutNoder;
+    String[] platser;
+    String[] noder;
+    int[] startnod;
+    int[] slutnod;
+    
     // Testing testing
     public DataStore() {
         // Initialize the datastore with fixed size arrays for storing the network data
@@ -86,6 +92,7 @@ public class DataStore {
         nodeY = new double[1000];
         arcStart = new int[1000];
         arcEnd = new int[1000];
+        closeArc = new int[1000];
         arcCost = new int[1000];
         dummyArcStart = new LinkedList<Integer>();
         dummyArcEnd = new LinkedList<Integer>();
@@ -102,7 +109,7 @@ public class DataStore {
         dummyX = 0;
         dummyY = 0;
         cap = 4;
-        direction = "E";
+        direction = "W";
         enable = '1';
         ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
         antal_passagerare = '0';
@@ -113,8 +120,7 @@ public class DataStore {
         meddelande_in = "";
         meddelande_ut = "";
         directionNextArc = "";
-        curNode = 17;
-        firstNode = 1;
+        firstNode = 71;
         counterFirstInstructions = 0;
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
@@ -172,11 +178,12 @@ public class DataStore {
                 sline = line.split(" ");
                 arcStart[i] = Integer.parseInt(sline[0].trim());
                 arcEnd[i] = Integer.parseInt(sline[1].trim());
+                closeArc[i] = Integer.parseInt(sline[2].trim());
 
                 // Här beräknas längden av länkarna
                 dummyX = nodeX[arcStart[i] - 1] - nodeX[arcEnd[i] - 1];
                 dummyY = nodeY[arcStart[i] - 1] - nodeY[arcEnd[i] - 1];
-                arcCost[i] = (int) round(sqrt(pow(dummyX, 2) + pow(dummyY, 2)));
+                arcCost[i] = closeArc[i] * (int) round(sqrt(pow(dummyX, 2) + pow(dummyY, 2)));
 
             }
 
