@@ -13,12 +13,43 @@ public class OptPlan {
         this.ds = ds;
     }
 
-    public int createPlan(int start_node, int dest_node) {
+    public int getCost(int start_node, int dest_node) {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
-        ds.routeCost = 0;
-        
-        System.out.println("Kostnad " + ds.routeCost);
+
+        for (int i = 0; i < ds.nodes; i++) {
+            Vertex location = new Vertex("" + (i + 1), "Nod #" + (i + 1));
+            nodes.add(location);
+        }
+        for (int i = 0; i < ds.arcs; i++) {
+            Edge lane = new Edge("" + (i + 1), nodes.get(ds.arcStart[i] - 1),
+                    nodes.get(ds.arcEnd[i] - 1), ds.arcCost[i] - 1); //Last argument is arccost
+            edges.add(lane);
+        }
+
+        Graph graph = new Graph(nodes, edges);
+        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
+
+        //Beräkna kortaste rutt
+        dijkstra.execute(nodes.get(start_node));
+        LinkedList<Vertex> path = dijkstra.getPath(nodes.get(dest_node));
+
+        for (int i = 0; i < path.size() - 1; i++) {
+            for (int j = 0; j < ds.arcs; j++) {
+                if (ds.arcStart[j] == Integer.parseInt(path.get(i).getId())
+                        && ds.arcEnd[j] == Integer.parseInt(path.get(i + 1).getId())) {
+                    cost += ds.arcCost[j];
+                }
+            }
+        }
+
+        return cost;
+    }
+
+    public void createPlan(int start_node, int dest_node) {
+        nodes = new ArrayList<Vertex>();
+        edges = new ArrayList<Edge>();
+
 
         //Här hade vi scanner för att läsa in var vi ville börja och sluta
         //Men det tog jag väck, för det ska vi ju läsa av hos AGV sen /S
@@ -52,13 +83,10 @@ public class OptPlan {
                     //System.out.println("Arc: " + j); //Skriver ut de arcs som ingår i rutten
                     ds.arcColor[j] = 1;
                     ds.arcRoute.add(j);
-                    ds.routeCost += ds.arcCost[j];
                 }
             }
         }
 
-
-        System.out.println("Kostnad " + ds.routeCost);
         //Här lägger vi till den första länken i arcRoute för att det ska bli rätt med körinstruktionerna!
 
         //System.out.println("Kostnad " + ds.routeCost);
@@ -71,23 +99,11 @@ public class OptPlan {
             }
         }
 
-        //Här lägger vi till den FÖRSTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
-
-        //Lägg till första länken i arcroute genom att hitta länken för firstNode och start_Node.
-        for (int i = 0; i < ds.arcs; i++) {
-            if ((ds.firstNode + 1) == ds.arcStart[i] && (start_node + 1) == ds.arcEnd[i]) {
-                ds.arcRoute.addFirst(i);
-                ds.arcColor[i] = 1;
-            }
-        }
-
         //Här lägger vi till den SISTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
         //Lägg till sista länken i arcroute genom att hitta noderna för upphämtning eller avlämningen
         //Om: Upphämtning på en plats
-        
         //DETTA SKA GÖRAS NÄR VI VET VAD DOM ARRAYERNA HETER (VA LITE KAOS NÄR VI INSÅG ATT DET VA NOD-NUMMER ISTÄLLER FÖR KOORDINATER)
         //DE ARRAYERNA MÅSTE LIGGA I DATASTORE FÖR ANNARS KAN VI INTE NÅ DEM HÄRIFRÅN
-        
 //        for (int i = 0; i < ds.nodes; i++) {
 //            if (startnod[0] == i && slutnod[0] == i) {
 //                ds.arcRoute.addLast(i);
@@ -99,7 +115,6 @@ public class OptPlan {
 //                ds.arcRoute.addLast(i);
 //            }
 //        }
-
 //        // Förklara rutt för robot, dvs meddela vilken som är nästa båge. (Använder vi ens dessa?)
 //        start_arc = ds.arcRoute[0];
 //        dest_arc = ds.arcRoute[ds.arcRoute.length - 1];// minus ett ty plats 4 (array börjar på 0)
@@ -108,7 +123,6 @@ public class OptPlan {
 //        for (int i = 0; i < ds.arcRoute.length; i++) {
 //            if (ds.currentDummyArc == ds.arcRoute[i]) { // && roboten är i en korsning
 //                ds.nextDummyArc = ds.arcRoute[i + 1]; }
-        return ds.routeCost;
     }
 
     public void createInstructions() { //Ändra denna till public STRING createInstructions

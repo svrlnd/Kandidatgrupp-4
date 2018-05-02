@@ -16,9 +16,9 @@ public class DataStore {
     String fileName = null;
     int nodes;
     int arcs;
-    double [] nodeNumber;
-    double [] nodeX;
-    double [] nodeY;
+    double[] nodeNumber;
+    double[] nodeX;
+    double[] nodeY;
     int[] arcStart;
     int[] arcEnd;
     int[] arcCost;
@@ -62,7 +62,7 @@ public class DataStore {
     int curNode;
     int firstNode;
     int counterFirstInstructions;
-    int dest_node;    
+    int dest_node;
     String[] uppdragsIDArray;
     String[] destinationPlatserArray;
     String[] destinationUppdragArray;
@@ -71,6 +71,8 @@ public class DataStore {
     String[] pointsArray;
     String[] destinationUppdragX;
     String[] destinationUppdragY;
+    int a;
+    int b;
 
     // Testing testing
     public DataStore() {
@@ -110,7 +112,6 @@ public class DataStore {
         curNode = 17;
         firstNode = 1;
         counterFirstInstructions = 0;
-        dest_node = 0;
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
         gui = new GUI(this);

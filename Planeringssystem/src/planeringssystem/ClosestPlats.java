@@ -21,7 +21,17 @@ public class ClosestPlats {
         this.op = op;
     }
 
-    public String getClosestPlats(int curNode) {
+    public String getClosestPlats() {
+
+        if (ds.counterFirstInstructions == 0) {
+            ds.a = 4;
+            //Om plats: platsens första nod
+            //Om uppdrag: uppdragets första nod
+            ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
+
+        } else {
+            ds.a = ds.dummyArcEnd.getLast();
+        }
 
         platsLista = new String[Integer.parseInt(ha.messagetype()[0])];
         startSlutNoder = new String[Integer.parseInt(ha.messagetype()[0])];
@@ -40,8 +50,8 @@ public class ClosestPlats {
         //Dela upp noderna i varsin array ("startnod" och "slutnod").
         for (int j = 0; j < Integer.parseInt(ha.messagetype()[0]); j++) {
             startSlutNoder = noder[j].split(",");
-            startnod[j] = Integer.parseInt(startSlutNoder[0]);
-            slutnod[j] = Integer.parseInt(startSlutNoder[1]);
+            startnod[j] = Integer.parseInt(startSlutNoder[0]) - 1;
+            slutnod[j] = Integer.parseInt(startSlutNoder[1]) - 1;
         }
 
         System.out.println(Arrays.toString(startnod));
@@ -118,16 +128,16 @@ public class ClosestPlats {
 //            }
 //        }
         for (int i = 0; i < platser.length; i++) {
-            System.out.println("Curnode: " + curNode + " Startnod: " + startnod[i]);
-            tempis = op.createPlan(curNode, startnod[i]); //HÄR ÄR NÅGOT KNAS, FÅR TA EN KIK PÅ DET NÄSTA GÅNG
+            System.out.println("Curnode: " + ds.a + " Startnod: " + startnod[i]);
+            tempis = op.getCost(ds.a, startnod[i]); //HÄR ÄR NÅGOT KNAS, FÅR TA EN KIK PÅ DET NÄSTA GÅNG
+            System.out.println("Tempis är " + tempis);
             if (tempis < ds.min) { // Vilken plats är närmast? (just nu kollar vi från nod 17 men vi vill kolla från föregående avlämningsplats typ?)
                 ds.min = ds.routeCost;
                 ds.closestPlats = platser[i];
                 System.out.println("Närmsta upphämtningsplats är " + ds.closestPlats);
+                ds.dest_node = startnod[i];
             }
         }
-        
-        
 
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
         return ds.closestPlats;

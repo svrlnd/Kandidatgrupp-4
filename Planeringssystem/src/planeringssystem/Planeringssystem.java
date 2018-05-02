@@ -28,8 +28,7 @@ public class Planeringssystem {
     String[] pointsArray;
     String[] destinationUppdragX;
     String[] destinationUppdragY;
-    int a;
-    int b;
+
 
     Planeringssystem() {
         /*
@@ -47,37 +46,22 @@ public class Planeringssystem {
         /*
          * Initialize an optplan
          */
-        
         hg = new HTTPgrupp();
 
         ha = new HTTPanrop();
 
-        cp = new ClosestPlats(ds, ha, op);
-        
-        cp.getClosestPlats(41);
-        
         op = new OptPlan(ds);
-        
+
+        cp = new ClosestPlats(ds, ha, op);
+
+        cp.getClosestPlats();
+
         ui = new UppdragsInfo(ds, ha); // Vet inte om denna fungerar
-        
+
         ui.UppdragsInfo(ds, ha);
-        
-        if (ds.counterFirstInstructions == 0) {
-            a = 4;
-            //Om plats: platsens första nod
-            //Om uppdrag: uppdragets första nod
-            b = ds.dest_node;
-            
-        } 
-        else {
-            a = ds.dummyArcEnd.getLast();
-            //Om plats: platsens första nod
-            //Om uppdrag: uppdragets första nod
-            b = ds.dest_node;
-        }
-        op.createPlan(a, b);
+
+        op.createPlan(ds.a, ds.dest_node);
         op.createInstructions();
-        ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions 
         //(bör vara lika lång som arcRoute som just nu är 100)
         //instructions = new String [ds.arcRoute.length];
@@ -104,9 +88,7 @@ public class Planeringssystem {
         t2 = new Thread(gu);
         t2.start();
 
-
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
-
 //            //Ta fram koordinater för avlämningsplatserna för de uppdrag som finns på den aktuella platsen (ha.messagetype(platser[j]))
 //            for (int i = 0; i < Integer.parseInt(ha.messagetype(platser[j])[0]); i++) {
 //                dummyList4 = destinationUppdragArray[i].toString().split(",");
