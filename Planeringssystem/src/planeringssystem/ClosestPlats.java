@@ -7,12 +7,6 @@ public class ClosestPlats {
     private DataStore ds;
     private HTTPanrop ha;
     private OptPlan op;
-    String[] platsLista;
-    String[] startSlutNoder;
-    String[] platser;
-    String[] noder;
-    int[] startnod;
-    int[] slutnod;
     int tempis;
 
     public ClosestPlats(DataStore ds, HTTPanrop ha, OptPlan op) {
@@ -24,7 +18,7 @@ public class ClosestPlats {
     public String getClosestPlats() {
 
         if (ds.counterFirstInstructions == 0) {
-            ds.a = 4;
+            ds.a = 66;
             //Om plats: platsens första nod
             //Om uppdrag: uppdragets första nod
             ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
@@ -33,29 +27,29 @@ public class ClosestPlats {
             ds.a = ds.dummyArcEnd.getLast();
         }
 
-        platsLista = new String[Integer.parseInt(ha.messagetype()[0])];
-        startSlutNoder = new String[Integer.parseInt(ha.messagetype()[0])];
-        platser = new String[Integer.parseInt(ha.messagetype()[0])];
-        noder = new String[Integer.parseInt(ha.messagetype()[0])];
-        startnod = new int[Integer.parseInt(ha.messagetype()[0])];
-        slutnod = new int[Integer.parseInt(ha.messagetype()[0])];
+        ds.platsLista = new String[Integer.parseInt(ha.messagetype()[0])];
+        ds.startSlutNoder = new String[Integer.parseInt(ha.messagetype()[0])];
+        ds.platser = new String[Integer.parseInt(ha.messagetype()[0])];
+        ds.noder = new String[Integer.parseInt(ha.messagetype()[0])];
+        ds.startnod = new int[Integer.parseInt(ha.messagetype()[0])];
+        ds.slutnod = new int[Integer.parseInt(ha.messagetype()[0])];
 
         //lägg alla upphämtningsplatser i "platser", samt deras NODER (start, slut) som alltså representerar en länk.
         for (int i = 0; i < Integer.parseInt(ha.messagetype()[0]); i++) {
-            platsLista = ha.messagetype()[i + 1].split(";");
-            platser[i] = platsLista[0];
-            noder[i] = platsLista[1];
+            ds.platsLista = ha.messagetype()[i + 1].split(";");
+            ds.platser[i] = ds.platsLista[0];
+            ds.noder[i] = ds.platsLista[1];
         }
-        System.out.println(Arrays.toString(platser));
+        System.out.println(Arrays.toString(ds.platser));
         //Dela upp noderna i varsin array ("startnod" och "slutnod").
         for (int j = 0; j < Integer.parseInt(ha.messagetype()[0]); j++) {
-            startSlutNoder = noder[j].split(",");
-            startnod[j] = Integer.parseInt(startSlutNoder[0]) - 1;
-            slutnod[j] = Integer.parseInt(startSlutNoder[1]) - 1;
+            ds.startSlutNoder = ds.noder[j].split(",");
+            ds.startnod[j] = Integer.parseInt(ds.startSlutNoder[0]) - 1;
+            ds.slutnod[j] = Integer.parseInt(ds.startSlutNoder[1]) - 1;
         }
 
-        System.out.println(Arrays.toString(startnod));
-        System.out.println(Arrays.toString(slutnod));
+        System.out.println(Arrays.toString(ds.startnod));
+        System.out.println(Arrays.toString(ds.slutnod));
 
 //        platsX[2] = 435;
 //        platsY[2] = 16;
@@ -127,18 +121,20 @@ public class ClosestPlats {
 //                }
 //            }
 //        }
-        for (int i = 0; i < platser.length; i++) {
-            System.out.println("Curnode: " + ds.a + " Startnod: " + startnod[i]);
-            tempis = op.getCost(ds.a, startnod[i]); //HÄR ÄR NÅGOT KNAS, FÅR TA EN KIK PÅ DET NÄSTA GÅNG
+        for (int i = 0; i < ds.platser.length; i++) {
+            System.out.println("Curnode: " + ds.a + " Startnod: " + ds.startnod[i]);
+            tempis = op.getCost(ds.a, ds.startnod[i]); //HÄR ÄR NÅGOT KNAS, FÅR TA EN KIK PÅ DET NÄSTA GÅNG
             System.out.println("Tempis är " + tempis);
             if (tempis < ds.min) { // Vilken plats är närmast? (just nu kollar vi från nod 17 men vi vill kolla från föregående avlämningsplats typ?)
-                ds.min = ds.routeCost;
-                ds.closestPlats = platser[i];
+                ds.min = tempis;
+                ds.closestPlats = ds.platser[i];
                 System.out.println("Närmsta upphämtningsplats är " + ds.closestPlats);
-                ds.dest_node = startnod[i];
-            }
+                ds.dest_node = ds.startnod[i];
+                ds.lastNode = ds.slutnod[i];
+            }   
         }
-
+        
+        System.out.println("näst sista: "+ds.dest_node+ "\n" +"sista: "+ds.lastNode);
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
         return ds.closestPlats;
     }

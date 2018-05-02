@@ -16,7 +16,8 @@ public class OptPlan {
     public int getCost(int start_node, int dest_node) {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
-
+        cost = 0;
+        
         for (int i = 0; i < ds.nodes; i++) {
             Vertex location = new Vertex("" + (i + 1), "Nod #" + (i + 1));
             nodes.add(location);
@@ -104,12 +105,17 @@ public class OptPlan {
         //Om: Upphämtning på en plats
         //DETTA SKA GÖRAS NÄR VI VET VAD DOM ARRAYERNA HETER (VA LITE KAOS NÄR VI INSÅG ATT DET VA NOD-NUMMER ISTÄLLER FÖR KOORDINATER)
         //DE ARRAYERNA MÅSTE LIGGA I DATASTORE FÖR ANNARS KAN VI INTE NÅ DEM HÄRIFRÅN
-//        for (int i = 0; i < ds.nodes; i++) {
-//            if (startnod[0] == i && slutnod[0] == i) {
-//                ds.arcRoute.addLast(i);
-//            }
-//        }
-//        //Om: Avlämning av ett uppdrag
+        for (int i = 0; i < ds.arcs; i++) {
+            if (ds.dest_node + 1 == ds.arcStart[i] && ds.lastNode + 1 == ds.arcEnd[i]) {
+                    ds.arcRoute.addLast(i);
+                    ds.arcColor[i] = 1;
+                    
+                }
+        }
+        
+        
+        ////Om: Avlämning av ett uppdrag. DETTA VET VI KANSKE GENOM EN FLAG(?). 
+        ////Gör en klass som heter "ClosestUppdrag", som fungerar precis som ClosestPlats fast med uppdrag
 //        for (int i = 0; i < ds.nodes; i++) {
 //            if (destinationUppdragX[0] == i && destinationUppdragY[0] == i) {
 //                ds.arcRoute.addLast(i);
@@ -438,6 +444,10 @@ public class OptPlan {
         System.out.println("Array: " + ds.instructions);
 
         int counter = 0;
+        
+        if(ds.instructions.getLast() == "D") {
+            ds.instructions.removeLast();
+        }
 
         for (int i = 0; i < ds.instructions.size() - 2 + counter; i++) {
 
@@ -446,7 +456,7 @@ public class OptPlan {
                 ds.instructions.remove(i);
                 ds.instructions.remove(i);
                 ds.instructions.remove(i);
-                ds.instructions.remove(i);
+                //ds.instructions.remove(i); Kankse nån if, prova med AGV först
                 ds.instructions.add(i, "H");
             } // Hanterar stark vänster (passerar två korsningslänkar) 
             else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "C")) {
@@ -481,14 +491,6 @@ public class OptPlan {
         ds.instructions.add("I");
         System.out.println("Update: " + ds.instructions);
 
-//        //Här ska vi försöka få till att den bara skickar en bokstav i taget.
-//        //Det ska ske när AGVn har svarat med att den har svängt...
-//        //På något sätt måste vi splitta och sen ändra instruktion när AGVn svarar att den har svängt
-//        int i = 0;
-//        return ds.instructions.get(i);
-//        if(AGV = svängt) {
-//            i++;
-//        }
     }
 }
 
