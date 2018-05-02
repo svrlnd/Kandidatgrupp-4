@@ -37,7 +37,7 @@ public class CreateMessage {
 //    Här ska meddelandet till AGVn göras, just nu avmarkerat.
     public String createMessageAGV(){ //Detta är till AGVn
         
-        message = "#" + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion + ds.kontroll + " " + " " + spegling + '$';
+        message = "#" + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion + ds.kontroll + " " + " " + ds.spegling + '$';
         
         //Här ska vi spegla (verkar göras i robotread)
         
