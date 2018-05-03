@@ -134,7 +134,6 @@ public class ClosestPlats {
             }   
         }
         
-        System.out.println("näst sista: "+ds.dest_node+ "\n" +"sista: "+ds.lastNode);
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
         return ds.closestPlats;
     }

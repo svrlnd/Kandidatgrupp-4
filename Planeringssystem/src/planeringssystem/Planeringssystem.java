@@ -65,7 +65,7 @@ public class Planeringssystem {
         
         ui.UppdragsInfo(ds, ha, hg, cm);
         
-        System.out.println(cm.createMessageAGV());
+        System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
         
         
 
