@@ -81,6 +81,15 @@ public class DataStore {
     String[] noder;
     int[] startnod;
     int[] slutnod;
+    String[] groupList;
+    String[] groupDate;
+    String[] groupID;
+    String[] groupMessage;
+    String[] groupMessageSplit;
+    String[] groupPlats;
+    String[] groupCost;
+    String[] groupUppdrag;
+    
     
     // Testing testing
     public DataStore() {
