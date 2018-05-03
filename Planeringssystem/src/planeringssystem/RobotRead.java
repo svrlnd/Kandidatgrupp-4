@@ -56,13 +56,16 @@ public class RobotRead implements Runnable {
                     ds.enable = '0';
                 }
 
-                if (Integer.parseInt(split_in[8]) == ds.ordernummer) {
-                    ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt. 
+                int k = 0; //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
+                if (Integer.parseInt(split_in[8]) == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
+                    ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET. 
                     ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  
+                    ds.arcColor[ds.arcRoute.get(k)] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
+                    i++;
                 }
 
                 ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
-                ds.kontroll++;
+                ds.kontroll++; //kontrollvariablen förändras varje gång vi skickar något, bör den nollställas ibland? Vad händer när den kommer till slutet av ASCI-tabellen
 
                 //spegling = tempMeddelande.split(".");
                 agv = ds.meddelande_in.split("(?!^)");
@@ -80,11 +83,10 @@ public class RobotRead implements Runnable {
 
                 //Kollar att AGVns kontrollvariable är ny varje gång de skickar något
                 if (Integer.parseInt(split_in[11]) == ds.kontrollAGV) {
-                start = "1";
+                    start = "1";
                 }
-                               
-                
-                ds.kontrollAGV = split_in[11].charAt(0);
+
+                ds.kontrollAGV = split_in[11].charAt(0); // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel. 
 
                 ds.flagCoordinates = true;
                 //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
@@ -111,17 +113,17 @@ public class RobotRead implements Runnable {
     }
 
     public int getCurrentX() {
-        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.
+        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
         return currentX;
     }
 
     public int getCurrentY() {
-        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.
+        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
         return currentY;
     }
 
     public int getCurrentArc() {
-        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.
+        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
         return currentArc;
     }
 

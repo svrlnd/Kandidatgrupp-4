@@ -15,6 +15,7 @@ public class Planeringssystem {
     OptPlan op;
     HTTPgrupp hg;
     HTTPanrop ha;
+    ReadGroup rg;
     ClosestPlats cp;
     UppdragsInfo ui;
     CreateMessage cm;
@@ -29,7 +30,6 @@ public class Planeringssystem {
     String[] pointsArray;
     String[] destinationUppdragX;
     String[] destinationUppdragY;
-
 
     Planeringssystem() {
         /*
@@ -51,20 +51,23 @@ public class Planeringssystem {
 
         ha = new HTTPanrop();
 
+        rg = new ReadGroup(ds, hg);
+        rg.Read();
+
         op = new OptPlan(ds);
+
         
-        cp = new ClosestPlats(ds, ha, op);       
-        
+        cp = new ClosestPlats(ds, ha, op);               
         
         cp.getClosestPlats();
         
-        ui = new UppdragsInfo(ds, ha);
-        
-        ui.UppdragsInfo(ds, ha);
-        
         cm = new CreateMessage(ds,cp);
         
-        System.out.println(cm.createMessageAGV());
+        ui = new UppdragsInfo(ds, ha, hg, cm);
+        
+        ui.UppdragsInfo(ds, ha, hg, cm);
+        
+        System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
         
         
 

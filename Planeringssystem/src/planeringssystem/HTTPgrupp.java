@@ -7,19 +7,19 @@ import java.net.URL;
 import java.util.Arrays;
 
 public class HTTPgrupp {
+    
+    String[] dummylist;
+    int arraysize;
 
-    HTTPgrupp() {
-        
+    public HTTPgrupp() {
+        //Constructor
+        arraysize = 100;
     }
 
-    public void getmessage(int messagetype) {
-        try {
+    public String[] getmessage() { //getmessage
+        dummylist = new String[arraysize]; 
 
-            String[] dummyList;
-            String[] dummyList2;
-            String[] date = new String [100];
-            String[] groupID = new String [100];
-            String[] msg = new String [100];
+        try {
 
             HTTPanrop http = new HTTPanrop();
 
@@ -38,13 +38,11 @@ public class HTTPgrupp {
             
             while ((inkommande_text = inkommande.readLine()) != null) {
                 inkommande_samlat.append(inkommande_text + "\n");
-                System.out.println(inkommande_text);
             }
 
-            
-            dummyList = inkommande_samlat.toString().split("\n");
+            dummylist = inkommande_samlat.toString().split("\n");
            
-//            System.out.println(Arrays.toString(dummyList));
+//            System.out.println("här splittas dummylist" + Arrays.toString(dummylist));
 
 //            int i = 0;
 //            while (i < dummyList.length - 1) {
@@ -65,12 +63,14 @@ public class HTTPgrupp {
         } catch (Exception e) {
             System.out.print(e.toString());
         }
+        return dummylist;
     } //getmessage slut
 
 
     public void putmessage(String message) {
         try {
-
+            
+            //VET INTE OM DENNA FUNKAR?
 
             String url = "http://tnk111.n7.se/putmessage.php?groupid=4&messagetype=1&message=" + message;
             
