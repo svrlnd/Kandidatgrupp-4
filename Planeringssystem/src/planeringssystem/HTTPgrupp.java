@@ -18,6 +18,7 @@ public class HTTPgrupp {
 
     public String[] getmessage() { //getmessage
         dummylist = new String[arraysize]; 
+
         try {
 
             HTTPanrop http = new HTTPanrop();

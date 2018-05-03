@@ -59,14 +59,16 @@ public class Planeringssystem {
         cp = new ClosestPlats(ds, ha, op);
 
         cp.getClosestPlats();
-
-        ui = new UppdragsInfo(ds, ha);
-
-        ui.UppdragsInfo(ds, ha);
-
-        cm = new CreateMessage(ds, cp);
-
-        System.out.println(cm.createMessageAGV());
+        
+        cm = new CreateMessage(ds,cp);
+        
+        ui = new UppdragsInfo(ds, ha, hg, cm);
+        
+        ui.UppdragsInfo(ds, ha, hg, cm);
+        
+        System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
+        
+        
 
         op.createPlan(ds.a, ds.dest_node);
         op.createInstructions();
