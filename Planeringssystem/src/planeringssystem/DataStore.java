@@ -32,7 +32,6 @@ public class DataStore {
     LinkedList<Integer> dummyEndKoorX;
     LinkedList<Integer> dummyEndKoorY;
     LinkedList<String> instructions;
-    //int korsningLength;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
@@ -112,7 +111,6 @@ public class DataStore {
         dummyEndKoorX = new LinkedList<Integer>();
         dummyEndKoorY = new LinkedList<Integer>();
         instructions = new LinkedList<String>();
-        //korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
         connection = false; // Denna måste uppdateras till true när vi har en connection
@@ -206,10 +204,7 @@ public class DataStore {
             e.printStackTrace();
         }
 
-        // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
-        // koordinater! 
-        robotX = nodeX[70];
-        robotY = nodeY[70];
+        
 
         //Man måste få detta att uppdatera sig på något vis.. Kanske med en while-loop och en flag
         //Detta sker ändå före eftersom RobtoRead är en tråd?

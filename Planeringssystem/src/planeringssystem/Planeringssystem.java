@@ -56,8 +56,9 @@ public class Planeringssystem {
 
         op = new OptPlan(ds);
 
-        cp = new ClosestPlats(ds, ha, op);
-
+        
+        cp = new ClosestPlats(ds, ha, op);               
+        
         cp.getClosestPlats();
         
         cm = new CreateMessage(ds,cp);
