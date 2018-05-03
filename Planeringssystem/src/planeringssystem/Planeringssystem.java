@@ -65,7 +65,7 @@ public class Planeringssystem {
         
         cm = new CreateMessage(ds,cp);
         
-        System.out.println(cm.createMessageAGV());
+        System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
         
         
 

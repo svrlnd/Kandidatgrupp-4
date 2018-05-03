@@ -51,6 +51,7 @@ public class DataStore {
     RobotRead rr;
     GUI gui;
     boolean flagCoordinates;
+    boolean connection;
     //meddelande-variabler
     char enable;
     char ordernummer;
@@ -104,6 +105,7 @@ public class DataStore {
         //korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
+        connection = false; // Denna måste uppdateras till true när vi har en connection
         arcColor = new int[128];
         arcRoute = new LinkedList<Integer>();
         dummyX = 0;
