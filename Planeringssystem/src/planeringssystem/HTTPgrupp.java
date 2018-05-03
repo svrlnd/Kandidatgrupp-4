@@ -12,7 +12,7 @@ public class HTTPgrupp {
         
     }
 
-    public void getmessage(int messagetype) {
+    public void getmessage() {
         try {
 
             String[] dummyList;

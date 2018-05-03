@@ -72,8 +72,8 @@ public class DataStore {
     String[] passengersArray;
     String[] samakningArray;
     String[] pointsArray;
-    String[] destinationUppdragX;
-    String[] destinationUppdragY;
+    String[] destinationUppdragStart;
+    String[] destinationUppdragSlut;
     int a;
     String[] platsLista;
     String[] startSlutNoder;
