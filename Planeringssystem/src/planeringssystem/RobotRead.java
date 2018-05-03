@@ -16,8 +16,6 @@ public class RobotRead implements Runnable {
     private int capacity;
     private String currentStatus;
     private Transceiver tr;
-    private String tempMeddelande;
-    private String spegling;
     private String[] agv;
     private String[] split_in;
     private String start;
@@ -25,6 +23,7 @@ public class RobotRead implements Runnable {
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
         this.ds = ds;
+        tr = new Transceiver();
         http = new HTTPanrop();
         currentX = 70;
         currentY = 50;
@@ -45,58 +44,48 @@ public class RobotRead implements Runnable {
                 while (gui.getButtonState()) {
                     Thread.sleep(sleepTime / 20);
                 }
-
                 /*
                  * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
                  */
-                tempMeddelande = "";
-                tempMeddelande = "#12345 .1234   $";
                 start = "#";
+                ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //ds.meddelande_in = tr.Transceiver(ds.meddelande_in);
+                split_in = ds.meddelande_in.split("(?!^)");
 
+                //Uppdaterar meddelandet
                 if (gui.getButtonState()) {
                     ds.enable = '0';
                 }
+
+                if (Integer.parseInt(split_in[8]) == ds.ordernummer) {
+                    ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt. 
+                    ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  
+                }
+
+                ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
                 ds.kontroll++;
 
                 //spegling = tempMeddelande.split(".");
-                agv = tempMeddelande.split("(?!^)");
-                spegling = "";
+                agv = ds.meddelande_in.split("(?!^)");
+                ds.spegling = ""; // här nollställs spegling TA INTE BORT
 
+                //Tar fram det som ska speglas
                 for (int j = 9; j < agv.length; j++) {
-                    spegling += agv[j];
+                    ds.spegling += agv[j];
                 }
-                
 
-                //Detta borde vara i en Thread? Det ska uppdateras med 0,2 s (= 200 ms) mellanrum.
-                //Vi gjorde en createmessage till i createmessage
-                ds.meddelande_ut = start + ds.enable + ds.ordernummer + ds.antal_passagerare + ds.korinstruktion
-                        + ds.kontroll + ' ' + '.' + spegling + "$";
-
-                gui.appendErrorMessage(ds.meddelande_ut);
-                ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV
-                split_in = ds.meddelande_in.split("(?!^)");
-                
-                if (Integer.parseInt(split_in [5]) != ds.kontroll){
+                //Kollar så att speglingen har samma kontrollvariabel som vi skickade iväg
+                if (Integer.parseInt(split_in[5]) != ds.kontroll) {
                     start = "1"; //Eftersom detta får AGV:n att starta om
-                } 
-                
-                if (Integer.parseInt(split_in [8]) == ds.ordernummer){
-                    ds.ordernummer += 1;
-                    //Uppdatera curNode till current arcEnd på något sätt.
-                    //Behöver vi en getCurrentarcEnd i optplan eller nånstans?
                 }
-               
-                
-                
-                
-                
-                
-                
-                
 
-//        tr = new Transceiver();
-//        tempMeddelande = tr.Transceiver(ds.meddelande);
-                Thread.sleep(sleepTime / 20);
+                //Kollar att AGVns kontrollvariable är ny varje gång de skickar något
+                if (Integer.parseInt(split_in[11]) == ds.kontrollAGV) {
+                start = "1";
+                }
+                               
+                
+                ds.kontrollAGV = split_in[11].charAt(0);
+
                 ds.flagCoordinates = true;
                 //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
                 //currentY = 40;
@@ -105,6 +94,8 @@ public class RobotRead implements Runnable {
                 //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
                 capacity = getCurrentCapacity(8); // Hårdkodar att bilen har 8 platser totalt
                 gui.appendCapacity("Nuvarade kapacitet i AGV: " + capacity);
+
+                Thread.sleep(200);
                 i++;
             }
         } catch (Exception e) {

@@ -55,8 +55,10 @@ public class DataStore {
     char enable;
     char ordernummer;
     char antal_passagerare;
-    char korinstruktion;
+    String korinstruktion; //Kan denna vara String eller måste den vara en char? 
     char kontroll;
+    char kontrollAGV;
+    String spegling;
     String meddelande_in;
     String meddelande_ut;
     String closestPlats;
@@ -111,8 +113,10 @@ public class DataStore {
         enable = '1';
         ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
         antal_passagerare = '0';
-        korinstruktion = 'd';
+        korinstruktion = "d";
         kontroll = '!';
+        kontrollAGV = ' ';
+        spegling = "";
         meddelande_in = "";
         meddelande_ut = "";
         directionNextArc = "";

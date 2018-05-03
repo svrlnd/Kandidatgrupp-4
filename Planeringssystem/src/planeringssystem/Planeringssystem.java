@@ -65,7 +65,7 @@ public class Planeringssystem {
         
         cm = new CreateMessage(ds,cp);
         
-        System.out.println(cm.createMessage());
+        System.out.println(cm.createMessageAGV());
         
         
 
