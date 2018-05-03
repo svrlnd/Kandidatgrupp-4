@@ -17,7 +17,7 @@ public class Transceiver {
             );
             PrintStream bluetooth_ut = new PrintStream(anslutning.openOutputStream());
             
-            InputStream bluetooth_in = anslutning.openInputStream(); // new InputStream(anslutning.openInputStream()); ?
+            InputStream bluetooth_in = anslutning.openInputStream(); 
             byte buffer[] = new byte[16];        
             
             while (true) {
@@ -33,7 +33,7 @@ public class Transceiver {
                 
                 String meddelande_in = new String(buffer, 0, antal_bytes);
             
-            System.out.println("\n" + "Mottaget meddelande: " + meddelande_in); // return meddelande_in;
+            System.out.println("\n" + "Mottaget meddelande: " + meddelande_in);
             }
             anslutning.close();
         } catch (Exception e) {
