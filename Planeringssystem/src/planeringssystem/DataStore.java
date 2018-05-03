@@ -47,6 +47,7 @@ public class DataStore {
     String direction;
     String directionNextArc;
     int cap; // AGV capacity
+    int initial_cap;
     //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna
     RobotRead rr;
     GUI gui;
@@ -120,6 +121,7 @@ public class DataStore {
         dummyX = 0;
         dummyY = 0;
         cap = 4;
+        initial_cap= 4;
         direction = "W";
         enable = '1';
         ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
@@ -131,7 +133,7 @@ public class DataStore {
         meddelande_in = "";
         meddelande_ut = "";
         directionNextArc = "";
-        firstNode = 71;
+        firstNode = 1;
         counterFirstInstructions = 0;
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?

@@ -51,8 +51,8 @@ public class Planeringssystem {
 
         ha = new HTTPanrop();
 
-        rg = new ReadGroup(ds, hg);
-        rg.Read();
+//        rg = new ReadGroup(ds, hg);
+//        rg.Read();
 
         op = new OptPlan(ds);
 
@@ -67,6 +67,8 @@ public class Planeringssystem {
         ui.UppdragsInfo(ds, ha, hg, cm);
         
         System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
+        
+        hg.putmessage(cm.createMessage("A", "50", "3"));
         
         
 

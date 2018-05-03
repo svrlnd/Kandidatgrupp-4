@@ -14,24 +14,7 @@ public class CreateMessage {
     public String createMessage(String plats,String kostnad,String uppdrag) {//Detta är till gruppen
         
         message = plats + "!" + kostnad + "!" + uppdrag;
-//        if (ds.cap <= 5) { //Integer.parseInt(passengersArray [0])
-//            //Meddela företagsgrupp att närmsta upphämtningsplats är closestPlats
-//            //och att avståndet dit är tempis + resterande routeCost
-//            //och att vi tänker ta första uppdraget.
-//            
-//            
-//            
-//            message = ds.closestPlats + "#" + (ds.min /* + ds.routeCost OBS! detta ska vara kvarvarande kostnad på nuvarande rutt*/) + "#" + ds.uppdragsIDArray[0];
-//        } else {
-//            //Här ska vi ta fler uppdrag från listan av de som vill samåka
-////                if{
-//            //ska med en loop kontrollera om någon vill samåka. 
-//            //av de som vill samåka, ska vi hitta den som avviker från rutten så lite som möjligt mha createplan
-////                }
-//
-//            message = cp.getClosestPlats() + "#" + ds.min + ds.routeCost + "#" + ds.uppdragsIDArray[0];
-//            System.out.println(message);
-//        }
+
         return message;
     }
 
