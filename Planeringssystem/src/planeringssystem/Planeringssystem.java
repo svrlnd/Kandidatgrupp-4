@@ -7,6 +7,7 @@ import java.lang.Math;
 public class Planeringssystem {
 
     DataStore ds;
+    Transceiver tr;
     GUI gui;
     RobotRead rr;
     GuiUpdate gu;
@@ -43,36 +44,31 @@ public class Planeringssystem {
          */
         ds.setFileName("streets.txt");
         ds.readNet();
+        
+        tr = new Transceiver(); 
 
-        /*
-         * Initialize an optplan
-         */
         hg = new HTTPgrupp();
 
         ha = new HTTPanrop();
+        ha.messagetype("A", 1, 1);
 
         rg = new ReadGroup(ds, hg);
         rg.Read();
 
         op = new OptPlan(ds);
 
-        
         cp = new ClosestPlats(ds, ha, op);               
         
         cp.getClosestPlats();
         
         cm = new CreateMessage(ds,cp);
         
-        ui = new UppdragsInfo(ds, ha, hg, cm);
+        ui = new UppdragsInfo(ds, ha, hg, cm, op);
         
         ui.UppdragsInfo(ds, ha, hg, cm);
         
         System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
         
-        hg.putmessage(cm.createMessage("A", "50", "3"));
-        
-        
-
         op.createPlan(ds.a, ds.dest_node);
         op.createInstructions();
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions 
@@ -90,7 +86,7 @@ public class Planeringssystem {
         /*
          * Initialize RobotRead with its Thread
          */
-        rr = new RobotRead(ds, gui);
+        rr = new RobotRead(ds, gui, tr, ha);
         t1 = new Thread(rr);
         t1.start();
 
