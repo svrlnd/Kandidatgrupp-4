@@ -51,8 +51,8 @@ public class Planeringssystem {
 
         ha = new HTTPanrop();
 
-//        rg = new ReadGroup(ds, hg);
-//        rg.Read();
+        rg = new ReadGroup(ds, hg);
+        rg.Read();
 
         op = new OptPlan(ds);
 
