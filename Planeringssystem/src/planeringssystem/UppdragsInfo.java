@@ -14,6 +14,7 @@ public class UppdragsInfo {
     private int minst;
     private int temp;
     String message;
+    int temp_cap;
 
     public UppdragsInfo(DataStore ds, HTTPanrop ha, HTTPgrupp hg, CreateMessage cm) {
         this.ds = ds;
@@ -42,6 +43,7 @@ public class UppdragsInfo {
         //platserArray = new String[len];
         ds.destinationUppdragStart = new String[len];
         ds.destinationUppdragSlut = new String[len];
+        temp_cap = ds.initial_cap;
 
         //Lägg rätt information i respektive array
         for (int i = 0; i < len; i++) {
@@ -56,22 +58,18 @@ public class UppdragsInfo {
             ds.destinationUppdragSlut[i] = dummyList2[1];
         }
 
-
-
-
-        if /*(ds.cap =< Integer.parseInt(ds.passengersArray[0]))*/ (ds.cap < 200) {
-            
-            System.out.println("Closest: " + ds.closestPlats);
-            System.out.println("Cost: " + ds.routeCost);
-            System.out.println("Uppdrag: " + ds.uppdragsIDArray[0]);
-            message = cm.createMessage(ds.closestPlats, Integer.toString(ds.routeCost), ds.uppdragsIDArray[0]);
-            hg.putmessage(message);
-        }else if /*(ds.cap > Integer.parseInt(ds.passengersArray[0]) && ds.samakningsarray[0] == 1)*/(ds.cap<0){
-            
-            
-        }else{//Om man inte vill samåka
-            
+        temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
+        if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0) {
+            //meddela grupp?
+        } else {
+            for (int i = 0; i < len; i++) {
+                if (Integer.parseInt(ds.samakningArray[i]) == 0) {
+                    //meddela grupp
+                }
+                else if (Integer.parseInt(ds.samakningArray[i]) == 1){
+                    temp_cap -= Integer.parseInt(ds.passengersArray[i]); // Denna måste fortsätta sen
+                }
+            }
         }
     }
-    }
-
+}

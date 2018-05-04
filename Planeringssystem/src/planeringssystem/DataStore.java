@@ -32,7 +32,6 @@ public class DataStore {
     LinkedList<Integer> dummyEndKoorX;
     LinkedList<Integer> dummyEndKoorY;
     LinkedList<String> instructions;
-    //int korsningLength;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
@@ -47,6 +46,7 @@ public class DataStore {
     String direction;
     String directionNextArc;
     int cap; // AGV capacity
+    int initial_cap;
     //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna
     RobotRead rr;
     GUI gui;
@@ -126,8 +126,6 @@ public class DataStore {
         groupCost = new String[3];
         groupUppdrag = new String[3];
         groupUppdragSplit = new String[3];
-        
-        //korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
         connection = false; // Denna måste uppdateras till true när vi har en connection
@@ -136,6 +134,7 @@ public class DataStore {
         dummyX = 0;
         dummyY = 0;
         cap = 4;
+        initial_cap= 4;
         direction = "W";
         enable = '1';
         ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
@@ -147,7 +146,7 @@ public class DataStore {
         meddelande_in = "";
         meddelande_ut = "";
         directionNextArc = "";
-        firstNode = 71;
+        firstNode = 1;
         counterFirstInstructions = 0;
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
@@ -220,10 +219,7 @@ public class DataStore {
             e.printStackTrace();
         }
 
-        // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
-        // koordinater! 
-        robotX = nodeX[70];
-        robotY = nodeY[70];
+        
 
         //Man måste få detta att uppdatera sig på något vis.. Kanske med en while-loop och en flag
         //Detta sker ändå före eftersom RobtoRead är en tråd?
