@@ -105,8 +105,7 @@ public class OptPlan {
         //Här lägger vi till den SISTA LÄNKEN i arcRoute för att det ska bli rätt med körinstruktionerna!
         //Lägg till sista länken i arcroute genom att hitta noderna för upphämtning eller avlämningen
         //Om: Upphämtning på en plats
-        //DETTA SKA GÖRAS NÄR VI VET VAD DOM ARRAYERNA HETER (VA LITE KAOS NÄR VI INSÅG ATT DET VA NOD-NUMMER ISTÄLLER FÖR KOORDINATER)
-        //DE ARRAYERNA MÅSTE LIGGA I DATASTORE FÖR ANNARS KAN VI INTE NÅ DEM HÄRIFRÅN
+
         for (int i = 0; i < ds.arcs; i++) {
             if (ds.dest_node + 1 == ds.arcStart[i] && ds.lastNode + 1 == ds.arcEnd[i]) {
                     ds.arcRoute.addLast(i);
@@ -114,7 +113,6 @@ public class OptPlan {
                     
                 }
         }
-        
         
         ////Om: Avlämning av ett uppdrag. DETTA VET VI KANSKE GENOM EN FLAG(?). 
         ////Gör en klass som heter "ClosestUppdrag", som fungerar precis som ClosestPlats fast med uppdrag

@@ -16,6 +16,7 @@ public class Planeringssystem {
     OptPlan op;
     HTTPgrupp hg;
     HTTPanrop ha;
+    ReadGroup rg;
     ClosestPlats cp;
     UppdragsInfo ui;
     CreateMessage cm;
@@ -31,7 +32,6 @@ public class Planeringssystem {
     String[] destinationUppdragX;
     String[] destinationUppdragY;
 
-
     Planeringssystem() {
         /*
          * Initialize the DataStore call where all "global" data will be stored
@@ -45,28 +45,32 @@ public class Planeringssystem {
         ds.setFileName("streets.txt");
         ds.readNet();
         
-        tr = new Transceiver(ds); 
+        tr = new Transceiver(); 
 
         hg = new HTTPgrupp();
 
         ha = new HTTPanrop();
         ha.messagetype("A", 1, 1);
 
+//        rg = new ReadGroup(ds, hg);
+//        rg.Read();
+
         op = new OptPlan(ds);
+
         
-        cp = new ClosestPlats(ds, ha, op);
-        
-        
+        cp = new ClosestPlats(ds, ha, op);               
         
         cp.getClosestPlats();
         
-        ui = new UppdragsInfo(ds, ha);
-        
-        ui.UppdragsInfo(ds, ha);
-        
         cm = new CreateMessage(ds,cp);
         
+        ui = new UppdragsInfo(ds, ha, hg, cm);
+        
+        ui.UppdragsInfo(ds, ha, hg, cm);
+        
         System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
+        
+        hg.putmessage(cm.createMessage("A", "50", "3"));
         
         
 

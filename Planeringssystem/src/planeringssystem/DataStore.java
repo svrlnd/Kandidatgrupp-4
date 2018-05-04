@@ -32,7 +32,6 @@ public class DataStore {
     LinkedList<Integer> dummyEndKoorX;
     LinkedList<Integer> dummyEndKoorY;
     LinkedList<String> instructions;
-    //int korsningLength;
     boolean networkRead;
     boolean updateUIflag;
     double robotX;
@@ -74,8 +73,8 @@ public class DataStore {
     String[] passengersArray;
     String[] samakningArray;
     String[] pointsArray;
-    String[] destinationUppdragX;
-    String[] destinationUppdragY;
+    String[] destinationUppdragStart;
+    String[] destinationUppdragSlut;
     int a;
     String[] platsLista;
     String[] startSlutNoder;
@@ -83,7 +82,19 @@ public class DataStore {
     String[] noder;
     int[] startnod;
     int[] slutnod;
-
+    String[] groupList;
+    String[] groupDate;
+    String[] groupID;
+    String[] groupMessage;
+    String[] groupMessageSplit;
+    String[] groupPlats;
+    String[] groupCost;
+    String[] groupUppdrag;
+    String[] groupUppdragSplit;
+    LinkedList<String> uppdragGroup1;
+    LinkedList<String> uppdragGroup4;
+    LinkedList<String> uppdragGroup5;
+    
     // Testing testing
     public DataStore() {
         // Initialize the datastore with fixed size arrays for storing the network data
@@ -103,7 +114,18 @@ public class DataStore {
         dummyEndKoorX = new LinkedList<Integer>();
         dummyEndKoorY = new LinkedList<Integer>();
         instructions = new LinkedList<String>();
-        //korsningLength = 23;
+        uppdragGroup1 = new LinkedList<String>();
+        uppdragGroup4 = new LinkedList<String>();
+        uppdragGroup5 = new LinkedList<String>();
+        groupList = new String[3];
+        groupDate = new String[3];
+        groupID = new String[3];
+        groupMessage = new String[3];
+        groupMessageSplit = new String[3];
+        groupPlats = new String[3];
+        groupCost = new String[3];
+        groupUppdrag = new String[3];
+        groupUppdragSplit = new String[3];
         networkRead = false;
         updateUIflag = false;
         connection = false; // Denna måste uppdateras till true när vi har en connection
@@ -124,7 +146,7 @@ public class DataStore {
         meddelande_in = "";
         meddelande_ut = "";
         directionNextArc = "";
-        firstNode = 71;
+        firstNode = 1;
         counterFirstInstructions = 0;
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat? Tror inte man kan göra så.. 
@@ -197,10 +219,7 @@ public class DataStore {
             e.printStackTrace();
         }
 
-        // Här ska vi istället kalla på en funktion i RobotRead för aktuella 
-        // koordinater! 
-        robotX = nodeX[70];
-        robotY = nodeY[70];
+        
 
         //Man måste få detta att uppdatera sig på något vis.. Kanske med en while-loop och en flag
         //Detta sker ändå före eftersom RobtoRead är en tråd?

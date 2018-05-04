@@ -9,53 +9,12 @@ import java.util.Arrays;
 public class HTTPanrop {
 
     private static int passengers;
-    private static int id;
-    private static String plats;
     String[] dummyList;
-    String[] dummyList1;
-    String[] dummyList2;
-    String[] dummyList3;
-    String[] dummyList4;
-    String[] platser;
-    String[] platsX;
-    String[] platsY;
-    String[] hejhej;
-    String[] uppdragsIDArray;
-    String[] destinationPlatserArray;
-    String[] destinationUppdragArray;
-    String[] passengersArray;
-    String[] samakningArray;
-    String[] pointsArray;
-    String[] platserArray;
-    String[] destinationUppdragX;
-    String[] destinationUppdragY;
     int arraySize;
 
     public HTTPanrop() {
         //Constructor
         arraySize = 100;
-        //La in 100 på alla nu för at vara på den säkra sidan, blir kanske konstigt med null.
-        dummyList2 = new String[arraySize];
-        dummyList3 = new String[arraySize];
-        dummyList4 = new String[arraySize];
-        hejhej = new String[arraySize];
-        uppdragsIDArray = new String[arraySize];
-        destinationPlatserArray = new String[arraySize];
-        destinationUppdragArray = new String[arraySize];
-        passengersArray = new String[arraySize];
-        samakningArray = new String[arraySize];
-        pointsArray = new String[arraySize];
-        platserArray = new String[arraySize];
-        destinationUppdragX = new String[arraySize];
-        destinationUppdragY = new String[arraySize];
-        platser = new String[arraySize];
-        platsX = new String[arraySize];
-        platsY = new String[arraySize];
-
-        int[] distance = new int[arraySize];
-        //Här används robotens nuvarande posistion senare. 
-        int tempX = 10;
-        int tempY = 20;
     }
 
     public int getPassengers() {
@@ -86,7 +45,7 @@ public class HTTPanrop {
             }
 
             dummyList = inkommande_samlat.toString().split("\n");
-            //System.out.println(Arrays.toString(dummyList));
+//            System.out.println(Arrays.toString(dummyList));
 
             //Detta görs just nu i main
 //            for (int i = 0; i < Integer.parseInt(dummyList[0]); i++) {
