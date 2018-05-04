@@ -90,7 +90,10 @@ public class DataStore {
     String[] groupPlats;
     String[] groupCost;
     String[] groupUppdrag;
-    
+    String[] groupUppdragSplit;
+    LinkedList<String> uppdragGroup1;
+    LinkedList<String> uppdragGroup4;
+    LinkedList<String> uppdragGroup5;
     
     // Testing testing
     public DataStore() {
@@ -111,6 +114,19 @@ public class DataStore {
         dummyEndKoorX = new LinkedList<Integer>();
         dummyEndKoorY = new LinkedList<Integer>();
         instructions = new LinkedList<String>();
+        uppdragGroup1 = new LinkedList<String>();
+        uppdragGroup4 = new LinkedList<String>();
+        uppdragGroup5 = new LinkedList<String>();
+        groupList = new String[3];
+        groupDate = new String[3];
+        groupID = new String[3];
+        groupMessage = new String[3];
+        groupMessageSplit = new String[3];
+        groupPlats = new String[3];
+        groupCost = new String[3];
+        groupUppdrag = new String[3];
+        groupUppdragSplit = new String[3];
+        
         //korsningLength = 23;
         networkRead = false;
         updateUIflag = false;
