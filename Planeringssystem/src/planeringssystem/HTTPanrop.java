@@ -63,7 +63,7 @@ public class HTTPanrop {
     }
 
     public String[] messagetype() { // listaplatser
-        dummyList = new String[arraySize]; 
+        dummyList = new String[arraySize];
         try {
 
             HTTPanrop http = new HTTPanrop();
@@ -103,7 +103,6 @@ public class HTTPanrop {
 //            System.out.println("platser " + Arrays.toString(platser));
 //            System.out.println("X " + Arrays.toString(platsX));
 //            System.out.println("Y " + Arrays.toString(platsY));
-
             inkommande.close();
 
         } catch (Exception e) {
@@ -114,13 +113,12 @@ public class HTTPanrop {
 
     public void messagetype(int scenario) { //aterstall
         StringBuffer inkommande_samlat = new StringBuffer();
-        
+
         try {
 
             HTTPanrop http = new HTTPanrop();
 
             // Det som är avkommenterat tror jag inte behövs /A
-
             String url = "http://tnk111.n7.se/aterstall.php?scenario=" + scenario;
 
             URL urlobjekt = new URL(url);
@@ -128,7 +126,7 @@ public class HTTPanrop {
             System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            System.out.println("Statuskod: " + mottagen_status);            
+            System.out.println("Statuskod: " + mottagen_status);
 
         } catch (Exception e) {
             System.out.print("catch i aterstall: " + e.toString());
@@ -136,9 +134,9 @@ public class HTTPanrop {
     }//aterstall slut
 
     public String[] messagetype(String plats) { // listaUppdrag
-        dummyList = new String[arraySize]; 
+        dummyList = new String[arraySize];
         try {
-            
+
             HTTPanrop http = new HTTPanrop();
             String url = "http://tnk111.n7.se/listauppdrag.php?plats=" + plats;
             URL urlobjekt = new URL(url);
@@ -177,7 +175,6 @@ public class HTTPanrop {
 //
 ////            System.out.println("X " + Arrays.toString(destinationUppdragX));
 ////            System.out.println("Y " + Arrays.toString(destinationUppdragY));
-            
             inkommande.close();
             //System.out.println(inkommande_samlat.toString());
 
@@ -187,25 +184,23 @@ public class HTTPanrop {
         return dummyList;
     }//listaUppdrag slut
 
-    public void messagetype(String plats, int id, int passagerare, int grupp) { // taUppdrag
+    public String messagetype(String plats, int id, int passagerare) { // taUppdrag
         try {
 
-            String[] dummyList;
-
-            HTTPanrop http = new HTTPanrop();
-
-            String url = "http://tnk111.n7.se/tauppdrag.php?plats=" + plats + "&id=" + id + "&passagerare=" + passagerare + "&grupp=" + grupp; //, "http://tnk111.n7.se/aterstall.php?scenario=1"
+            //String[] dummyList;
+            //HTTPanrop http = new HTTPanrop();
+            String url = "http://tnk111.n7.se/tauppdrag.php?plats=" + plats + "&id=" + id + "&passagerare=" + passagerare + "&grupp=4"; //, "http://tnk111.n7.se/aterstall.php?scenario=1"
 
             URL urlobjekt = new URL(url);
             HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
             //System.out.println("\nAnropar: " + url);
 
             int mottagen_status = anslutning.getResponseCode();
-            //System.out.println("Statuskod: " + mottagen_status);
-
+            System.out.println("Statuskod: " + mottagen_status);
 
             BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
             String inkommande_text;
+
             StringBuffer inkommande_samlat = new StringBuffer();
 
             while ((inkommande_text = inkommande.readLine()) != null) {
@@ -213,15 +208,15 @@ public class HTTPanrop {
 
             }
 
-            dummyList = inkommande_text.split("\\n");
-            //System.out.println(Arrays.toString(dummyList));
-
+            //dummyList = inkommande_text.split("\\n");
             inkommande.close();
-            //System.out.println(inkommande_samlat.toString());
-
+            System.out.println(inkommande_samlat.toString());
+            //return inkommande_samlat.toString(); // beviljas eller nekas
+            
 
         } catch (Exception e) {
             System.out.print(e.toString());
         }
+        return "";
     }// tauppdrag slut
 }

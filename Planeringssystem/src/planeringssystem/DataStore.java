@@ -46,7 +46,8 @@ public class DataStore {
     int dummyArc;
     String direction;
     String directionNextArc;
-    int cap; // AGV capacity
+    int cap; //current capacity
+    int initial_cap;// AGV capacity
     //Testar att skapa dessa två men vi kanske får ta bort dem sen /Anna
     RobotRead rr;
     GUI gui;
@@ -82,7 +83,7 @@ public class DataStore {
     String[] noder;
     int[] startnod;
     int[] slutnod;
-    
+
     // Testing testing
     public DataStore() {
         // Initialize the datastore with fixed size arrays for storing the network data
@@ -110,7 +111,8 @@ public class DataStore {
         arcRoute = new LinkedList<Integer>();
         dummyX = 0;
         dummyY = 0;
-        cap = 4;
+        cap = 4; //aktuell kapacitet
+        initial_cap = 4; //AGVns kapacitet
         direction = "W";
         enable = '1';
         ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
@@ -125,11 +127,11 @@ public class DataStore {
         firstNode = 71;
         counterFirstInstructions = 0;
 
-        // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat?
-        gui = new GUI(this);
-        rr = new RobotRead(this, gui);
-        flagCoordinates = false;
-        currentDummyArc = rr.getCurrentArc();
+        // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat? Tror inte man kan göra så.. 
+//        gui = new GUI(this);
+//        rr = new RobotRead(this, gui, );
+//        flagCoordinates = false;
+//       currentDummyArc = rr.getCurrentArc();
     }
 
     public void setFileName(String newFileName) {

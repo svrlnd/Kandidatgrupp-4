@@ -9,7 +9,7 @@ public class RobotRead implements Runnable {
     private static Random generator = new Random(); // Vet inte om vi kommer behöva denna? Nej, tror vi kommer sätta en uppdateringstid som vi vill ha/S
     private GUI gui;
     private DataStore ds;
-    private HTTPanrop http; // hur initierar man denna när den är en main? Kan den vara en main?
+    private HTTPanrop ha; // hur initierar man denna när den är en main? Kan den vara en main?
     private int currentX;
     private int currentY;
     private int currentArc;
@@ -20,11 +20,11 @@ public class RobotRead implements Runnable {
     private String[] split_in;
     private String start;
 
-    public RobotRead(DataStore ds, GUI gui) {
+    public RobotRead(DataStore ds, GUI gui, Transceiver tr, HTTPanrop ha) {
         this.gui = gui;
         this.ds = ds;
-        tr = new Transceiver();
-        http = new HTTPanrop();
+        this.tr = tr;
+        this.ha = ha;
         currentX = 70;
         currentY = 50;
         currentArc = 1;
@@ -34,6 +34,10 @@ public class RobotRead implements Runnable {
     @Override
     public void run() {
         try {
+            
+            //Upprätta connection med AGVn
+            //tr.getConnection();
+            
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
             gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
@@ -59,6 +63,22 @@ public class RobotRead implements Runnable {
                 int k = 0; //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
                 if (Integer.parseInt(split_in[8]) == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
                     ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET. 
+                    if(ds.instructions.getFirst() == null){//Om nästa order är att stanna
+                        if (ds.cap == ds.initial_cap){ //upphämtningsplats
+                            //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
+                            // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
+                            // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
+                            // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
+                        }
+                        
+                        else if (ds.cap < ds.initial_cap){ //avlämningsplats
+                            //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
+                            // - ökar kapaciteten
+                            // - påbörjar rutt till närmsta upphämtningsplats
+                        }
+                        //ändra kapaciteten, påbörja rutt till närmsta upphämtningsplats
+                        //}
+                    }
                     ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  
                     ds.arcColor[ds.arcRoute.get(k)] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
                     i++;
@@ -88,6 +108,10 @@ public class RobotRead implements Runnable {
 
                 ds.kontrollAGV = split_in[11].charAt(0); // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel. 
 
+                
+                
+                
+                
                 ds.flagCoordinates = true;
                 //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
                 //currentY = 40;
@@ -108,7 +132,7 @@ public class RobotRead implements Runnable {
     }
 
     public int getCurrentCapacity(int cap) {
-        return cap - http.getPassengers(); //minus det antal passagerare vi plockar upp på nuvarande uppdrag.(Just nu från endast en HHTPanropsklass) 
+        return cap - ha.getPassengers(); //minus det antal passagerare vi plockar upp på nuvarande uppdrag.(Just nu från endast en HHTPanropsklass) 
         //Vi måste komma på ett sätt att lägga till capacity igen när vi lämnat av folk.
     }
 

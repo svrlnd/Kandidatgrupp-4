@@ -7,6 +7,7 @@ import java.lang.Math;
 public class Planeringssystem {
 
     DataStore ds;
+    Transceiver tr;
     GUI gui;
     RobotRead rr;
     GuiUpdate gu;
@@ -43,13 +44,13 @@ public class Planeringssystem {
          */
         ds.setFileName("streets.txt");
         ds.readNet();
+        
+        tr = new Transceiver(ds); 
 
-        /*
-         * Initialize an optplan
-         */
         hg = new HTTPgrupp();
 
         ha = new HTTPanrop();
+        ha.messagetype("A", 1, 1);
 
         op = new OptPlan(ds);
         
@@ -86,7 +87,7 @@ public class Planeringssystem {
         /*
          * Initialize RobotRead with its Thread
          */
-        rr = new RobotRead(ds, gui);
+        rr = new RobotRead(ds, gui, tr, ha);
         t1 = new Thread(rr);
         t1.start();
 
