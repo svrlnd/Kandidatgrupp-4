@@ -6,9 +6,9 @@ import java.lang.Math;
 
 public class Planeringssystem {
 
-    DataStore ds;
+    static DataStore ds;
+    static GUI gui;
     Transceiver tr;
-    GUI gui;
     RobotRead rr;
     GuiUpdate gu;
     Thread t1;
@@ -40,12 +40,35 @@ public class Planeringssystem {
 
 
         /*
-         * Reads in the file with the map. For now it is street.txt. Don´t know where the file will be stored.
+         * Reads in the file with the map. 
          */
         ds.setFileName("streets.txt");
         ds.readNet();
-        
-        tr = new Transceiver(); 
+
+        /*
+         * För att få fram kartan verkar det som att vi behöver ändra lite i GUI.
+         */
+        gui = new GUI(ds);
+        gui.setVisible(true);
+
+        tr = new Transceiver();
+        ha = new HTTPanrop();
+
+        /*
+         * Initialize RobotRead with its Thread
+         */
+        rr = new RobotRead(ds, gui, tr, ha);
+        t1 = new Thread(rr);
+
+
+        /*
+         * Initialize GuiUpdate with its Thread
+         */
+        gu = new GuiUpdate(ds, gui);
+        t2 = new Thread(gu);
+
+        t1.start();
+        t2.start();
 
         hg = new HTTPgrupp();
 
@@ -54,48 +77,24 @@ public class Planeringssystem {
         rg = new ReadGroup(ds, hg);
         rg.Read();
 
-        op = new OptPlan(ds);
+        cp = new ClosestPlats(ds, ha, op);
 
-        cp = new ClosestPlats(ds, ha, op);               
-        
         cp.getClosestPlats();
-        
-        cm = new CreateMessage(ds,cp);
-        
+
+        cm = new CreateMessage(ds, cp);
+
         ui = new UppdragsInfo(ds, ha, hg, cm, op);
-        
+
         ui.UppdragsInfo(ds, ha, hg, cm);
-        
+
         System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
-        
-        op.createPlan(ds.a, ds.dest_node);
-        op.createInstructions();
+
+        hg.putmessage(cm.createMessage("A", "50", "3"));
+
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions 
         //(bör vara lika lång som arcRoute som just nu är 100)
         //instructions = new String [ds.arcRoute.length];
         //instructions = op.createInstructions().split("\n"); // innehåller körinstruktioner, en i taget. NÄr AGVn har svarat med att de utfört et "kommando" skickas näst kommando i instructions.
-
-
-        /*
-         * För att få fram kartan verkar det som att vi behöver ändra lite i GUI.
-         */
-        gui = new GUI(ds);
-        gui.setVisible(true);
-
-        /*
-         * Initialize RobotRead with its Thread
-         */
-        rr = new RobotRead(ds, gui, tr, ha);
-        t1 = new Thread(rr);
-        t1.start();
-
-        /*
-         * Initialize GuiUpdate with its Thread
-         */
-        gu = new GuiUpdate(ds, gui);
-        t2 = new Thread(gu);
-        t2.start();
-
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
 //            //Ta fram koordinater för avlämningsplatserna för de uppdrag som finns på den aktuella platsen (ha.messagetype(platser[j]))
 //            for (int i = 0; i < Integer.parseInt(ha.messagetype(platser[j])[0]); i++) {

@@ -2,12 +2,15 @@ package planeringssystem;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 public class GUI extends javax.swing.JFrame {
 
     static DataStore ds;
+    static boolean cond = false;
 
     /**
      * Creates new form GUI
@@ -37,6 +40,7 @@ public class GUI extends javax.swing.JFrame {
         // Jämför med ControlUI lab 2 här för att skapa MapPanel
         //jPanel1 = new javax.swing.JPanel();
         jPanel1 = new MapPanel(ds);
+        this.addKeyListener(new MKeyListener());
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -288,4 +292,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+}
+
+class MKeyListener extends KeyAdapter {
+ 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if('a' == e.getKeyChar()){
+            GUI.cond = true;
+        }
+    }
 }

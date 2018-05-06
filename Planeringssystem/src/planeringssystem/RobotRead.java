@@ -19,6 +19,7 @@ public class RobotRead implements Runnable {
     private String[] agv;
     private String[] split_in;
     private String start;
+    static boolean cond = false;
 
     public RobotRead(DataStore ds, GUI gui, Transceiver tr, HTTPanrop ha) {
         this.gui = gui;
@@ -34,26 +35,32 @@ public class RobotRead implements Runnable {
     @Override
     public void run() {
         try {
-            
+
             //Upprätta connection med AGVn
             //tr.getConnection();
-            
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
             gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
             int i = 0;
 
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
-            while (i <= 20) {
+            while (true) {
+                if (GUI.cond) {
+                    break;
+                }
+                gui.appendErrorMessage("Jag är i loopen i robotRead");
                 while (gui.getButtonState()) {
                     Thread.sleep(sleepTime / 20);
                 }
                 /*
                  * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
                  */
+
                 start = "#";
                 ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //ds.meddelande_in = tr.Transceiver(ds.meddelande_in);
                 split_in = ds.meddelande_in.split("(?!^)");
+                
+                System.out.println("Meddelande_in: " +ds.meddelande_in + " för " + i + "te gången");
 
                 //Uppdaterar meddelandet
                 if (gui.getButtonState()) {
@@ -63,21 +70,17 @@ public class RobotRead implements Runnable {
                 int k = 0; //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
                 if (Integer.parseInt(split_in[8]) == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
                     ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET. 
-                    if(ds.instructions.getFirst() == null){//Om nästa order är att stanna
-                        if (ds.cap == ds.initial_cap){ //upphämtningsplats
+                    if (ds.instructions.getFirst() == null) {//Om nästa order är att stanna
+                        if (ds.cap == ds.initial_cap) { //upphämtningsplats
                             //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
                             // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
                             // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
                             // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
-                        }
-                        
-                        else if (ds.cap < ds.initial_cap){ //avlämningsplats
+                        } else if (ds.cap < ds.initial_cap) { //avlämningsplats
                             //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
                             // - ökar kapaciteten
                             // - påbörjar rutt till närmsta upphämtningsplats
                         }
-                        //ändra kapaciteten, påbörja rutt till närmsta upphämtningsplats
-                        //}
                     }
                     ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  
                     ds.arcColor[ds.arcRoute.get(k)] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
@@ -108,14 +111,10 @@ public class RobotRead implements Runnable {
 
                 ds.kontrollAGV = split_in[11].charAt(0); // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel. 
 
-                
-                
-                
-                
-                ds.flagCoordinates = true;
-                //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
-                //currentY = 40;
-                currentArc = 1; // Här ska robotens aktuella länk läsas in kankse? 
+//                ds.flagCoordinates = true;
+//                //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
+//                //currentY = 40;
+//                currentArc = 1; // Här ska robotens aktuella länk läsas in kankse? 
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
                 capacity = getCurrentCapacity(8); // Hårdkodar att bilen har 8 platser totalt
@@ -154,4 +153,6 @@ public class RobotRead implements Runnable {
     public String getCurrentStatus() { //Kanske ska vara en int istället för String eftersom det är de 16 bytes vi får av dem.
         return currentStatus;
     }
+
+
 }
