@@ -1,7 +1,5 @@
 package planeringssystem;
 
-import java.util.Arrays;
-
 public class UppdragsInfo {
 
     private DataStore ds;
@@ -66,15 +64,15 @@ public class UppdragsInfo {
         min_cost = Integer.MAX_VALUE;
         s = -1;
 
-        if (temp_cap < Integer.parseInt(ds.passengersArray[0])) {
+        if (temp_cap <= Integer.parseInt(ds.passengersArray[0])) {
             temp_cap = 0;
         } else {
             temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
         }
 
         if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0) {
-            hg.putmessage(cm.createMessage(ds.closestPlats, 
-                    Integer.toString(op.getCost(ds.a, ds.dest_node)), 
+            hg.putmessage(cm.createMessage(ds.closestPlats,
+                    Integer.toString(op.getCost(ds.a, ds.dest_node)),
                     ds.uppdragsIDArray[0]));
         } else {
             for (int i = 1; i < len; i++) {
