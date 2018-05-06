@@ -50,7 +50,6 @@ public class Planeringssystem {
         hg = new HTTPgrupp();
 
         ha = new HTTPanrop();
-        ha.messagetype("A", 1, 1);
 
         rg = new ReadGroup(ds, hg);
         rg.Read();
