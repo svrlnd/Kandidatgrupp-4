@@ -8,6 +8,7 @@ public class UppdragsInfo {
     private HTTPanrop ha;
     private HTTPgrupp hg;
     private CreateMessage cm;
+    private OptPlan op;
     private String[] dummyList;
     private String[] dummyList2;
     private int len;
@@ -15,12 +16,16 @@ public class UppdragsInfo {
     private int temp;
     String message;
     int temp_cap;
+    int min_cost;
+    int temp_cost;
+    int s;
 
-    public UppdragsInfo(DataStore ds, HTTPanrop ha, HTTPgrupp hg, CreateMessage cm) {
+    public UppdragsInfo(DataStore ds, HTTPanrop ha, HTTPgrupp hg, CreateMessage cm, OptPlan op) {
         this.ds = ds;
         this.ha = ha;
         this.hg = hg;
         this.cm = cm;
+        this.op = op;
     }
 
     //Tog detta från mainen och hoppas att det ska göra samma sak fast i denna void
@@ -58,18 +63,37 @@ public class UppdragsInfo {
             ds.destinationUppdragSlut[i] = dummyList2[1];
         }
 
-        temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
-        if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0) {
-            //meddela grupp?
+        min_cost = Integer.MAX_VALUE;
+        s = -1;
+
+        if (temp_cap < Integer.parseInt(ds.passengersArray[0])) {
+            temp_cap = 0;
         } else {
-            for (int i = 0; i < len; i++) {
-                if (Integer.parseInt(ds.samakningArray[i]) == 0) {
-                    //meddela grupp
-                }
-                else if (Integer.parseInt(ds.samakningArray[i]) == 1){
-                    temp_cap -= Integer.parseInt(ds.passengersArray[i]); // Denna måste fortsätta sen
+            temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
+        }
+
+        if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0) {
+            hg.putmessage(cm.createMessage(ds.closestPlats, 
+                    Integer.toString(op.getCost(ds.a, ds.dest_node)), 
+                    ds.uppdragsIDArray[0]));
+        } else {
+            for (int i = 1; i < len; i++) {
+                if (Integer.parseInt(ds.samakningArray[i]) == 1) {
+
+                    temp_cost = op.getCost(Integer.parseInt(ds.destinationUppdragStart[0]), Integer.
+                            parseInt(ds.destinationUppdragStart[i]));
+
+                    if (temp_cost < min_cost) {
+                        min_cost = temp_cost;
+                        s = i; //Sparar vilket uppdrag som är närmast.
+                    }
                 }
             }
+        }
+        if (s != -1) {
+            hg.putmessage(cm.createMessage(ds.closestPlats,
+                    Integer.toString(op.getCost(ds.a, ds.dest_node)),
+                    ds.uppdragsIDArray[0] + "," + ds.uppdragsIDArray[s]));
         }
     }
 }

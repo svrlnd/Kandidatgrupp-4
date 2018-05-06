@@ -135,7 +135,7 @@ public class DataStore {
         dummyY = 0;
         cap = 4; //aktuell kapacitet
         initial_cap = 4; //AGVns kapacitet
-        direction = "W";
+        direction = "E";
         enable = '1';
         ordernummer = '!'; //Denna bör uppdaters enligt ASCII tabellen efter varje slutfört uppdrag
         antal_passagerare = '0';
@@ -146,7 +146,7 @@ public class DataStore {
         meddelande_in = "";
         meddelande_ut = "";
         directionNextArc = "";
-        firstNode = 1;
+        firstNode = 37;
         counterFirstInstructions = 0;
 
         // Kan man bara skapa nya instanser av dessa på det här viset? KOpplas det ändå samman med allt annat? Tror inte man kan göra så.. 

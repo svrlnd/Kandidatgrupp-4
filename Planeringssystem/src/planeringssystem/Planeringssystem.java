@@ -72,9 +72,12 @@ public class Planeringssystem {
 
         hg = new HTTPgrupp();
 
+
 //        rg = new ReadGroup(ds, hg);
 //        rg.Read();
         op = new OptPlan(ds);
+        op.createPlan(ds.a, ds.dest_node);
+        op.createInstructions();
 
         cp = new ClosestPlats(ds, ha, op);
 
@@ -82,16 +85,26 @@ public class Planeringssystem {
 
         cm = new CreateMessage(ds, cp);
 
-        ui = new UppdragsInfo(ds, ha, hg, cm);
+        rg = new ReadGroup(ds, hg);
+        rg.Read();
 
+
+        cp = new ClosestPlats(ds, ha, op);               
+        
+        cp.getClosestPlats();
+        
+        cm = new CreateMessage(ds,cp);
+        
+        ui = new UppdragsInfo(ds, ha, hg, cm, op);
+        
         ui.UppdragsInfo(ds, ha, hg, cm);
 
         System.out.println("Meddelande till AGVn: " + cm.createMessageAGV());
 
         hg.putmessage(cm.createMessage("A", "50", "3"));
 
-        op.createPlan(ds.a, ds.dest_node);
-        op.createInstructions();
+
+        
         //Lägger körinstruktionerna från createInstructions i en array kallad instructions 
         //(bör vara lika lång som arcRoute som just nu är 100)
         //instructions = new String [ds.arcRoute.length];
