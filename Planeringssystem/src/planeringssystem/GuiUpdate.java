@@ -38,7 +38,9 @@ public class GuiUpdate implements Runnable {
             i++;
         }
     
-    } catch (InterruptedException exception){}
+    } catch (InterruptedException exception){
+        System.out.println("Catch i GuiUpdate");
+    }
     
     // Ska vi ha kvar denna?
     gui.appendErrorMessage("GuiUpdate är nu klar!");

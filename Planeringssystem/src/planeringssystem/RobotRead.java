@@ -21,10 +21,10 @@ public class RobotRead implements Runnable {
     private String start;
     static boolean cond = false;
 
-    public RobotRead(DataStore ds, GUI gui, Transceiver tr, HTTPanrop ha) {
+    public RobotRead(DataStore ds, GUI gui, HTTPanrop ha) {
         this.gui = gui;
         this.ds = ds;
-        this.tr = tr;
+        tr = new Transceiver();
         this.ha = ha;
         currentX = 70;
         currentY = 50;
@@ -117,42 +117,43 @@ public class RobotRead implements Runnable {
 //                currentArc = 1; // Här ska robotens aktuella länk läsas in kankse? 
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
-                capacity = getCurrentCapacity(8); // Hårdkodar att bilen har 8 platser totalt
+                capacity = 8; // Hårdkodar att bilen har 8 platser totalt
                 gui.appendCapacity("Nuvarade kapacitet i AGV: " + capacity);
 
                 Thread.sleep(200);
                 i++;
             }
         } catch (Exception e) {
+            System.out.println("Catch i RobotRead");
         }
 
         // Ska vi ha kvar denna?
         gui.appendErrorMessage("Robotread är nu klar");
     }
-
-    public int getCurrentCapacity(int cap) {
-        return cap - ha.getPassengers(); //minus det antal passagerare vi plockar upp på nuvarande uppdrag.(Just nu från endast en HHTPanropsklass) 
-        //Vi måste komma på ett sätt att lägga till capacity igen när vi lämnat av folk.
-    }
-
-    public int getCurrentX() {
-        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
-        return currentX;
-    }
-
-    public int getCurrentY() {
-        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
-        return currentY;
-    }
-
-    public int getCurrentArc() {
-        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
-        return currentArc;
-    }
-
-    public String getCurrentStatus() { //Kanske ska vara en int istället för String eftersom det är de 16 bytes vi får av dem.
-        return currentStatus;
-    }
-
+//
+//    public int getCurrentCapacity(int cap) {
+//        return cap - ha.getPassengers(); //minus det antal passagerare vi plockar upp på nuvarande uppdrag.(Just nu från endast en HHTPanropsklass) 
+//        //Vi måste komma på ett sätt att lägga till capacity igen när vi lämnat av folk.
+//    }
+//
+//    public int getCurrentX() {
+//        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
+//        return currentX;
+//    }
+//
+//    public int getCurrentY() {
+//        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
+//        return currentY;
+//    }
+//
+//    public int getCurrentArc() {
+//        //Här kommer vi kalla på en Bluetoothklass som tar reda på robotens pos.//Tror inte dessa gäller längre
+//        return currentArc;
+//    }
+//
+//    public String getCurrentStatus() { //Kanske ska vara en int istället för String eftersom det är de 16 bytes vi får av dem.
+//        return currentStatus;
+//    }
+//
 
 }

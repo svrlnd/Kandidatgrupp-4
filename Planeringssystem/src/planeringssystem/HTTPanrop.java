@@ -15,6 +15,7 @@ public class HTTPanrop {
     public HTTPanrop() {
         //Constructor
         arraySize = 100;
+        passengers = 0;
     }
 
     public int getPassengers() {
