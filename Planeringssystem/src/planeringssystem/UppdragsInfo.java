@@ -73,7 +73,9 @@ public class UppdragsInfo {
         }
 
         if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0) {
-            hg.putmessage(cm.createMessage(ds.closestPlats, Integer.toString(op.getCost(ds.a, ds.dest_node)), ds.uppdragsIDArray[0]));
+            hg.putmessage(cm.createMessage(ds.closestPlats, 
+                    Integer.toString(op.getCost(ds.a, ds.dest_node)), 
+                    ds.uppdragsIDArray[0]));
         } else {
             for (int i = 1; i < len; i++) {
                 if (Integer.parseInt(ds.samakningArray[i]) == 1) {
@@ -89,9 +91,9 @@ public class UppdragsInfo {
             }
         }
         if (s != -1) {
-            hg.putmessage(cm.createMessage(ds.closestPlats, 
-            Integer.toString(op.getCost(ds.a, ds.dest_node)), 
-            ds.uppdragsIDArray[0] + "," + ds.uppdragsIDArray[s]));
+            hg.putmessage(cm.createMessage(ds.closestPlats,
+                    Integer.toString(op.getCost(ds.a, ds.dest_node)),
+                    ds.uppdragsIDArray[0] + "," + ds.uppdragsIDArray[s]));
         }
     }
 }
