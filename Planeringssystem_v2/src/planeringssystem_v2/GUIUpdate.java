@@ -37,8 +37,8 @@ public class GUIUpdate implements Runnable {
             while (true) {
                 System.out.println(i);
                 Thread.sleep(1000);
-//                gui.appendErrorMessage("Jag är tråd GuiUpdate, för"
-//                        + i + ":te gången");
+                gui.appendErrorMessage("Jag är tråd GuiUpdate, för"
+                        + i + ":te gången");
                 gui.repaint();
                 
                 i++;

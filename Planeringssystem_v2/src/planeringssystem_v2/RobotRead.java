@@ -26,7 +26,7 @@ public class RobotRead implements Runnable {
         try {
 
             //Upprätta connection med AGVn
-            tr.getConnection();
+//            tr.getConnection();
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
 //            gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
@@ -35,8 +35,8 @@ public class RobotRead implements Runnable {
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
             while (true) {
                
-                //gui.appendErrorMessage("Jag är i loopen i robotRead");
-                System.out.println("Jag är i loopen i robotRead");
+                gui.appendErrorMessage("Jag är i loopen i robotRead");
+//                System.out.println("Jag är i loopen i robotRead");
                 while (gui.getButtonState()) {
                     Thread.sleep(1000);
                 }
@@ -45,10 +45,23 @@ public class RobotRead implements Runnable {
                  */
                 
                 start = "#";
-                ds.meddelande_in = tr.Transceiver("#1!3F0000000000$");//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
-                split_in = ds.meddelande_in.split("(?!^)");
+                ds.enable = '1';
                 
-                System.out.println("Meddelande_in: " + ds.meddelande_in + " för " + i + "te gången");
+                //Gjorde denna println för att se vad som saknas, så kan vi bocka av
+                //vad som blir klart.
+                System.out.println("start " + start + " enable " + ds.enable
+                + " ordnr " + ds.ordernummer +  " antal passagerare " 
+                +  ds.antal_passagerare + " körinstruktion " + ds.korinstruktion 
+                + " kontrollvar. " + ds.kontroll + "   spegling " + ds.spegling);
+                
+
+                ds.meddelande_ut = start + ds.enable + ds.ordernummer + 
+                        ds.antal_passagerare + ds.korinstruktion + ds.kontroll
+                        + " " + " " + ds.spegling + '$';
+//                ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
+//                split_in = ds.meddelande_in.split("(?!^)");
+//                
+                System.out.println("Meddelande_ut: " + ds.meddelande_ut + " för " + i + "te gången");
 
                 //Uppdaterar meddelandet
                 if (gui.getButtonState()) {
@@ -88,13 +101,16 @@ public class RobotRead implements Runnable {
                 }
 
                 //Kollar så att speglingen har samma kontrollvariabel som vi skickade iväg
+                
                 if (Integer.parseInt(split_in[5]) != ds.kontroll) {
                     start = "1"; //Eftersom detta får AGV:n att starta om
+                    //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
                 }
 
                 //Kollar att AGVns kontrollvariable är ny varje gång de skickar något
                 if (Integer.parseInt(split_in[11]) == ds.kontrollAGV) {
                     start = "1";
+                    //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
                 }
 
                 ds.kontrollAGV = split_in[11].charAt(0); // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel. 
