@@ -9,7 +9,7 @@ public class RobotRead implements Runnable {
     private static Random generator = new Random(); // Vet inte om vi kommer behöva denna? Nej, tror vi kommer sätta en uppdateringstid som vi vill ha/S
     private GUI gui;
     private DataStore ds;
-    //private Transceiver tr;
+    private Transceiver tr;
     private String[] agv;
     private String[] split_in;
     private String start;
@@ -17,7 +17,7 @@ public class RobotRead implements Runnable {
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
         this.ds = ds;
-        //tr = new Transceiver();
+        tr = new Transceiver(ds);
 //        sleepTime = generator.nextInt(20000);
     }
 
@@ -26,7 +26,7 @@ public class RobotRead implements Runnable {
         try {
 
             //Upprätta connection med AGVn
-            //tr.getConnection();
+            tr.getConnection();
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
 //            gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
@@ -43,12 +43,12 @@ public class RobotRead implements Runnable {
                 /*
                  * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
                  */
-
+                
                 start = "#";
-                ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //ds.meddelande_in = tr.Transceiver(ds.meddelande_in);
+                ds.meddelande_in = tr.Transceiver("#1!3F0000000000$");//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
                 split_in = ds.meddelande_in.split("(?!^)");
                 
-                System.out.println("Meddelande_in: " +ds.meddelande_in + " för " + i + "te gången");
+                System.out.println("Meddelande_in: " + ds.meddelande_in + " för " + i + "te gången");
 
                 //Uppdaterar meddelandet
                 if (gui.getButtonState()) {
@@ -107,7 +107,7 @@ public class RobotRead implements Runnable {
                 //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
                
 
-                Thread.sleep(200);
+                Thread.sleep(350);
                 i++;
             }
         } catch (Exception e) {
