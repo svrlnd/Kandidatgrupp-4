@@ -8,9 +8,9 @@ public class Planeringssystem {
 
     DataStore ds;
     Transceiver tr;
-    GUI gui;
     RobotRead rr;
     GuiUpdate gu;
+    GUI gui;
     Thread t1;
     Thread t2;
     OptPlan op;
@@ -20,17 +20,6 @@ public class Planeringssystem {
     ClosestPlats cp;
     UppdragsInfo ui;
     CreateMessage cm;
-    String[] instructions;
-    String[] dummyList3;
-    String[] dummyList4;
-    String[] uppdragsIDArray;
-    String[] destinationPlatserArray;
-    String[] destinationUppdragArray;
-    String[] passengersArray;
-    String[] samakningArray;
-    String[] pointsArray;
-    String[] destinationUppdragX;
-    String[] destinationUppdragY;
 
     Planeringssystem() {
         /*
@@ -48,12 +37,12 @@ public class Planeringssystem {
         tr = new Transceiver(); 
 
         hg = new HTTPgrupp();
-
+//
         ha = new HTTPanrop();
 
         rg = new ReadGroup(ds, hg);
         rg.Read();
-
+//
         op = new OptPlan(ds);
 
         cp = new ClosestPlats(ds, ha, op);               
@@ -79,20 +68,20 @@ public class Planeringssystem {
         /*
          * För att få fram kartan verkar det som att vi behöver ändra lite i GUI.
          */
-        gui = new GUI(ds);
-        gui.setVisible(true);
+        ds.gui = new GUI(ds);
+        ds.gui.setVisible(true);
 
         /*
          * Initialize RobotRead with its Thread
          */
-        rr = new RobotRead(ds, gui, tr, ha);
+        rr = new RobotRead(ds, ha);
         t1 = new Thread(rr);
         t1.start();
 
         /*
          * Initialize GuiUpdate with its Thread
          */
-        gu = new GuiUpdate(ds, gui);
+        gu = new GuiUpdate(ds);
         t2 = new Thread(gu);
         t2.start();
 

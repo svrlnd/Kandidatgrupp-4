@@ -1,10 +1,14 @@
-package planeringssystem;
+package planeringssystem_v2;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+/**
+ *
+ * @author Simon
+ */
 public class MapPanel extends JPanel {
     DataStore ds;
     

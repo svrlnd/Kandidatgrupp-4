@@ -1,33 +1,24 @@
-package planeringssystem;
+package planeringssystem_v2;
 
 import java.util.Arrays;
 import java.util.Random;
 
 public class RobotRead implements Runnable {
 
-    private int sleepTime;
+//    private int sleepTime;
     private static Random generator = new Random(); // Vet inte om vi kommer behöva denna? Nej, tror vi kommer sätta en uppdateringstid som vi vill ha/S
+    private GUI gui;
     private DataStore ds;
-    private HTTPanrop ha; // hur initierar man denna när den är en main? Kan den vara en main?
-    private int currentX;
-    private int currentY;
-    private int currentArc;
-    private int capacity;
-    private String currentStatus;
-    private Transceiver tr;
+    //private Transceiver tr;
     private String[] agv;
     private String[] split_in;
     private String start;
-    static boolean cond = false;
 
-    public RobotRead(DataStore ds, HTTPanrop ha) {
+    public RobotRead(DataStore ds, GUI gui) {
+        this.gui = gui;
         this.ds = ds;
-        tr = new Transceiver();
-        this.ha = ha;
-        currentX = 70;
-        currentY = 50;
-        currentArc = 1;
-        sleepTime = generator.nextInt(20000);
+        //tr = new Transceiver();
+//        sleepTime = generator.nextInt(20000);
     }
 
     @Override
@@ -37,18 +28,17 @@ public class RobotRead implements Runnable {
             //Upprätta connection med AGVn
             //tr.getConnection();
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
-            ds.gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
+//            gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
             int i = 0;
 
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
             while (true) {
-                if (ds.gui.cond) {
-                    break;
-                }
-                ds.gui.appendErrorMessage("Jag är i loopen i robotRead");
-                while (ds.gui.getButtonState()) {
-                    Thread.sleep(sleepTime / 20);
+               
+                //gui.appendErrorMessage("Jag är i loopen i robotRead");
+                System.out.println("Jag är i loopen i robotRead");
+                while (gui.getButtonState()) {
+                    Thread.sleep(1000);
                 }
                 /*
                  * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
@@ -61,7 +51,7 @@ public class RobotRead implements Runnable {
                 System.out.println("Meddelande_in: " +ds.meddelande_in + " för " + i + "te gången");
 
                 //Uppdaterar meddelandet
-                if (ds.gui.getButtonState()) {
+                if (gui.getButtonState()) {
                     ds.enable = '0';
                 }
 
@@ -115,8 +105,7 @@ public class RobotRead implements Runnable {
 //                currentArc = 1; // Här ska robotens aktuella länk läsas in kankse? 
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
-                capacity = 8; // Hårdkodar att bilen har 8 platser totalt
-                ds.gui.appendCapacity("Nuvarade kapacitet i AGV: " + capacity);
+               
 
                 Thread.sleep(200);
                 i++;
@@ -126,7 +115,7 @@ public class RobotRead implements Runnable {
         }
 
         // Ska vi ha kvar denna?
-        ds.gui.appendErrorMessage("Robotread är nu klar");
+        gui.appendErrorMessage("Robotread är nu klar");
     }
 //
 //    public int getCurrentCapacity(int cap) {
