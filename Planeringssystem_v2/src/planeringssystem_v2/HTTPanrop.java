@@ -13,6 +13,7 @@ public class HTTPanrop {
     //private static int passengers;
     String[] dummyList;
     int arraySize;
+    String bevNek;
     
     public HTTPanrop() {
         //Constructor
@@ -109,17 +110,15 @@ public class HTTPanrop {
                 inkommande_samlat.append(inkommande_text + "\n");
 
             }
-
-            //dummyList = inkommande_text.split("\\n");
+            
             inkommande.close();
-            System.out.println(inkommande_samlat.toString());
-            //return inkommande_samlat.toString(); // beviljas eller nekas
+            bevNek = inkommande_samlat.toString();
             
 
         } catch (Exception e) {
             System.out.print(e.toString());
         }
-        return "";
+        return bevNek;
     }// tauppdrag slut
     
     

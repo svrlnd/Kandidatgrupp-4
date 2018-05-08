@@ -68,10 +68,10 @@ public class UppdragsInfo {
         }
 
         if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0) {
-            ds.uppdrag = ds.uppdragsIDArray[0];
+            ds.uppdrag[0] = ds.uppdragsIDArray[0];
             ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
             ds.currentPassengers2 = 0;
-            
+
         } else {
             for (int i = 1; i < len; i++) {
                 if (Integer.parseInt(ds.samakningArray[i]) == 1) {
@@ -87,12 +87,12 @@ public class UppdragsInfo {
             }
         }
         if (s != -1) {
-            ds.uppdrag = ds.uppdragsIDArray[0] + "," + ds.uppdragsIDArray[s];
+            ds.uppdrag[0] = ds.uppdragsIDArray[0];
+            ds.uppdrag[1] = ds.uppdragsIDArray[s];
             ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
             ds.currentPassengers2 = Integer.parseInt(ds.passengersArray[s]);
-            
+
         }
-        
 
     }
 }

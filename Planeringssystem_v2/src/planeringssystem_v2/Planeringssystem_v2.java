@@ -34,6 +34,7 @@ public class Planeringssystem_v2 {
 
         //Kalla på HTTp anrop för att ta reda på vilken som är närmaste platsen
         ha = new HTTPanrop();
+        
         //Räkna ut närmaste plats
         cp = new ClosestPlats(ds, ha, op);
         cp.getClosestPlats();
