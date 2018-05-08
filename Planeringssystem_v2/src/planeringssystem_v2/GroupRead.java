@@ -1,12 +1,9 @@
 package planeringssystem_v2;
 
+import static java.lang.Integer.toString;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-/**
- *
- * @author Simon
- */
 public class GroupRead implements Runnable {
 
     private DataStore ds;
@@ -63,6 +60,7 @@ public class GroupRead implements Runnable {
     public void run() {
         try {
             while (true) {
+
                 //Dela upp meddelandet från HTTPgrupp
                 for (int i = 0; i < 3; i++) {
                     groupList = hg.getmessage()[i].split(";");
@@ -138,12 +136,14 @@ public class GroupRead implements Runnable {
                 System.out.println("Grupp 4 Uppdrag" + uppdragGroup4);
                 System.out.println("Grupp 5 Uppdrag" + uppdragGroup5);
 
+                //Ta reda på vad de andra grupperna vill göra
                 uppdragViInteKanTa.clear();
                 for (int i = 0; i < 3; i++) {
 
                     if (i != 1) {
 
-                        if (groupPlats[i] == groupPlats[1]) { //Kolla om de andra grupperna har samma upphämtningsplats
+                        //Kolla om de andra grupperna har samma upphämtningsplats
+                        if (groupPlats[i] == groupPlats[1]) {
 
                             //Kolla hur det är med kostnaderna
                             if (Integer.parseInt(groupCost[i]) < Integer.parseInt(groupCost[1])) { //Om en annan grupp har lägre kostnad
@@ -166,11 +166,9 @@ public class GroupRead implements Runnable {
                                     }
                                 }
 
-                                //Då vill vi kolla om det finns ett eller flera uppdrag på den plasten som vi kan ta istället
-                                //Om det inte finns andra uppdrag att ta på den plasten så vill vi byta till den näst närmaste platsen 
-                                //Borde det göras en ny beräkning då?
-                            } else if (Integer.parseInt(groupCost[i]) == Integer.parseInt(groupCost[1])) { //Jämför grupp-ID om kostnaden är samma
+                            } else if (Integer.parseInt(groupCost[i]) == Integer.parseInt(groupCost[1])) {
 
+                                //Jämför grupp-ID om kostnaden är samma
                                 if (Integer.parseInt(groupID[i]) < Integer.parseInt(groupID[1])) {
                                     //Vi får inte heller ta uppdrag:
                                     if (groupUppdrag[i].length() > 1) {
@@ -206,8 +204,25 @@ public class GroupRead implements Runnable {
                         }
                     }
                 }
-            System.out.println("tempis"+tempis);
-        
+                System.out.println("tempis" + tempis);
+
+                ds.uppdrag = "";
+
+                //Gör tempis till ds.uppdrag för att uppdraget ska bli rätt
+                for (int i = 0; i < tempis.size(); i++) {
+                    if (i == (tempis.size() - 1)) {
+                        ds.uppdrag += tempis.get(i);
+                    } else {
+                        ds.uppdrag += tempis.get(i) + ",";
+                    }
+                }
+
+                System.out.println("ds.upppdrag" + ds.uppdrag);
+
+                //Vad gör vi om det inte finns några uppdrag vi vill ta på den platsen
+                if (tempis.size() == 0) {
+
+                }
 
 //        for (int m = 0; m < uppdragViInteKanTa.size(); m++) {
 //            for (int n = 0; n <) {
@@ -218,16 +233,14 @@ public class GroupRead implements Runnable {
 //                }
 //            }
 //        }
+                msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag;
 
-        msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag;
+                hg.putmessage(msg);
 
-        hg.putmessage(msg);
+                Thread.sleep(1500);
+            }
 
-        Thread.sleep(1500);
-    }
-
-}
-catch (InterruptedException e) {
+        } catch (InterruptedException e) {
 
         }
     }
