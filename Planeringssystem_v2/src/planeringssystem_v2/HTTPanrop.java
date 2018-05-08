@@ -86,4 +86,41 @@ public class HTTPanrop {
     }//listaUppdrag slut
     
     
+    public String messagetype(String plats, int id, int passagerare) { // taUppdrag
+        try {
+
+            //String[] dummyList;
+            //HTTPanrop http = new HTTPanrop();
+            String url = "http://tnk111.n7.se/tauppdrag.php?plats=" + plats + "&id=" + id + "&passagerare=" + passagerare + "&grupp=4"; //, "http://tnk111.n7.se/aterstall.php?scenario=1"
+
+            URL urlobjekt = new URL(url);
+            HttpURLConnection anslutning = (HttpURLConnection) urlobjekt.openConnection();
+            //System.out.println("\nAnropar: " + url);
+
+            int mottagen_status = anslutning.getResponseCode();
+            System.out.println("Statuskod: " + mottagen_status);
+
+            BufferedReader inkommande = new BufferedReader(new InputStreamReader(anslutning.getInputStream()));
+            String inkommande_text;
+
+            StringBuffer inkommande_samlat = new StringBuffer();
+
+            while ((inkommande_text = inkommande.readLine()) != null) {
+                inkommande_samlat.append(inkommande_text + "\n");
+
+            }
+
+            //dummyList = inkommande_text.split("\\n");
+            inkommande.close();
+            System.out.println(inkommande_samlat.toString());
+            //return inkommande_samlat.toString(); // beviljas eller nekas
+            
+
+        } catch (Exception e) {
+            System.out.print(e.toString());
+        }
+        return "";
+    }// tauppdrag slut
+    
+    
 }

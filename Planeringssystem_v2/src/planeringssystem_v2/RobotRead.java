@@ -2,6 +2,7 @@ package planeringssystem_v2;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.regex.Pattern;
 
 public class RobotRead implements Runnable {
 
@@ -11,7 +12,7 @@ public class RobotRead implements Runnable {
     private DataStore ds;
     private Transceiver tr;
     private String[] agv;
-    private String[] split_in;
+    private char [] split_in;
     private String start;
 
     public RobotRead(DataStore ds, GUI gui) {
@@ -37,7 +38,7 @@ public class RobotRead implements Runnable {
                
                 gui.appendErrorMessage("Jag är i loopen i robotRead");
 //                System.out.println("Jag är i loopen i robotRead");
-                while (gui.getButtonState()) {
+                while (!gui.getButtonState()) {
                     Thread.sleep(1000);
                 }
                 /*
@@ -54,13 +55,17 @@ public class RobotRead implements Runnable {
                 +  ds.antal_passagerare + " körinstruktion " + ds.korinstruktion 
                 + " kontrollvar. " + ds.kontroll + "   spegling " + ds.spegling);
                 
+                ds.meddelande_in = "#12345 .!234   $";
+                
 
                 ds.meddelande_ut = start + ds.enable + ds.ordernummer + 
                         ds.antal_passagerare + ds.korinstruktion + ds.kontroll
                         + " " + " " + ds.spegling + '$';
 //                ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
-//                split_in = ds.meddelande_in.split("(?!^)");
-//                
+                split_in = ds.meddelande_in.toCharArray();
+                
+                System.out.println("Split in "+Arrays.toString(split_in));
+                
                 System.out.println("Meddelande_ut: " + ds.meddelande_ut + " för " + i + "te gången");
 
                 //Uppdaterar meddelandet
@@ -69,7 +74,8 @@ public class RobotRead implements Runnable {
                 }
 
                 int k = 0; //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
-                if (Integer.parseInt(split_in[8]) == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
+                if (split_in[8] == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
+                    System.out.println("If ord.nummer ");
                     ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET. 
                     if (ds.instructions.getFirst() == null) {//Om nästa order är att stanna
                         if (ds.cap == ds.initial_cap) { //upphämtningsplats
@@ -102,18 +108,18 @@ public class RobotRead implements Runnable {
 
                 //Kollar så att speglingen har samma kontrollvariabel som vi skickade iväg
                 
-                if (Integer.parseInt(split_in[5]) != ds.kontroll) {
+                if (Character.getNumericValue(split_in[5]) != ds.kontroll) {
                     start = "1"; //Eftersom detta får AGV:n att starta om
                     //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
                 }
 
                 //Kollar att AGVns kontrollvariable är ny varje gång de skickar något
-                if (Integer.parseInt(split_in[11]) == ds.kontrollAGV) {
+                if (Character.getNumericValue(split_in[11]) == ds.kontrollAGV) {
                     start = "1";
                     //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
                 }
 
-                ds.kontrollAGV = split_in[11].charAt(0); // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel. 
+                ds.kontrollAGV = split_in[11]; // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel. 
 
 //                ds.flagCoordinates = true;
 //                //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
@@ -126,7 +132,7 @@ public class RobotRead implements Runnable {
                 Thread.sleep(350);
                 i++;
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             System.out.println("Catch i RobotRead");
         }
 

@@ -77,6 +77,9 @@ public class DataStore {
     String[] destinationUppdragStart;
     String[] destinationUppdragSlut;
     String uppdrag;
+    
+    int currentPassengers1;
+    int currentPassengers2;
 
     public DataStore() {
         nodes = 0;
@@ -122,7 +125,8 @@ public class DataStore {
         direction = "E";
         directionNextArc = "";
         uppdrag = "";
-
+        currentPassengers1 = 0;
+        currentPassengers2 = 0;
     }
 
     public void setFileName(String newFileName) {
