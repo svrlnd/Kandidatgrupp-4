@@ -219,7 +219,7 @@ public class GroupRead implements Runnable {
 //            }
 //        }
 
-        msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag;
+        msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag[0] + "," + ds.uppdrag[1];
 
         hg.putmessage(msg);
 
