@@ -19,8 +19,8 @@ public class Stop {
 
         if (bevNek.equals("beviljas")) {
             //Vi har tagit ett uppdrag och kan åka och lämna kunderna, dvs det är tillåtet att starta nästa 
-            op.createPlan(Integer.parseInt(ds.destinationUppdragStart[Integer.parseInt(ds.uppdrag[0]) - 1]), 
-                    Integer.parseInt(ds.destinationUppdragSlut[Integer.parseInt(ds.uppdrag[1]) - 1]));
+            op.createPlan(Integer.parseInt(ds.destinationUppdragStart[Integer.parseInt(ds.uppdrag.get(0)) - 1]), 
+                    Integer.parseInt(ds.destinationUppdragSlut[Integer.parseInt(ds.uppdrag.get(1)) - 1]));
             
         } else {// uppdraget var redan taget och vi får ta ett nytt, antingen nästa uppdrag i listan eller hitta en ny plats. 
             

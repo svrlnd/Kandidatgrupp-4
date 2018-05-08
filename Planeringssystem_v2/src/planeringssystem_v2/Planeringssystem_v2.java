@@ -12,8 +12,9 @@ public class Planeringssystem_v2 {
     HTTPanrop ha;
     ClosestPlats cp;
     UppdragsInfo ui;
-    GroupRead gr;
     Thread t3;
+    GroupRead gr;
+    Thread t4;
 
     Planeringssystem_v2() {
 
@@ -49,13 +50,15 @@ public class Planeringssystem_v2 {
         
         //Ta reda på vilka uppdrag vi ska ta på den platsen
         ui = new UppdragsInfo(ds, ha, cp, op);
-        ui.UppdragsInfo();
+        t3 = new Thread(ui);
+        t3.start();
+
 
         //Meddela gruppen om vilket uppdrag vi vill ta
         //sedan starta tråd GroupRead
-        gr = new GroupRead(ds);
-        t3 = new Thread(gr);
-        t3.start();
+        gr = new GroupRead(ds, gui);
+        t4 = new Thread(gr);
+        t4.start();
 
     }
 
