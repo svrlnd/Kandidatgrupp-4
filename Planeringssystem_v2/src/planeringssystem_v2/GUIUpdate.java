@@ -31,14 +31,14 @@ public class GUIUpdate implements Runnable {
 //                Thread.sleep(sleepTime / 100);
 //            }
 //            gui.appendErrorMessage("GuiUpdate startar och kommer köra i "
-//                    + sleepTime + " millisekunder");
+//                    + sleepTime + " millisekunder"); 
 
             int i = 1;
             while (true) {
-                System.out.println(i);
+//                System.out.println(i);
                 Thread.sleep(1000);
-                gui.appendErrorMessage("Jag är tråd GuiUpdate, för"
-                        + i + ":te gången");
+//                gui.appendErrorMessage("Jag är tråd GuiUpdate, för"
+//                        + i + ":te gången");
                 gui.repaint();
                 
                 i++;
@@ -48,7 +48,7 @@ public class GUIUpdate implements Runnable {
         catch (InterruptedException exception) {
             System.out.println("Catch");
         }
-                 gui.appendErrorMessage("GuiUpdate är nu klAr.");
+//                 gui.appendErrorMessage("GuiUpdate är nu klAr.");
    
     }
 

@@ -41,18 +41,29 @@ public class Transceiver {
                     break;
                 }
                 buffer = new byte[16];
-
+                
+                System.out.println("Meddelande_ut: " + ds.meddelande_ut);
                 bluetooth_ut.print(meddelande_ut);
-                Thread.sleep(400);
+                
+                Thread.sleep(250);
 
+                System.out.print("F");
                 int antal_bytes = bluetooth_in.read(buffer);
-
-                String meddelande_in = new String(buffer, 0, antal_bytes);
-
+                System.out.print("E");
+                
+                String meddelande_in = "";
+                meddelande_in = new String(buffer, 0, antal_bytes);
+//                System.out.println("L");
+                System.out.println("meddelande_in i transciever: " + meddelande_in);
                 //System.out.println("\n" + "Mottaget meddelande: " + meddelande_in); // return meddelande_in;
+//                if (meddelande_in == null) {
+//                    meddelande_in = "#2345678       $";
+//                }
                 return meddelande_in;
+                
             }
             anslutning.close();
+            
         } catch (Exception e) {
             System.out.print(e.toString());
         }

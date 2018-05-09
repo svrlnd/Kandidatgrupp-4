@@ -25,7 +25,7 @@ public class ClosestPlats {
 
         if (ds.counterFirstInstructions == 0) {
             System.out.println("ville bara säga hej");
-            ds.a = 4;
+            ds.a = 66;
             //Om plats: platsens första nod
             //Om uppdrag: uppdragets första nod
             ds.counterFirstInstructions = ds.counterFirstInstructions + 1;

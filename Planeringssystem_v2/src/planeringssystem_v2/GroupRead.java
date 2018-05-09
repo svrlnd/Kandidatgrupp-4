@@ -66,7 +66,7 @@ public class GroupRead implements Runnable {
                 //Dela upp meddelandet från HTTPgrupp
                 for (int i = 0; i < 3; i++) {
                     groupList = hg.getmessage()[i].split(";");
-                    System.out.println("GroupList: " + Arrays.toString(groupList));
+//                    System.out.println("GroupList: " + Arrays.toString(groupList));
                     tempos[i] = Integer.parseInt(groupList[1]);
                     groupDate[i] = groupList[0];
                     groupID[i] = groupList[1];
@@ -139,9 +139,9 @@ public class GroupRead implements Runnable {
                     }
                 }
 
-                System.out.println("Grupp 1 Uppdrag" + uppdragGroup1);
-                System.out.println("Grupp 4 Uppdrag" + uppdragGroup4);
-                System.out.println("Grupp 5 Uppdrag" + uppdragGroup5);
+//                System.out.println("Grupp 1 Uppdrag" + uppdragGroup1);
+//                System.out.println("Grupp 4 Uppdrag" + uppdragGroup4);
+//                System.out.println("Grupp 5 Uppdrag" + uppdragGroup5);
 
                 //Ta reda på vad de andra grupperna vill göra
                 uppdragViInteKanTa.clear();
@@ -215,7 +215,14 @@ public class GroupRead implements Runnable {
                         }
                     }
                 }
-//                System.out.println("tempis" + tempis);
+                
+//            System.out.println("tempis"+tempis);
+        
+
+//        for (int m = 0; m < uppdragViInteKanTa.size(); m++) {
+//            for (int n = 0; n <) {
+//                if (Integer.parseInt(ds.uppdragsIDArray[m]) != tempis[m]) {
+
 //
 //                System.out.println("uppdragviintekanta: " + uppdragViInteKanTa);
 //                System.out.println("uppdragsIDArrays: " + Arrays.toString(ds.uppdragsIDArray));
