@@ -76,7 +76,7 @@ public class DataStore {
     String[] pointsArray;
     String[] destinationUppdragStart;
     String[] destinationUppdragSlut;
-    String uppdrag;
+    LinkedList<String> uppdrag;
     
     int currentPassengers1;
     int currentPassengers2;
@@ -123,7 +123,7 @@ public class DataStore {
         instructions = new LinkedList<String>();
         arcRoute = new LinkedList<Integer>(); 
         directionNextArc = "";
-        uppdrag = "";
+        uppdrag = new LinkedList<String>();
         currentPassengers1 = 0;
         currentPassengers2 = 0;
     }
