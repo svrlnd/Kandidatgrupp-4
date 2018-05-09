@@ -202,10 +202,12 @@ public class GroupRead implements Runnable {
 
                 tempis = new LinkedList<Integer>();
 
+                //Gör tempis och uppdragsIDArray likadana
                 for (int k = 0; k < ds.uppdragsIDArray.length; k++) {
                     tempis.add(Integer.parseInt(ds.uppdragsIDArray[k]));
                 }
 
+                //Ta bort de uppdrag vi inte får göra
                 for (int k = 0; k < tempis.size(); k++) {
                     for (int j = 0; j < uppdragViInteKanTa.size(); j++) {
                         if (tempis.get(k) == uppdragViInteKanTa.get(j)) {
@@ -244,11 +246,11 @@ public class GroupRead implements Runnable {
                 }
                 System.out.println("ds.uppdrag är : " + ds.uppdrag);
                 if (ds.uppdrag.size() == 1) {
-                    gui.appendCapacity("Det uppdrag vi säger till gruppen att vi vill ta är : " + ds.uppdrag.get(0));
+                    gui.appendCapacity("Det uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0));
                     msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0);
                     System.out.println("Jag är i ifen");
                 } else {
-                    gui.appendCapacity("Det uppdrag vi säger till gruppen att vi vill ta är : " + ds.uppdrag.get(0) + " , " + ds.uppdrag.get(1));
+                    gui.appendCapacity("De uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0) + " , " + ds.uppdrag.get(1));
                     msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0) + "," + ds.uppdrag.get(1);
                     System.out.println("JAg är i elsen");
                 }
