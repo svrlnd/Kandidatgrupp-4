@@ -80,6 +80,7 @@ public class DataStore {
     
     int currentPassengers1;
     int currentPassengers2;
+    boolean bt;
 
     public DataStore() {
         nodes = 0;
@@ -126,6 +127,7 @@ public class DataStore {
         uppdrag = new LinkedList<String>();
         currentPassengers1 = 0;
         currentPassengers2 = 0;
+        bt = false;
     }
 
     public void setFileName(String newFileName) {
