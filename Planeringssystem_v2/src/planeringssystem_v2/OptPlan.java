@@ -16,7 +16,7 @@ public class OptPlan {
     public int getCost(int start_node, int dest_node) {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
-        //cost = 0;
+        cost = 0;
 
         for (int i = 0; i < ds.nodes; i++) {
             Vertex location = new Vertex("" + (i + 1), "Nod #" + (i + 1));
@@ -412,8 +412,6 @@ public class OptPlan {
         if (ds.instructions.getLast() == "D" && ds.instructions.size() > 3) {
             ds.instructions.removeLast();
         }
-        
-        System.out.println("instructions" + ds.instructions.size());
  
         for (int i = 0; i < ds.instructions.size() - 2 + counter; i++) {
             

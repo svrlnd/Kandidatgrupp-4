@@ -15,6 +15,7 @@ public class Planeringssystem_v2 {
     Thread t3;
     GroupRead gr;
     Thread t4;
+    Stop stop;
 
     Planeringssystem_v2() {
 
@@ -44,12 +45,12 @@ public class Planeringssystem_v2 {
         op.createPlan(ds.a, ds.dest_node);
         op.createInstructions();
 
-        rr = new RobotRead(ds, gui);
+        rr = new RobotRead(ds, gui, stop);
         t1 = new Thread(rr);
         t1.start();
         
         //Ta reda på vilka uppdrag vi ska ta på den platsen
-        ui = new UppdragsInfo(ds, ha, cp, op);
+        ui = new UppdragsInfo(ds, ha, op);
         t3 = new Thread(ui);
         t3.start();
 

@@ -110,8 +110,8 @@ public class DataStore {
         distanceCP = 0;
         dest_node = 0;
         last_node = 0;
-        first_node = 71;
-        direction = "W";
+        first_node = 68;
+        direction = "S";
         valdPlats = "";
         a = 0;
         dummyArcEnd = new LinkedList<Integer>();

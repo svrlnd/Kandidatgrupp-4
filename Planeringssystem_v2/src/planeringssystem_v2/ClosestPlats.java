@@ -24,17 +24,13 @@ public class ClosestPlats {
     public void getClosestPlats() {
 
         if (ds.counterFirstInstructions == 0) {
-            System.out.println("ville bara säga hej");
-            ds.a = 66;
+            ds.a = 35;
             //Om plats: platsens första nod
             //Om uppdrag: uppdragets första nod
             ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
 
-        } else {
-            System.out.println("nu är jag är");
-            ds.a = ds.dummyArcEnd.getLast();
         }
-
+        
         ds.platsLista = new String[Integer.parseInt(ha.messagetype()[0])];
         ds.startSlutNoder = new String[Integer.parseInt(ha.messagetype()[0])];
         ds.platser = new String[Integer.parseInt(ha.messagetype()[0])];
@@ -48,16 +44,13 @@ public class ClosestPlats {
             ds.platser[i] = ds.platsLista[0];
             ds.noder[i] = ds.platsLista[1];
         }
-        System.out.println(Arrays.toString(ds.platser));
+       
         //Dela upp noderna i varsin array ("startnod" och "slutnod").
         for (int j = 0; j < Integer.parseInt(ha.messagetype()[0]); j++) {
             ds.startSlutNoder = ds.noder[j].split(",");
             ds.startnod[j] = Integer.parseInt(ds.startSlutNoder[0]) - 1;
             ds.slutnod[j] = Integer.parseInt(ds.startSlutNoder[1]) - 1;
         }
-
-        System.out.println(Arrays.toString(ds.startnod));
-        System.out.println(Arrays.toString(ds.slutnod));
 
         int min = Integer.MAX_VALUE; //Detta är avståndet till den närmsta upphämtningsplatsen
         String cP = ""; //Detta är närmsta upphämtningsplatsen

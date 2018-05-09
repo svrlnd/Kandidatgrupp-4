@@ -19,22 +19,26 @@ public class Stop {
 
         if (bevNek.equals("beviljas")) {
             //Vi har tagit ett uppdrag och kan åka och lämna kunderna, dvs det är tillåtet att starta nästa 
-            op.createPlan(Integer.parseInt(ds.destinationUppdragStart[Integer.parseInt(ds.uppdrag.get(0)) - 1]), 
-                    Integer.parseInt(ds.destinationUppdragSlut[Integer.parseInt(ds.uppdrag.get(1)) - 1]));
+            // - påbörja rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt 
+            //kallar på op.createPlan och op.createInstructions
             
-        } else {// uppdraget var redan taget och vi får ta ett nytt, antingen nästa uppdrag i listan eller hitta en ny plats. 
-            
-        }
+            ds.first_node = ds.dummyArcStart.getLast();
+            ds.a = ds.dummyArcEnd.getLast();
+            ds.dest_node = Integer.parseInt(ds.destinationUppdragStart[Integer.parseInt(ds.uppdrag.get(0)) - 1]);
+            ds.last_node = Integer.parseInt(ds.destinationUppdragSlut[Integer.parseInt(ds.uppdrag.get(0)) - 1]);
+                    
+            op.createPlan(ds.a, ds.dest_node);
+            op.createInstructions();
             // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
             ds.cap = ds.cap - ds.currentPassengers1 + ds.currentPassengers2;
             ds.antal_passagerare = (char) (ds.currentPassengers1 + ds.currentPassengers2);
-            // - påbörja rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt 
-            //kallar på op.createPlan och op.createInstructions
-            op.createPlan(Integer.parseInt(ds.destinationUppdragStart[0]), Integer.parseInt(ds.destinationUppdragSlut[0]));
-            op.createInstructions();
-        }
 
-    
+        } else {// uppdraget var redan taget och vi får ta ett nytt, antingen nästa uppdrag i listan eller hitta en ny plats. 
+            //Listauppdrag på platsen
+            System.out.println("Nu är vi i elsen i pickup som kallas från robotread");
+
+        }
+    }
 
     public void dropoff() {
         // - ökar kapaciteten
@@ -42,9 +46,11 @@ public class Stop {
         if (ds.currentPassengers1 == 0) {
             ds.cap += ds.currentPassengers2;
             ds.currentPassengers2 = 0;
+
         } else {
             ds.cap += ds.currentPassengers1;
             ds.currentPassengers1 = 0;
+
         }
         // - påbörja rutt till närmsta upphämtningsplats
 

@@ -11,14 +11,16 @@ public class RobotRead implements Runnable {
     private GUI gui;
     private DataStore ds;
     private Transceiver tr;
+    private Stop stop;
     private char[] agv;
     private char [] split_in;
     private String start;
     //int counterASCI;
 
-    public RobotRead(DataStore ds, GUI gui) {
+    public RobotRead(DataStore ds, GUI gui, Stop stop) {
         this.gui = gui;
         this.ds = ds;
+        this.stop = stop;
         tr = new Transceiver(ds);
 //        sleepTime = generator.nextInt(20000);
     }
@@ -28,7 +30,7 @@ public class RobotRead implements Runnable {
         try {
 
             //Upprätta connection med AGVn
-            tr.getConnection();
+            //tr.getConnection();
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
 //            gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
@@ -71,7 +73,7 @@ public class RobotRead implements Runnable {
                 
 
 
-                ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
+                //ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
                 
 //                if (meddelande_in.equals("")) {
                 Thread.sleep(400);
@@ -107,16 +109,19 @@ public class RobotRead implements Runnable {
                 if (split_in[8] == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
                     System.out.println("BYTT ORDERNUMMER");
                     ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET. 
-                    if (ds.instructions.getFirst() == null) {//Om nästa order är att stanna
+                    if (ds.korinstruktion == "I") {//Om nästa order är att stanna
                         if (ds.cap == ds.initial_cap) { //upphämtningsplats
                             //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
                             // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
                             // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
                             // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
+                            stop.pickup();
+                            
                         } else if (ds.cap < ds.initial_cap) { //avlämningsplats
                             //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
                             // - ökar kapaciteten
                             // - påbörjar rutt till närmsta upphämtningsplats
+                            stop.dropoff();
                         }
                     }
                     ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  

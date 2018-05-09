@@ -4,7 +4,6 @@ public class UppdragsInfo implements Runnable {
 
     private DataStore ds;
     private HTTPanrop ha;
-    private ClosestPlats cp;
     private OptPlan op;
     private String[] listauppdragList;
     private String[] dummyList;
@@ -19,10 +18,9 @@ public class UppdragsInfo implements Runnable {
     int s;
     
 
-    public UppdragsInfo(DataStore ds, HTTPanrop ha, ClosestPlats cp, OptPlan op) {
+    public UppdragsInfo(DataStore ds, HTTPanrop ha, OptPlan op) {
         this.ds = ds;
         this.ha = ha;
-        this.cp = cp;
         this.op = op;
     }
 
@@ -84,9 +82,10 @@ public class UppdragsInfo implements Runnable {
                 } else {
                     for (int i = 1; i < len; i++) {
                         if (Integer.parseInt(ds.samakningArray[i]) == 1) {
+                            
+                            //Detta låg i temp_cost innan: Integer.parseInt(ds.destinationUppdragStart[0])
 
-                            temp_cost = op.getCost(Integer.parseInt(ds.destinationUppdragStart[0]), Integer.
-                                    parseInt(ds.destinationUppdragStart[i]));
+                            temp_cost = op.getCost(ds.dummyArcEnd.getLast(), Integer.parseInt(ds.destinationUppdragStart[i]));
 
                             if (temp_cost < min_cost) {
                                 min_cost = temp_cost;
@@ -103,7 +102,7 @@ public class UppdragsInfo implements Runnable {
                     
 
                 }
-                Thread.sleep(1500);
+                Thread.sleep(1000);
                 j++;
             }
 

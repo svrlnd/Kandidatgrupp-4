@@ -72,7 +72,6 @@ public class GroupRead implements Runnable {
                     groupID[i] = groupList[1];
                     groupMessage[i] = groupList[2];
                 }
-                System.out.println("groupMessage: " + Arrays.toString(groupMessage));
 
                 //Swoopa meddelandet i rätt ordning med en bubblesort
                 for (int i = 0; i < tempos.length; i++) {
@@ -117,7 +116,6 @@ public class GroupRead implements Runnable {
 
                     if (i == 0) {
                         uppdragGroup1.clear();
-                        System.out.println("Hur lång är dummyList om i = 0? " + dummyList.length);
                         for (int j = 0; j < dummyList.length; j++) {
                             uppdragGroup1.add(dummyList[j]);
 
@@ -125,13 +123,11 @@ public class GroupRead implements Runnable {
                     } //Ändra ordning här breoende på ordning i HTTP
                     else if (i == 1) {
                         uppdragGroup4.clear();
-                        System.out.println("Hur lång är dummyList om i = 1? " + dummyList.length);
                         for (int j = 0; j < dummyList.length; j++) {
                             uppdragGroup4.add(dummyList[j]);
                         }
                     } else if (i == 2) {
                         uppdragGroup5.clear();
-                        System.out.println("Hur lång är dummyList om i = 2? " + dummyList.length);
                         for (int j = 0; j < dummyList.length; j++) {
 
                             uppdragGroup5.add(dummyList[j]);
@@ -146,7 +142,6 @@ public class GroupRead implements Runnable {
                 //Ta reda på vad de andra grupperna vill göra
                 uppdragViInteKanTa.clear();
                 for (int i = 0; i < 3; i++) {
-                    System.out.println("i: " + i);
                     if (i != 1) {
 
                         if (groupPlats[i].equals(groupPlats[1])) { //Kolla om de andra grupperna har samma upphämtningsplats
@@ -259,7 +254,7 @@ public class GroupRead implements Runnable {
                 } else {
                     gui.appendCapacity("De uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0) + " , " + ds.uppdrag.get(1));
                     msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0) + "," + ds.uppdrag.get(1);
-                    System.out.println("JAg är i elsen");
+                    System.out.println("Jag är i elsen");
                 }
 
                 hg.putmessage(msg);
