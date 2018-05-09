@@ -197,6 +197,7 @@ public class GroupRead implements Runnable {
 
                 tempis = new LinkedList<Integer>();
 
+                System.out.println("uppdragsIDArray: " + Arrays.toString(ds.uppdragsIDArray));
                 //Gör tempis och uppdragsIDArray likadana
                 for (int k = 0; k < ds.uppdragsIDArray.length; k++) {
                     tempis.add(Integer.parseInt(ds.uppdragsIDArray[k]));
