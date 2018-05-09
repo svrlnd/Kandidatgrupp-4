@@ -30,7 +30,7 @@ public class RobotRead implements Runnable {
         try {
 
             //Upprätta connection med AGVn
-            //tr.getConnection();
+            tr.getConnection();
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
 //            gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 

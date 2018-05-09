@@ -25,7 +25,7 @@ public class Transceiver {
             bluetooth_ut = new PrintStream(anslutning.openOutputStream());
 
             bluetooth_in = anslutning.openInputStream(); // new InputStream(anslutning.openInputStream()); ?
-            
+            ds.bt = true;
 
         } catch (Exception e) {
             System.out.print(e.toString());
