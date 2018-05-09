@@ -11,9 +11,10 @@ public class RobotRead implements Runnable {
     private GUI gui;
     private DataStore ds;
     private Transceiver tr;
-    private String[] agv;
+    private char[] agv;
     private char [] split_in;
     private String start;
+    //int counterASCI;
 
     public RobotRead(DataStore ds, GUI gui) {
         this.gui = gui;
@@ -27,55 +28,84 @@ public class RobotRead implements Runnable {
         try {
 
             //Upprätta connection med AGVn
-//            tr.getConnection();
+            tr.getConnection();
             // Hur länge RobotReaden ska köras kanske inte behöver skrivas ut?
 //            gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
             int i = 0;
 
+            ds.enable = '1';
+            ds.spegling = "0000000$";
+            //counterASCI = 33;
+            
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
             while (true) {
                
-                gui.appendErrorMessage("Jag är i loopen i robotRead");
-//                System.out.println("Jag är i loopen i robotRead");
+                //gui.appendErrorMessage("BT-anslutning redo");
+//                System.out.println("BT-anslutning redo");
                 while (!gui.getButtonState()) {
-                    Thread.sleep(1000);
+                    gui.appendErrorMessage("BT-anslutning redo");
+                    Thread.sleep(400);
                 }
                 /*
                  * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
                  */
                 
                 start = "#";
-                ds.enable = '1';
                 
+                ds.korinstruktion = ds.instructions.getFirst();
+         
                 //Gjorde denna println för att se vad som saknas, så kan vi bocka av
                 //vad som blir klart.
-                System.out.println("start " + start + " enable " + ds.enable
-                + " ordnr " + ds.ordernummer +  " antal passagerare " 
-                +  ds.antal_passagerare + " körinstruktion " + ds.korinstruktion 
-                + " kontrollvar. " + ds.kontroll + "   spegling " + ds.spegling);
+//                System.out.println("start " + start + " enable " + ds.enable
+//                + " ordnr " + ds.ordernummer +  " antal passagerare " 
+//                +  ds.antal_passagerare + " körinstruktion " + ds.korinstruktion 
+//                + " kontrollvar. " + ds.kontroll + "   spegling " + ds.spegling);
                 
-                ds.meddelande_in = "#12345 .!234   $";
-                
+//                ds.meddelande_in = "#12345 .!234   $";
 
+                
                 ds.meddelande_ut = start + ds.enable + ds.ordernummer + 
                         ds.antal_passagerare + ds.korinstruktion + ds.kontroll
-                        + " " + " " + ds.spegling + '$';
-//                ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
+                        + " " + " " + ds.spegling;
+                
+
+
+                ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
+                
+//                if (meddelande_in.equals("")) {
+                Thread.sleep(400);
+                
+                //System.out.println("Mottaget: " + ds.meddelande_in);
+                gui.appendErrorMessage("Mottaget: " + ds.meddelande_in);
+                
                 split_in = ds.meddelande_in.toCharArray();
                 
-                System.out.println("Split in "+Arrays.toString(split_in));
+                //Skriver ut att mottaget meddelande är ok så länge vi får # i början och $ i slutet
+                for(i = 0; i < split_in.length; i++) {
+                    if(split_in[0] == '#' && split_in[15] == '$') {
+                        gui.appendErrorMessage("AGV kör korrekt");
+                    }
+                    else {
+                        gui.appendErrorMessage("Mottaget meddelande är inkorrekt");
+                        //ds.enable = 0;
+                    }
+                    
+                }
                 
-                System.out.println("Meddelande_ut: " + ds.meddelande_ut + " för " + i + "te gången");
+                
+//              System.out.println("Split in "+Arrays.toString(split_in));
+                
+                
 
                 //Uppdaterar meddelandet
                 if (gui.getButtonState()) {
-                    ds.enable = '0';
+                   // ds.enable = '0';
                 }
 
                 int k = 0; //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
                 if (split_in[8] == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
-                    System.out.println("If ord.nummer ");
+                    System.out.println("BYTT ORDERNUMMER");
                     ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET. 
                     if (ds.instructions.getFirst() == null) {//Om nästa order är att stanna
                         if (ds.cap == ds.initial_cap) { //upphämtningsplats
@@ -95,14 +125,21 @@ public class RobotRead implements Runnable {
                 }
 
                 ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
+                
+                
                 ds.kontroll++; //kontrollvariablen förändras varje gång vi skickar något, bör den nollställas ibland? Vad händer när den kommer till slutet av ASCI-tabellen
-
+                
+                if((int) ds.kontroll == 126) {
+                    ds.kontroll = 33;
+                }
+                
+                
                 //spegling = tempMeddelande.split(".");
-                agv = ds.meddelande_in.split("(?!^)");
+                agv = split_in;
                 ds.spegling = ""; // här nollställs spegling TA INTE BORT
 
                 //Tar fram det som ska speglas
-                for (int j = 9; j < agv.length; j++) {
+                for (int j = 8; j < agv.length; j++) {
                     ds.spegling += agv[j];
                 }
 
@@ -127,17 +164,17 @@ public class RobotRead implements Runnable {
 //                currentArc = 1; // Här ska robotens aktuella länk läsas in kankse? 
                 // Här ska vi istället skriva ut meddelandet som kommer i från roboten!
                 //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
-               
+                    
 
-                Thread.sleep(350);
                 i++;
             }
-        } catch (InterruptedException e) {
-            System.out.println("Catch i RobotRead");
+        } catch (Exception e) {
+            System.out.println("Catch i RobotRead, avbryter tråd");
         }
+        
 
         // Ska vi ha kvar denna?
-        gui.appendErrorMessage("Robotread är nu klar");
+//        gui.appendErrorMessage("Robotread är nu klar");
     }
 //
 //    public int getCurrentCapacity(int cap) {

@@ -16,7 +16,7 @@ public class OptPlan {
     public int getCost(int start_node, int dest_node) {
         nodes = new ArrayList<Vertex>();
         edges = new ArrayList<Edge>();
-        cost = 0;
+        //cost = 0;
 
         for (int i = 0; i < ds.nodes; i++) {
             Vertex location = new Vertex("" + (i + 1), "Nod #" + (i + 1));
@@ -103,8 +103,8 @@ public class OptPlan {
         }
 
     }
-    
-     public void createInstructions() { //Ändra denna till public STRING createInstructions
+
+    public void createInstructions() { //Ändra denna till public STRING createInstructions
 
         //Loopar igenom alla länkar i arcRoute för att ta reda på startnoden och slutnoden för dessa länkar
         for (int i = 0; i < ds.arcRoute.size(); i++) {
@@ -123,7 +123,6 @@ public class OptPlan {
             }
         }
 
-        
         //Nu har vi nodernas nummer, nu måste vi spara dessa koordinaterna
         //I denna loop sparas alla x-koordinater för start-noderna
         for (int i = 0; i < ds.dummyArcStart.size(); i++) {
@@ -161,7 +160,6 @@ public class OptPlan {
             }
         }
 
-        
 //Nu ska vi föröska räkna ut riktnignarna 
         for (int i = 0; i < ds.arcRoute.size() - 1; i++) {
 
@@ -410,13 +408,15 @@ public class OptPlan {
         System.out.println("Array: " + ds.instructions);
 
         int counter = 0;
-        
-        if(ds.instructions.getLast() == "D") {
+
+        if (ds.instructions.getLast() == "D" && ds.instructions.size() > 3) {
             ds.instructions.removeLast();
         }
-
+        
+        System.out.println("instructions" + ds.instructions.size());
+ 
         for (int i = 0; i < ds.instructions.size() - 2 + counter; i++) {
-
+            
             // Hanterar u-svängar (passerar tre korsningslänkar)
             if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "B")) {
                 ds.instructions.remove(i);
@@ -448,9 +448,11 @@ public class OptPlan {
             } //Hanterar rakt fram (passerar en korsningslänk)
             else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "D")) {
                 ds.instructions.remove(i);
-//                if (ds.instructions.get(i) == "D" && ds.instructions.getLast() != "D") {
-//                    ds.instructions.remove(i);
-//                }
+                if (ds.arcRoute.size() <= 7) {
+                    if (ds.instructions.get(i) == "D" && ds.instructions.getLast() != "D") {
+                        ds.instructions.remove(i);
+                    }
+             }
             }
         }
 
@@ -459,5 +461,3 @@ public class OptPlan {
 
     }
 }
-
-

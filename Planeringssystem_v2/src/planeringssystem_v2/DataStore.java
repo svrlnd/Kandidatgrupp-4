@@ -98,7 +98,6 @@ public class DataStore {
         dummyY = 0;
         meddelande_in = "";
         meddelande_ut = "";
-        enable = '1';
         ordernummer = '!';
         cap = 5;
         initial_cap = 5;
@@ -111,7 +110,8 @@ public class DataStore {
         distanceCP = 0;
         dest_node = 0;
         last_node = 0;
-        first_node = 1;
+        first_node = 71;
+        direction = "W";
         valdPlats = "";
         a = 0;
         dummyArcEnd = new LinkedList<Integer>();
@@ -122,7 +122,6 @@ public class DataStore {
         dummyEndKoorY = new LinkedList<Integer>();
         instructions = new LinkedList<String>();
         arcRoute = new LinkedList<Integer>(); 
-        direction = "E";
         directionNextArc = "";
         uppdrag = "";
         currentPassengers1 = 0;

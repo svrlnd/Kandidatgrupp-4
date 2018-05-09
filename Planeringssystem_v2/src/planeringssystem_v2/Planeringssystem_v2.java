@@ -52,9 +52,9 @@ public class Planeringssystem_v2 {
 
         //Meddela gruppen om vilket uppdrag vi vill ta
         //sedan starta tråd GroupRead
-        gr = new GroupRead(ds);
-        t3 = new Thread(gr);
-        t3.start();
+//        gr = new GroupRead(ds);
+//        t3 = new Thread(gr);
+//        t3.start();
 
     }
 
