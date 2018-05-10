@@ -19,6 +19,7 @@ public class GUI extends javax.swing.JFrame {
         this.ds = ds;
         myinitComponents();
         setTitle("Planeringssystem");
+
     }
 
     public void appendCapacity(String s) {
@@ -74,21 +75,9 @@ public class GUI extends javax.swing.JFrame {
         jToggleButton1.setBackground(new java.awt.Color(0, 204, 51));
         jToggleButton1.setText("On/Off");
 
-        if (!ds.bt) {
-            jTextField1.setEditable(false);
-            jTextField1.setBackground(new java.awt.Color(255, 0, 51));
-            jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-            jTextField1.setText("No Connection");
-//            jTextField1.addActionListener(new java.awt.event.ActionListener() {
-//                public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                    jTextField1ActionPerformed(evt);
-//                }
-//            });
-        }
-        else if (ds.bt){
-            jTextField1.setBackground(new java.awt.Color(10,94,203));
-            jTextField1.setText("Connection");
-        }
+        jTextField1.setEditable(false);
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,7 +211,14 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    javax.swing.JTextField jTextField1;
+    private javax.swing.JToggleButton jToggleButton1;
+    /*
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
@@ -232,4 +228,5 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JToggleButton jToggleButton1;
     // End of variables declaration//GEN-END:variables
+*/
 }

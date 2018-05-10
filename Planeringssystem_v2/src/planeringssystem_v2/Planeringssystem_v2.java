@@ -28,7 +28,7 @@ public class Planeringssystem_v2 {
         gui = new GUI(ds);
         gui.setVisible(true);
 
-        gu = new GUIUpdate(gui);
+        gu = new GUIUpdate(gui,ds);
         t2 = new Thread(gu);
         t2.start();
 
