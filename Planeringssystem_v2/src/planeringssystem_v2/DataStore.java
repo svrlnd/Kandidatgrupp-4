@@ -81,6 +81,9 @@ public class DataStore {
     int currentPassengers1;
     int currentPassengers2;
     boolean bt;
+    boolean uppdragFylld;
+    
+    int currentArc; 
 
     public DataStore() {
         nodes = 0;
@@ -128,6 +131,7 @@ public class DataStore {
         currentPassengers1 = 0;
         currentPassengers2 = 0;
         bt = false;
+        uppdragFylld = false;
     }
 
     public void setFileName(String newFileName) {

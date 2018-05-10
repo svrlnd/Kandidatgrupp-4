@@ -37,7 +37,7 @@ public class UppdragsInfo implements Runnable {
 
             int j = 0;
             while (true) {
-
+                
                 listauppdragList = ha.messagetype(ds.valdPlats);
                 System.out.println(Arrays.toString(listauppdragList));
 
@@ -80,7 +80,7 @@ public class UppdragsInfo implements Runnable {
                         temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
                     }
 
-                    if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0) {
+                    if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0 || len == 1) {
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
                         ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
                         ds.currentPassengers2 = 0;
@@ -106,11 +106,15 @@ public class UppdragsInfo implements Runnable {
                         ds.currentPassengers2 = Integer.parseInt(ds.passengersArray[s]);
 
                     }
+                    ds.uppdragFylld = true;
+                    System.out.println("DS.UPPDRAGFYLLD i uppdragsinfo" + ds.uppdragFylld);
                 }
-
+                System.out.println("vilka uppdrag vi vill ta " + ds.uppdrag);
+                
                 Thread.sleep(1000);
                 j++;
-
+                 ds.uppdrag.clear();
+                
             }
         } catch (InterruptedException e) {
             System.out.println("Catch i uppdragsinfo");
