@@ -42,6 +42,8 @@ public class GUIUpdate implements Runnable {
 //                gui.appendErrorMessage("Jag är tråd GuiUpdate, för"
 //                        + i + ":te gången");
                 count++;
+                
+                //Gör knappen blå äntligen
                 if (!ds.bt) {
                     gui.jTextField1.setBackground(new java.awt.Color(255, 0, 51));
                     gui.jTextField1.setText("No Connection");
@@ -49,11 +51,10 @@ public class GUIUpdate implements Runnable {
                     if ((count & 1) == 0) {
                         gui.jTextField1.setBackground(new java.awt.Color(10, 94, 203));
                         gui.jTextField1.setText("Connection");
-                    }else{
+                    } else {
                         gui.jTextField1.setBackground(new java.awt.Color(255, 255, 255));
-                        gui.jTextField1.setText("Connection");                        
+                        gui.jTextField1.setText("Connection");
                     }
-
                 }
                 gui.repaint();
 
