@@ -47,9 +47,9 @@ public class Transceiver {
                 
                 Thread.sleep(250);
 
-                System.out.print("F");
+                //System.out.print("F");
                 int antal_bytes = bluetooth_in.read(buffer);
-                System.out.print("E");
+                //System.out.print("E");
                 
                 String meddelande_in = "";
                 meddelande_in = new String(buffer, 0, antal_bytes);

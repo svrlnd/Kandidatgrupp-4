@@ -70,7 +70,7 @@ public class RobotRead implements Runnable {
                         + ds.antal_passagerare + ds.korinstruktion + ds.kontroll
                         + " " + " " + ds.spegling;
 
-                //ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
+                ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
 //                if (meddelande_in.equals("")) {
                 Thread.sleep(400);
 
@@ -124,7 +124,12 @@ public class RobotRead implements Runnable {
                     }
                     ds.currentArc = ds.arcRoute.get(counter);
                     ds.distanceCP -= ((counter - 1) * 30);
+                    ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  
+                    ds.arcColor[ds.arcRoute.get(counter)] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
+                    i++;
+                }
                     if (ds.korinstruktion == "I") {//Om nästa order är att stanna
+                        System.out.println("Nu är vi i körinstruktion == I");
                         if (ds.cap == ds.initial_cap) { //upphämtningsplats
                             //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
                             // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
@@ -135,7 +140,11 @@ public class RobotRead implements Runnable {
                             for (int k = 0; k < ds.arcRoute.size(); k++) {
                                 ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
                             }
+                            ds.arcRoute.clear();
                             stop.pickup();
+                            ds.instructions.removeFirst();
+                            
+                            
                         } else if (ds.cap < ds.initial_cap) { //avlämningsplats
                             //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
                             // - ökar kapaciteten
@@ -144,14 +153,12 @@ public class RobotRead implements Runnable {
                             for (int k = 0; k < ds.arcRoute.size(); k++) {
                                 ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
                             }
+                            ds.arcRoute.clear();
                             stop.dropoff();
-
+                            ds.instructions.removeFirst();
                         }
                     }
-                    ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  
-                    ds.arcColor[ds.arcRoute.get(counter)] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
-                    i++;
-                }
+                    
 
                 ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
 
@@ -192,7 +199,7 @@ public class RobotRead implements Runnable {
                 //gui.appendErrorMessage("Jag är tråd RobotRead för " + i + ":e gången.");
                 i++;
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
             System.out.println("Catch i RobotRead, avbryter tråd");
         }
 

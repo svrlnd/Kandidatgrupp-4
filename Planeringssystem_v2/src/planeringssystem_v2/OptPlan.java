@@ -105,7 +105,15 @@ public class OptPlan {
     }
 
     public void createInstructions() { //Ändra denna till public STRING createInstructions
-
+        
+        ds.dummyEndKoorX.clear();
+        ds.dummyEndKoorY.clear();
+        ds.dummyStartKoorX.clear();
+        ds.dummyStartKoorY.clear();
+        ds.dummyArcStart.clear();
+        ds.dummyArcEnd.clear();
+        
+        System.out.println("ArcRoute in i instructions: " + ds.arcRoute);
         //Loopar igenom alla länkar i arcRoute för att ta reda på startnoden och slutnoden för dessa länkar
         for (int i = 0; i < ds.arcRoute.size(); i++) {
 
@@ -161,6 +169,7 @@ public class OptPlan {
         }
 
 //Nu ska vi föröska räkna ut riktnignarna 
+System.out.println("arcRoute: " + ds.arcRoute);
         for (int i = 0; i < ds.arcRoute.size() - 1; i++) {
 
             ds.directionNextArc = "";
@@ -190,6 +199,7 @@ public class OptPlan {
                 ds.directionNextArc = "SW";
 
             }
+
 
             //"Räkna ut" hur den ska svänga
             if (ds.direction.equals("N")) {
