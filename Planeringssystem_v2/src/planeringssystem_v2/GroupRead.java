@@ -65,27 +65,21 @@ public class GroupRead implements Runnable {
 
             while (true) {
                 while (ds.uppdragFylld) {
-                    System.out.println("STORLEK " + ds.uppdrag.size());
 
                     if (ds.uppdrag.size() == 1) {
                         gui.appendCapacity("Det uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0));
                         msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0);
-                        System.out.println("Jag är i ifen");
-                    } else {
+                    } else if (ds.uppdrag.size() > 1){
                         gui.appendCapacity("De uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0) + " , " + ds.uppdrag.get(1));
                         msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0) + "," + ds.uppdrag.get(1);
-                        System.out.println("Jag är i elsen");
                     }
 
                     hg.putmessage(msg);
 
                     listGroupList = hg.getmessage();
-                    System.out.println("Meddelande från gruppen " + Arrays.toString(listGroupList));
-                    System.out.println("längd av grupplist" + listGroupList.length);
 
                     if (listGroupList.length > 2) {
 
-                        System.out.println("Nu gick vi in här");
                         for (int i = 0; i < listGroupList.length; i++) {
                             groupList = listGroupList[i].split(";");
                         }
@@ -170,25 +164,25 @@ public class GroupRead implements Runnable {
                             if (i != 1) {
 
                                 if (groupPlats[i].equals(groupPlats[1])) { //Kolla om de andra grupperna har samma upphämtningsplats
-                                    System.out.println("GroupCost varv " + i + " är " + Arrays.toString(groupCost));
+ 
                                     //Kolla hur det är med kostnaderna
                                     if (Integer.parseInt(groupCost[i]) < Integer.parseInt(groupCost[1])) { //Om en annan grupp har lägre kostnad
                                         //Vi kommer granterat ha samma första uppdrag så det får vi inte göra
-                                        System.out.println("Minsta kostnaden är: " + groupCost[i]);
+
                                         //Vi får inte heller ta uppdrag:
                                         //if (groupUppdrag[i].length() > 1) {
                                         if (i == 0) {
                                             for (int j = 0; j < uppdragGroup1.size(); j++) {
                                                 if (!uppdragViInteKanTa.contains(j)) {
                                                     uppdragViInteKanTa.add(j);
-                                                    System.out.println("i = 0, dvs grupp 1 " + j);
+ 
                                                 }
                                             }
                                         } else if (i == 2) {
                                             for (int j = 0; j < uppdragGroup5.size(); j++) {
                                                 if (!uppdragViInteKanTa.contains(Integer.parseInt(uppdragGroup5.get(j)))) {
                                                     uppdragViInteKanTa.add(Integer.parseInt(uppdragGroup5.get(j)));
-                                                    System.out.println("i = 2, dvs grupp 5 " + j);
+
                                                 }
                                             }
                                         }
@@ -222,8 +216,7 @@ public class GroupRead implements Runnable {
 
                         tempis = new LinkedList<Integer>();
 
-                        System.out.println("uppdragsIDArray: " + Arrays.toString(ds.uppdragsIDArray));
-                        System.out.println("uppdragVi inte kan ta " + uppdragViInteKanTa);
+             
                         //Gör tempis och uppdragsIDArray likadana
                         for (int k = 0; k < ds.uppdragsIDArray.length; k++) {
                             tempis.add(Integer.parseInt(ds.uppdragsIDArray[k]));
@@ -238,7 +231,7 @@ public class GroupRead implements Runnable {
                             }
                         }
 
-                        System.out.println("tempis" + tempis);
+  
 //        for (int m = 0; m < uppdragViInteKanTa.size(); m++) {
 //            for (int n = 0; n <) {
 //                if (Integer.parseInt(ds.uppdragsIDArray[m]) != tempis[m]) {
@@ -268,7 +261,6 @@ public class GroupRead implements Runnable {
                                 ds.uppdrag.add(Integer.toString(tempis.get(i)));
                             }
                         }
-                        System.out.println("ds.uppdrag är : " + ds.uppdrag);
 
                         Thread.sleep(1500);
                     }

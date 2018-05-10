@@ -69,7 +69,7 @@ public class ClosestPlats {
                 lN = ds.slutnod[i];
             }   
         }
-        ds.distanceCP = min;
+        ds.distanceCP = min + ds.distanceDO;
         ds.dest_node = dN;
         ds.last_node = lN;
         ds.valdPlats = cP;

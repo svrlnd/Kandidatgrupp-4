@@ -17,7 +17,6 @@ public class UppdragsInfo implements Runnable {
     int temp_cap;
     int min_cost;
     int temp_cost;
-    int s;
 
     public UppdragsInfo(DataStore ds, HTTPanrop ha, OptPlan op) {
         this.ds = ds;
@@ -37,9 +36,8 @@ public class UppdragsInfo implements Runnable {
 
             int j = 0;
             while (true) {
-                
+
                 listauppdragList = ha.messagetype(ds.valdPlats);
-                System.out.println(Arrays.toString(listauppdragList));
 
                 if (!listauppdragList[0].equals("0")) {
 
@@ -59,7 +57,7 @@ public class UppdragsInfo implements Runnable {
                     //Lägg rätt information i respektive array
                     for (int i = 0; i < len; i++) {
                         dummyList = listauppdragList[i + 1].toString().split(";");
-                        System.out.println("DummyList: " + dummyList[0]);
+  
                         ds.uppdragsIDArray[i] = dummyList[0];
                         ds.destinationUppdragArray[i] = dummyList[1]; //Fattar den att detta är två olika noder?
                         ds.passengersArray[i] = dummyList[2];
@@ -71,11 +69,13 @@ public class UppdragsInfo implements Runnable {
                     }
 
                     min_cost = Integer.MAX_VALUE;
-                    s = -1;
+                    ds.s = -1;
 
-                    System.out.println("Passenger array: " + Arrays.toString(ds.passengersArray));
+             
                     if (temp_cap <= Integer.parseInt(ds.passengersArray[0])) {
+
                         temp_cap = 0;
+
                     } else {
                         temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
                     }
@@ -94,27 +94,29 @@ public class UppdragsInfo implements Runnable {
 
                                 if (temp_cost < min_cost) {
                                     min_cost = temp_cost;
-                                    s = i; //Sparar vilket uppdrag som är närmast
+                                    ds.s = i; //Sparar vilket uppdrag som är närmast
                                 }
                             }
                         }
                     }
-                    if (s != -1) {
+                    if (ds.s != -1) {
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
-                        ds.uppdrag.add(1, ds.uppdragsIDArray[s]);
+                        ds.uppdrag.add(1, ds.uppdragsIDArray[ds.s]);
                         ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
-                        ds.currentPassengers2 = Integer.parseInt(ds.passengersArray[s]);
+                        ds.currentPassengers2 = Integer.parseInt(ds.passengersArray[ds.s]);
 
                     }
                     ds.uppdragFylld = true;
                     System.out.println("DS.UPPDRAGFYLLD i uppdragsinfo" + ds.uppdragFylld);
+                } else {
+                    ds.uppdragFylld = false;
                 }
-                System.out.println("vilka uppdrag vi vill ta " + ds.uppdrag);
-                
+              
+
                 Thread.sleep(1000);
                 j++;
-                 ds.uppdrag.clear();
-                
+                ds.uppdrag.clear();
+
             }
         } catch (InterruptedException e) {
             System.out.println("Catch i uppdragsinfo");

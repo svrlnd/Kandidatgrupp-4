@@ -44,6 +44,8 @@ public class Planeringssystem_v2 {
         //Körinstruktioner till närmaste plats
         op.createPlan(ds.a, ds.dest_node);
         op.createInstructions();
+        
+        stop = new Stop(ds, ha, op, cp);
 
         rr = new RobotRead(ds, gui, stop);
         t1 = new Thread(rr);
