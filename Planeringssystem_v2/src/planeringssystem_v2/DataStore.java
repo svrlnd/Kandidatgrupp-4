@@ -78,8 +78,8 @@ public class DataStore {
     String[] destinationUppdragSlut;
     LinkedList<String> uppdrag;
     
-    int currentPassengers1;
-    int currentPassengers2;
+    int currentPassengers1; // så många kunder vi faktiskt tar från första uppdraget i kön
+    int currentPassengers2; // Så många kunder vi faktiskt tar från ett annat uppdrag i listan (samåkning)
     boolean bt;
     boolean uppdragFylld;
     
