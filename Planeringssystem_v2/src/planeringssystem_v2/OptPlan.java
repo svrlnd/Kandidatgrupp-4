@@ -112,6 +112,8 @@ public class OptPlan {
         ds.dummyStartKoorY.clear();
         ds.dummyArcStart.clear();
         ds.dummyArcEnd.clear();
+        ds.instructions.clear();
+        ds.instructionsAGV.clear();
         
         System.out.println("ArcRoute in i instructions: " + ds.arcRoute);
         //Loopar igenom alla länkar i arcRoute för att ta reda på startnoden och slutnoden för dessa länkar
@@ -418,54 +420,112 @@ System.out.println("arcRoute: " + ds.arcRoute);
         System.out.println("Array: " + ds.instructions);
 
         int counter = 0;
-
-        if (ds.instructions.getLast() == "D" && ds.instructions.size() > 3) {
-            ds.instructions.removeLast();
-        }
- 
-        for (int i = 0; i < ds.instructions.size() - 2 + counter; i++) {
-            
-            // Hanterar u-svängar (passerar tre korsningslänkar)
-            if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "B")) {
-                ds.instructions.remove(i);
-                ds.instructions.remove(i);
-                ds.instructions.remove(i);
-                //ds.instructions.remove(i); Kankse nån if, prova med AGV först
-                ds.instructions.add(i, "H");
+        for (int i = 0; i < ds.instructions.size(); i++){
+             if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "B") && (ds.instructions.get(i + 3) == "D")) {
+                ds.instructionsAGV.add("H");
+                i += 3;
             } // Hanterar stark vänster (passerar två korsningslänkar) 
             else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "C")) {
-                ds.instructions.remove(i);
-                ds.instructions.remove(i);
-                counter += 1;
+               
+                ds.instructionsAGV.add("A");
+                i += 2;
             } // Hanterar vänster (passerar två korsningslänkar)           
             else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "D")) {
-                ds.instructions.remove(i);
-                ds.instructions.remove(i + 1);
+                
+                ds.instructionsAGV.add("B");
+                i += 2;
             } // Hanterar svag vänster (passerar en korsningslänk)
             else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "C")) {
-                ds.instructions.remove(i);
+                ds.instructionsAGV.add("C");
+                i += 1;
             } // Hanterar svag vänster ut från send sväng (passerar två korsningslänkar)           
             else if ((ds.instructions.get(i) == "E") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "D")) {
-                ds.instructions.remove(i);
-                ds.instructions.remove(i);
-                ds.instructions.remove(i);
-                ds.instructions.add(i, "C");
+
+                ds.instructionsAGV.add("C");
+                i += 2;
             } // Hanterar svag höger ut ur sned väg (passerar en korsningslänk)
             else if ((ds.instructions.get(i) == "E") && (ds.instructions.get(i + 1) == "D")) {
-                ds.instructions.remove(i + 1);
+               
+                ds.instructionsAGV.add("E");
+                i += 1;
             } //Hanterar rakt fram (passerar en korsningslänk)
+
             else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "D")) {
-                ds.instructions.remove(i);
-                if (ds.arcRoute.size() <= 7) {
-                    if (ds.instructions.get(i) == "D" && ds.instructions.getLast() != "D") {
-                        ds.instructions.remove(i);
-                    }
-             }
+                ds.instructionsAGV.add("D");
+                i += 1;
             }
+ 
+            else if (ds.instructions.get(i) == "F") {
+                ds.instructionsAGV.add("F");
+            }
+//            else if (ds.instructions.get(i) == "D") {
+//                ds.instructionsAGV.add("D");
+//            }
+            
+            
         }
+        
+        
+//        if (ds.instructions.getLast() == "D" && ds.instructions.size() > 3) {
+//            ds.instructions.removeLast();
+//        }
+//        
+//        for (int i = 0; i < ds.instructions.size() - 2 + counter; i++) {
+//            
+//            // Hanterar u-svängar (passerar tre korsningslänkar)
+//            if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "B")) {
+//                ds.instructions.remove(i);
+//                ds.instructions.remove(i);
+//                ds.instructions.remove(i);
+//                //ds.instructions.remove(i); Kankse nån if, prova med AGV först
+//                ds.instructions.add(i, "H");
+//            } // Hanterar stark vänster (passerar två korsningslänkar) 
+//            else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "C")) {
+//                ds.instructions.remove(i);
+//                ds.instructions.remove(i);
+//                counter += 1;
+//            } // Hanterar vänster (passerar två korsningslänkar)           
+//            else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "D")) {
+//                ds.instructions.remove(i);
+//                ds.instructions.remove(i + 1);
+////                if ((ds.instructions.get(i) == "B") && (ds.instructions.get(i + 1) == "D") && (ds.instructions.get(i + 2) == "B")) {
+////                    ds.instructions.remove(i+1);    // HÄR HAR VI LAGT TILL! INTE TESTAT ÄN
+//////                    counter += 1;
+//////                    if ((ds.instructions.get(i) == "B") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "D")) {
+//////                        ds.instructions.remove(i+2);
+//////                    }
+////                }
+//            } // Hanterar svag vänster (passerar en korsningslänk)
+//            else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "C")) {
+//                ds.instructions.remove(i);
+//            } // Hanterar svag vänster ut från send sväng (passerar två korsningslänkar)           
+//            else if ((ds.instructions.get(i) == "E") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "D")) {
+//                ds.instructions.remove(i);
+//                ds.instructions.remove(i);
+//                ds.instructions.remove(i);
+//                ds.instructions.add(i, "C");
+//            } // Hanterar svag höger ut ur sned väg (passerar en korsningslänk)
+//            else if ((ds.instructions.get(i) == "E") && (ds.instructions.get(i + 1) == "D")) {
+//                ds.instructions.remove(i + 1);
+//            } //Hanterar rakt fram (passerar en korsningslänk)
+////            else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "D") && (ds.instructions.get(i + 2) == "D")) {
+////                ds.instructions.remove(i); // HÄR HAR VI ÄNDRAT, MÅSTE TESTA
+////            }
+//            else if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "D")) {
+//                ds.instructions.remove(i);
+//                if (ds.arcRoute.size() <= 7) {  // KAN BEHÖVA ÄNDRA SÅ VI BARA KOLLAR PÅ UDDA TAL
+//                    if (ds.instructions.get(i) == "D" && ds.instructions.getLast() != "D") {
+//                        ds.instructions.remove(i);
+//                    }
+//             }
+//            }
+//           
+//        }
 
         ds.instructions.add("I");
+        ds.instructionsAGV.add("I");
         System.out.println("Update: " + ds.instructions);
+        System.out.println("Nya instruktioner: " + ds.instructionsAGV);
 
     }
 }
