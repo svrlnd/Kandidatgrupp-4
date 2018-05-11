@@ -24,7 +24,7 @@ public class ClosestPlats {
     public void getClosestPlats() {
 
         if (ds.counterFirstInstructions == 0) {
-            ds.a = 68;
+            ds.a = 42;
             //Om plats: platsens första nod
             //Om uppdrag: uppdragets första nod
             ds.counterFirstInstructions = ds.counterFirstInstructions + 1;

@@ -36,7 +36,8 @@ public class UppdragsInfo implements Runnable {
 
             int j = 0;
             while (true) {
-
+                
+                
                 listauppdragList = ha.messagetype(ds.valdPlats);
 
                 if (!listauppdragList[0].equals("0")) {
@@ -57,7 +58,7 @@ public class UppdragsInfo implements Runnable {
                     //Lägg rätt information i respektive array
                     for (int i = 0; i < len; i++) {
                         dummyList = listauppdragList[i + 1].toString().split(";");
-  
+
                         ds.uppdragsIDArray[i] = dummyList[0];
                         ds.destinationUppdragArray[i] = dummyList[1]; //Fattar den att detta är två olika noder?
                         ds.passengersArray[i] = dummyList[2];
@@ -71,7 +72,6 @@ public class UppdragsInfo implements Runnable {
                     min_cost = Integer.MAX_VALUE;
                     ds.s = -1;
 
-             
                     if (temp_cap <= Integer.parseInt(ds.passengersArray[0])) {
 
                         temp_cap = 0;
@@ -81,6 +81,7 @@ public class UppdragsInfo implements Runnable {
                     }
 
                     if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0 || len == 1) {
+                        ds.uppdrag.clear();
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
                         ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
                         ds.currentPassengers2 = 0;
@@ -100,6 +101,7 @@ public class UppdragsInfo implements Runnable {
                         }
                     }
                     if (ds.s != -1) {
+                        ds.uppdrag.clear();
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
                         ds.uppdrag.add(1, ds.uppdragsIDArray[ds.s]);
                         ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
@@ -111,11 +113,9 @@ public class UppdragsInfo implements Runnable {
                 } else {
                     ds.uppdragFylld = false;
                 }
-              
 
                 Thread.sleep(1000);
                 j++;
-                ds.uppdrag.clear();
 
             }
         } catch (InterruptedException e) {

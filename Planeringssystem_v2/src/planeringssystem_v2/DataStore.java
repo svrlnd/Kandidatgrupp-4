@@ -64,6 +64,7 @@ public class DataStore {
     LinkedList<Integer> dummyEndKoorX;
     LinkedList<Integer> dummyEndKoorY;
     LinkedList<String> instructions;
+    LinkedList<String> instructionsAGV;
     LinkedList<Integer> arcRoute;
     String direction;
     String directionNextArc;
@@ -116,8 +117,8 @@ public class DataStore {
         distanceCP = 0;
         dest_node = 0;
         last_node = 0;
-        first_node = 65;
-        direction = "E";
+        first_node = 47;
+        direction = "W";
         valdPlats = "";
         a = 0;
         dummyArcEnd = new LinkedList<Integer>();
@@ -127,6 +128,7 @@ public class DataStore {
         dummyEndKoorX = new LinkedList<Integer>();
         dummyEndKoorY = new LinkedList<Integer>();
         instructions = new LinkedList<String>();
+        instructionsAGV = new LinkedList<String>();
         arcRoute = new LinkedList<Integer>(); 
         directionNextArc = "";
         uppdrag = new LinkedList<String>();
@@ -190,7 +192,7 @@ public class DataStore {
                 // Här beräknas längden av länkarna
                 dummyX = nodeX[arcStart[i] - 1] - nodeX[arcEnd[i] - 1];
                 dummyY = nodeY[arcStart[i] - 1] - nodeY[arcEnd[i] - 1];
-                arcCost[i] = closeArc[i] * (int) round(sqrt(pow(dummyX, 2) + pow(dummyY, 2)));
+                arcCost[i] = (int) (closeArc[i] * round(sqrt(pow(dummyX, 2) + pow(dummyY, 2))));
 
             }
 

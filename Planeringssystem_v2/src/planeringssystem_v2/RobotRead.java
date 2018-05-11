@@ -40,7 +40,7 @@ public class RobotRead implements Runnable {
 
             ds.enable = '1';
             ds.spegling = "0000000$";
-            //counterASCI = 33;
+            int counter = 0;
 
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
             while (true) {
@@ -57,7 +57,7 @@ public class RobotRead implements Runnable {
 
                 start = "#";
 
-                ds.korinstruktion = ds.instructions.getFirst();
+                ds.korinstruktion = ds.instructionsAGV.removeFirst();
 
                 //Gjorde denna println för att se vad som saknas, så kan vi bocka av
                 //vad som blir klart.
@@ -80,14 +80,11 @@ public class RobotRead implements Runnable {
                 split_in = ds.meddelande_in.toCharArray();
 
                 //Skriver ut att mottaget meddelande är ok så länge vi får # i början och $ i slutet
-                for (i = 0; i < split_in.length; i++) {
-                    if (split_in[0] == '#' && split_in[15] == '$') {
-                        gui.appendErrorMessage("AGV kör korrekt");
-                    } else {
-                        gui.appendErrorMessage("Mottaget meddelande är inkorrekt");
-                        //ds.enable = 0;
-                    }
-
+                if (split_in[0] == '#' && split_in[15] == '$') {
+                    gui.appendErrorMessage("AGV kör korrekt");
+                } else {
+                    gui.appendErrorMessage("Mottaget meddelande är inkorrekt");
+                    //ds.enable = 0;
                 }
 
 //              System.out.println("Split in "+Arrays.toString(split_in));
@@ -96,7 +93,8 @@ public class RobotRead implements Runnable {
                     // ds.enable = '0';
                 }
 
-                int counter = 0; //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
+                int resetCounter = 0;
+                //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
                 if (split_in[8] == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
                     System.out.println("BYTT ORDERNUMMER");
                     ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET.
@@ -104,61 +102,72 @@ public class RobotRead implements Runnable {
                         //Stark vänster och vänster
                         ds.arcColor[ds.arcRoute.get(counter)] = 1;
                         counter += 3;
+                        resetCounter = 3;
                     } else if (ds.korinstruktion == "C" || ds.korinstruktion == "D") {
                         //Svag vänster och rakt fram
                         ds.arcColor[ds.arcRoute.get(counter)] = 1;
                         counter += 2;
+                        resetCounter = 2;
                     } else if (ds.korinstruktion == "E" || ds.korinstruktion == "F" || ds.korinstruktion == "G") {
-                        if (ds.arcCost[counter + 1] == 30) {
+                        if (ds.arcCost[ds.arcRoute.get(counter)] == 30) {
                             ds.arcColor[ds.arcRoute.get(counter)] = 1;
                             counter += 2;
+                            resetCounter = 2;
                         } //Svag höger, höger och stark höger
                         else {
                             ds.arcColor[ds.arcRoute.get(counter)] = 1;
                             counter += 1;
+                            resetCounter = 1;
                         }
                     } else if (ds.korinstruktion == "H") {
                         //u-sväng
                         ds.arcColor[ds.arcRoute.get(counter)] = 1;
                         counter += 4;
+                        resetCounter = 4;
                     }
-                    ds.currentArc = ds.arcRoute.get(counter);
-                    ds.distanceCP -= ((counter - 1) * 30);
-                    ds.korinstruktion = ds.instructions.removeFirst(); // lägger första instruktionen i körinstruktion och tar bort det ur listan.                  
-                    ds.arcColor[ds.arcRoute.get(counter)] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
+                    if ((counter - 1) <= ds.arcRoute.size()) {
+                        ds.currentArc = ds.arcRoute.get(counter);
+                        if (ds.currentArc != ds.arcRoute.getLast()) {
+                            ds.distanceCP -= ((resetCounter - 1) * 30) + ds.arcCost[ds.currentArc];
+                        }                
+                        ds.arcColor[ds.currentArc] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
+                    }
                     i++;
                 }
-                    if (ds.korinstruktion == "I") {//Om nästa order är att stanna
-                        System.out.println("Nu är vi i körinstruktion == I");
-                        if (ds.cap == ds.initial_cap) { //upphämtningsplats
-                            //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
-                            // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
-                            // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
-                            // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
-
-                            counter = 0;
-                            for (int k = 0; k < ds.arcRoute.size(); k++) {
-                                ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
-                            }
-                            ds.arcRoute.clear();
-                            stop.pickup();
-                            ds.instructions.removeFirst();
-                            
-                            
-                        } else if (ds.cap < ds.initial_cap) { //avlämningsplats
-                            //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
-                            // - ökar kapaciteten
-                            // - påbörjar rutt till närmsta upphämtningsplats
-                            counter = 0;
-                            for (int k = 0; k < ds.arcRoute.size(); k++) {
-                                ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
-                            }
-                            ds.arcRoute.clear();
-                            stop.dropoff();
-                            ds.instructions.removeFirst();
-                        }
+                if (ds.korinstruktion == "I") {//Om nästa order är att stanna
+                    System.out.println("Nu är vi i körinstruktion == I");
+                    for (int y = 0; y < ds.arcRoute.size(); y++) {
+                        ds.arcColor[ds.arcRoute.get(y)] = 0;
                     }
-                    
+                    if (ds.cap == ds.initial_cap) { //upphämtningsplats
+                        //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
+                        // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
+                        // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
+                        // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
+
+                        counter = 0;
+                        for (int k = 0; k < ds.arcRoute.size(); k++) {
+                            ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
+                        }
+                        ds.arcRoute.clear();
+                        stop.pickup();
+//                        ds.instructionsAGV.removeFirst();
+                        Thread.sleep(1000);
+
+                    } else if (ds.cap < ds.initial_cap) { //avlämningsplats
+                        //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
+                        // - ökar kapaciteten
+                        // - påbörjar rutt till närmsta upphämtningsplats
+                        counter = 0;
+                        for (int k = 0; k < ds.arcRoute.size(); k++) {
+                            ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
+                        }
+                        ds.arcRoute.clear();
+                        stop.dropoff();
+//                        ds.instructionsAGV.removeFirst();
+                        Thread.sleep(1000);
+                    }
+                }
 
                 ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
 
