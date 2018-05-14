@@ -257,6 +257,8 @@ public class GroupRead implements Runnable {
                         //Vad gör vi om det inte finns några uppdrag vi vill ta på den platsen
                         if (tempis.size() == 0) {
                             //Då ska vi kolla på en ny plats
+                            
+                            ds.tomPlats.add(ds.valdPlats);
                         }
 
                         //        for (int m = 0; m < uppdragViInteKanTa.size(); m++) {
@@ -268,12 +270,12 @@ public class GroupRead implements Runnable {
                         //                }
                         //            }
                         //       }
-                        ds.uppdrag.clear();
+                        //ds.uppdrag.clear();
                         for (int i = 0; i < tempis.size(); i++) {
 
                             if (i < 2) { //Eftersom vi bara kan samåka två kunder åt gången
 
-                                ds.uppdrag.add(Integer.toString(tempis.get(i)));
+                                ds.uppdrag.add(i, Integer.toString(tempis.get(i)));
                             }
                         }
 

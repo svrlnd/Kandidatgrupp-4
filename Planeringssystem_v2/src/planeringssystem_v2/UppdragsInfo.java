@@ -36,8 +36,7 @@ public class UppdragsInfo implements Runnable {
 
             int j = 0;
             while (true) {
-                
-                
+
                 listauppdragList = ha.messagetype(ds.valdPlats);
 
                 if (!listauppdragList[0].equals("0")) {
@@ -54,6 +53,9 @@ public class UppdragsInfo implements Runnable {
                     ds.destinationUppdragStart = new String[len];
                     ds.destinationUppdragSlut = new String[len];
                     temp_cap = ds.initial_cap;
+                    min_cost = Integer.MAX_VALUE;
+                    ds.s = -1;
+                    ds.uppdrag.clear();
 
                     //Lägg rätt information i respektive array
                     for (int i = 0; i < len; i++) {
@@ -69,21 +71,18 @@ public class UppdragsInfo implements Runnable {
                         ds.destinationUppdragSlut[i] = dummyList2[1];
                     }
 
-                    min_cost = Integer.MAX_VALUE;
-                    ds.s = -1;
+
 
                     if (temp_cap <= Integer.parseInt(ds.passengersArray[0])) {
-
+                        ds.currentPassengers1 = temp_cap;
                         temp_cap = 0;
-
                     } else {
+                        ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
                         temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
                     }
 
                     if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0 || len == 1) {
-                        ds.uppdrag.clear();
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
-                        ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
                         ds.currentPassengers2 = 0;
 
                     } else {
@@ -101,11 +100,17 @@ public class UppdragsInfo implements Runnable {
                         }
                     }
                     if (ds.s != -1) {
-                        ds.uppdrag.clear();
+
+                        if (temp_cap <= Integer.parseInt(ds.passengersArray[ds.s])) {
+                            ds.currentPassengers2 = temp_cap;
+                            temp_cap = 0;
+                        } else {
+                            ds.currentPassengers2 = Integer.parseInt(ds.passengersArray[ds.s]);
+                            temp_cap -= Integer.parseInt(ds.passengersArray[ds.s]); //Räknar kvarvarande kapacitet
+                        }
+
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
-                        ds.uppdrag.add(1, ds.uppdragsIDArray[ds.s]);
-                        ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
-                        ds.currentPassengers2 = Integer.parseInt(ds.passengersArray[ds.s]);
+                        ds.uppdrag.add(ds.uppdragsIDArray[ds.s]);
 
                     }
                     ds.uppdragFylld = true;

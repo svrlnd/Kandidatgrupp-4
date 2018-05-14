@@ -37,10 +37,11 @@ public class RobotRead implements Runnable {
 //            gui.appendErrorMessage("RobotRead kommer att köra i " + sleepTime + " millisekunder.");
 
             int i = 0;
-
+            start = "#";
             ds.enable = '1';
             ds.spegling = "0000000$";
             int counter = 0;
+            
 
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
             while (true) {
@@ -55,7 +56,7 @@ public class RobotRead implements Runnable {
                  * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
                  */
 
-                start = "#";
+                
 
                 ds.korinstruktion = ds.instructionsAGV.removeFirst();
 
@@ -78,14 +79,14 @@ public class RobotRead implements Runnable {
                 gui.appendErrorMessage("Mottaget: " + ds.meddelande_in);
 
                 split_in = ds.meddelande_in.toCharArray();
-
-                //Skriver ut att mottaget meddelande är ok så länge vi får # i början och $ i slutet
-                if (split_in[0] == '#' && split_in[15] == '$') {
-                    gui.appendErrorMessage("AGV kör korrekt");
-                } else {
-                    gui.appendErrorMessage("Mottaget meddelande är inkorrekt");
-                    //ds.enable = 0;
+                
+                if (split_in[9] == 'b'){
+                    gui.appendErrorMessage("AGV har tappat körinstruktioner");
+                    start = "1";
+                }else{
+                    start = "#";
                 }
+                    
 
 //              System.out.println("Split in "+Arrays.toString(split_in));
                 //Uppdaterar meddelandet

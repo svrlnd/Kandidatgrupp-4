@@ -6,21 +6,22 @@ import java.util.Arrays;
  *
  * @author Simon
  */
-
 public class ClosestPlats {
-    
+
     private DataStore ds;
     private HTTPanrop ha;
     private OptPlan op;
     int tempis;
+    boolean skippis;
 
     public ClosestPlats(DataStore ds, HTTPanrop ha, OptPlan op) {
         this.ds = ds;
         this.ha = ha;
         this.op = op;
         tempis = 0;
+        skippis = false;
     }
-    
+
     public void getClosestPlats() {
 
         if (ds.counterFirstInstructions == 0) {
@@ -30,7 +31,7 @@ public class ClosestPlats {
             ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
 
         }
-        
+
         ds.platsLista = new String[Integer.parseInt(ha.messagetype()[0])];
         ds.startSlutNoder = new String[Integer.parseInt(ha.messagetype()[0])];
         ds.platser = new String[Integer.parseInt(ha.messagetype()[0])];
@@ -44,7 +45,7 @@ public class ClosestPlats {
             ds.platser[i] = ds.platsLista[0];
             ds.noder[i] = ds.platsLista[1];
         }
-       
+
         //Dela upp noderna i varsin array ("startnod" och "slutnod").
         for (int j = 0; j < Integer.parseInt(ha.messagetype()[0]); j++) {
             ds.startSlutNoder = ds.noder[j].split(",");
@@ -58,23 +59,32 @@ public class ClosestPlats {
         int lN = 0; //Detta är sista noden i sista länken
 
         for (int i = 0; i < ds.platser.length; i++) {
-            //System.out.println("Curnode: " + ds.a + " Startnod: " + ds.startnod[i]);
-            tempis = op.getCost(ds.a, ds.startnod[i]); //HÄR ÄR NÅGOT KNAS, FÅR TA EN KIK PÅ DET NÄSTA GÅNG
-            //System.out.println("Tempis är " + tempis);
-            if (tempis < min) { // Vilken plats är närmast? (just nu kollar vi från nod 17 men vi vill kolla från föregående avlämningsplats typ?)
-                min = tempis;
-                cP = ds.platser[i];
-                //System.out.println("Närmsta upphämtningsplats är " + cP);
-                dN = ds.startnod[i];
-                lN = ds.slutnod[i];
-            }   
+            skippis = false;
+            for (int j = 0; j < ds.tomPlats.size(); j++) {
+                if (ds.tomPlats.get(j) == ds.platser[i]) {
+                    skippis = true;
+                }
+            }
+            
+            if(!skippis) {
+                //System.out.println("Curnode: " + ds.a + " Startnod: " + ds.startnod[i]);
+                tempis = op.getCost(ds.a, ds.startnod[i]); //HÄR ÄR NÅGOT KNAS, FÅR TA EN KIK PÅ DET NÄSTA GÅNG
+                //System.out.println("Tempis är " + tempis);
+                if (tempis < min) { // Vilken plats är närmast? (just nu kollar vi från nod 17 men vi vill kolla från föregående avlämningsplats typ?)
+                    min = tempis;
+                    cP = ds.platser[i];
+                    //System.out.println("Närmsta upphämtningsplats är " + cP);
+                    dN = ds.startnod[i];
+                    lN = ds.slutnod[i];
+                }
+            }
         }
         ds.distanceCP = min + ds.distanceDO;
         ds.dest_node = dN;
         ds.last_node = lN;
         ds.valdPlats = cP;
-        
+
         //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
     }
-    
+
 }

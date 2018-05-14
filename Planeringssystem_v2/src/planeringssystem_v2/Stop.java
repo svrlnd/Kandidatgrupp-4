@@ -43,32 +43,38 @@ public class Stop {
         if (ds.s != -1) {
             uppdrag.add(1, ds.uppdrag.get(1));
         }
-
+        
+        bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), ds.currentPassengers1);
+        
+        if (ds.currentPassengers2 > 0){
+            bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), ds.currentPassengers2);
+        }
+            
 // Detta behöver läggas i uppdragsinfo istället eftersom vi måste skicka rätt uppdrag till gruppen, härifrån *********************************
-        if (ds.currentPassengers1 <= ds.initial_cap) { // Om antal passagerare på första uppdraget är mindre än antalet platser i bilen
-
-            bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), ds.currentPassengers1);//Ta hela första uppdraget
-            tempcap -= ds.currentPassengers1;
-            if (ds.s != -1) { // Om någon ville samåka
-                if (ds.currentPassengers2 <= tempcap) { // Om alla i andra uppdraget får plats
-                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), ds.currentPassengers2); // Ta hela andra uppdraget
-                } else {
-                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), tempcap); // Ta så många i andra uppdraget som får plats i bilen
-                    ds.currentPassengers2 = tempcap;
-                }
-            }
-        } else { // Om antalet passagerare på första uppdraget inte får plats i bilen
-            bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), ds.initial_cap);//Ta så många från första uppdraget som får plats i bilen
-            tempcap -= ds.initial_cap;
-            ds.currentPassengers1 = ds.initial_cap;
-            if (ds.s != -1) { // Detta bör inte kunna hända, eftersom platserna i bilen fylldes på första uppdraget
-                if (ds.currentPassengers2 <= tempcap) { // Om alla i andra kunden får plats
-                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), ds.currentPassengers2); // Ta alla i andra uppdraget
-                } else { // Om ala i andra uppdraget inte får plats i bilen
-                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), tempcap); // Ta så många från andra uppdraget som fick plats
-                    ds.currentPassengers2 = tempcap;
-                }
-            }
+//        if (ds.currentPassengers1 <= ds.initial_cap) { // Om antal passagerare på första uppdraget är mindre än antalet platser i bilen
+//
+//            bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), ds.currentPassengers1);//Ta hela första uppdraget
+//            tempcap -= ds.currentPassengers1;
+//            if (ds.s != -1) { // Om någon ville samåka
+//                if (ds.currentPassengers2 <= tempcap) { // Om alla i andra uppdraget får plats
+//                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), ds.currentPassengers2); // Ta hela andra uppdraget
+//                } else {
+//                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), tempcap); // Ta så många i andra uppdraget som får plats i bilen
+//                    ds.currentPassengers2 = tempcap;
+//                }
+//            }
+//        } else { // Om antalet passagerare på första uppdraget inte får plats i bilen
+//            bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), ds.initial_cap);//Ta så många från första uppdraget som får plats i bilen
+//            tempcap -= ds.initial_cap;
+//            ds.currentPassengers1 = ds.initial_cap;
+//            if (ds.s != -1) { // Detta bör inte kunna hända, eftersom platserna i bilen fylldes på första uppdraget
+//                if (ds.currentPassengers2 <= tempcap) { // Om alla i andra kunden får plats
+//                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), ds.currentPassengers2); // Ta alla i andra uppdraget
+//                } else { // Om ala i andra uppdraget inte får plats i bilen
+//                    bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), tempcap); // Ta så många från andra uppdraget som fick plats
+//                    ds.currentPassengers2 = tempcap;
+//                }
+//            }
 
 // Till hit ************************************************************************************************************************************
             ds.distanceDO = 0;
@@ -135,7 +141,7 @@ public class Stop {
             }
 
         }
-    }
+    
 
     public void dropoff() {
 
@@ -149,7 +155,6 @@ public class Stop {
         } else {
             ds.cap += ds.currentPassengers1;
             ds.currentPassengers1 = 0;
-
         }
         // - påbörja rutt till närmsta upphämtningsplats eller avlämningsplats
         if (ds.cap == ds.initial_cap) { //Åk till upphämtningsplats

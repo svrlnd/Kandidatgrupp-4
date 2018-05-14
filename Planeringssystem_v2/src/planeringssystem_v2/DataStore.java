@@ -66,6 +66,7 @@ public class DataStore {
     LinkedList<String> instructions;
     LinkedList<String> instructionsAGV;
     LinkedList<Integer> arcRoute;
+    LinkedList<String> tomPlats;
     String direction;
     String directionNextArc;
 
@@ -78,6 +79,7 @@ public class DataStore {
     String[] destinationUppdragStart;
     String[] destinationUppdragSlut;
     LinkedList<String> uppdrag;
+    
     
     int currentPassengers1; // så många kunder vi faktiskt tar från första uppdraget i kön
     int currentPassengers2; // Så många kunder vi faktiskt tar från ett annat uppdrag i listan (samåkning)
@@ -130,6 +132,7 @@ public class DataStore {
         instructions = new LinkedList<String>();
         instructionsAGV = new LinkedList<String>();
         arcRoute = new LinkedList<Integer>(); 
+        tomPlats = new LinkedList<String>();
         directionNextArc = "";
         uppdrag = new LinkedList<String>();
         currentPassengers1 = 0;
