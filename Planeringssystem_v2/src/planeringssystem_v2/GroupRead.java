@@ -87,8 +87,8 @@ public class GroupRead implements Runnable {
                         gui.appendCapacity("Det uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0));
                         msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0);
                     } else if (ds.uppdrag.size() > 1) {
-                        gui.appendCapacity("De uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0) + " , " + ds.uppdrag.get(1));
-                        msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0) + "," + ds.uppdrag.get(1);                           //HÄR BLIR DET ALLTID NÅN GÅNG FEL!!!!!
+                        gui.appendCapacity("De uppdrag vi säger till gruppen att vi vill ta är: " + ds.uppdrag.get(0) + " , " + ds.uppdrag.get(1) +"   "+ds.valdPlats + "!" + ds.distanceCP);
+                        msg = ds.valdPlats + "!" + ds.distanceCP + "!" + ds.uppdrag.get(0) + "," + ds.uppdrag.get(1);                           //HÄR BLIR DET ALLTID NÅN GÅNG FEL!!!!! FATTAR INTE VAD DET ÄR FÖR FEL!!!!
                     }
 
                     hg.putmessage(msg);

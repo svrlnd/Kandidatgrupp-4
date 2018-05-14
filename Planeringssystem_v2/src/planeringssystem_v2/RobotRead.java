@@ -41,7 +41,7 @@ public class RobotRead implements Runnable {
             ds.enable = '1';
             ds.spegling = "0000000$";
             int counter = 0;
-            
+            ds.korinstruktion = ds.instructionsAGV.removeFirst();
 
             // Denna borde köras så länge som roboten fortfarande kör (eventuellt ta bort i++)
             while (true) {
@@ -56,10 +56,6 @@ public class RobotRead implements Runnable {
                  * Skapar meddelandet och kallar på transceiver som kan skicka iväg det till AGV.
                  */
 
-                
-
-                ds.korinstruktion = ds.instructionsAGV.removeFirst();
-
                 //Gjorde denna println för att se vad som saknas, så kan vi bocka av
                 //vad som blir klart.
 //                System.out.println("start " + start + " enable " + ds.enable
@@ -71,22 +67,18 @@ public class RobotRead implements Runnable {
                         + ds.antal_passagerare + ds.korinstruktion + ds.kontroll
                         + " " + " " + ds.spegling;
 
+                do{
                 ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
 //                if (meddelande_in.equals("")) {
                 Thread.sleep(400);
+                } while(ds.meddelande_in.length() != 16);
 
                 //System.out.println("Mottaget: " + ds.meddelande_in);
                 gui.appendErrorMessage("Mottaget: " + ds.meddelande_in);
 
                 split_in = ds.meddelande_in.toCharArray();
+
                 
-                if (split_in[9] == 'b'){
-                    gui.appendErrorMessage("AGV har tappat körinstruktioner");
-                    start = "1";
-                }else{
-                    start = "#";
-                }
-                    
 
 //              System.out.println("Split in "+Arrays.toString(split_in));
                 //Uppdaterar meddelandet
@@ -130,44 +122,48 @@ public class RobotRead implements Runnable {
                         ds.currentArc = ds.arcRoute.get(counter);
                         if (ds.currentArc != ds.arcRoute.getLast()) {
                             ds.distanceCP -= ((resetCounter - 1) * 30) + ds.arcCost[ds.currentArc];
-                        }                
+                        }
+
                         ds.arcColor[ds.currentArc] = 2; // så att nuvarnade länk kan blinka, just nu blir den grön i MapPanel
                     }
+
                     i++;
-                }
-                if (ds.korinstruktion == "I") {//Om nästa order är att stanna
-                    System.out.println("Nu är vi i körinstruktion == I");
-                    for (int y = 0; y < ds.arcRoute.size(); y++) {
-                        ds.arcColor[ds.arcRoute.get(y)] = 0;
-                    }
-                    if (ds.cap == ds.initial_cap) { //upphämtningsplats
-                        //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
-                        // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
-                        // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
-                        // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
 
-                        counter = 0;
-                        for (int k = 0; k < ds.arcRoute.size(); k++) {
-                            ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
+                    if (ds.korinstruktion == "I") {//Om nästa order är att stanna
+                        System.out.println("Nu är vi i körinstruktion == I");
+                        for (int y = 0; y < ds.arcRoute.size(); y++) {
+                            ds.arcColor[ds.arcRoute.get(y)] = 0;
                         }
-                        ds.arcRoute.clear();
-                        stop.pickup();
-//                        ds.instructionsAGV.removeFirst();
-                        Thread.sleep(1000);
+                        if (ds.cap == ds.initial_cap) { //upphämtningsplats
+                            //ta uppdrag, tänker att vi kanske kan ha en metod i en ny klass som heter typ stop som gör följande
+                            // - kallar på ta uppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp)
+                            // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
+                            // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
 
-                    } else if (ds.cap < ds.initial_cap) { //avlämningsplats
-                        //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
-                        // - ökar kapaciteten
-                        // - påbörjar rutt till närmsta upphämtningsplats
-                        counter = 0;
-                        for (int k = 0; k < ds.arcRoute.size(); k++) {
-                            ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
-                        }
-                        ds.arcRoute.clear();
-                        stop.dropoff();
+                            counter = 0;
+                            for (int k = 0; k < ds.arcRoute.size(); k++) {
+                                ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
+                            }
+                            ds.arcRoute.clear();
+                            stop.pickup();
 //                        ds.instructionsAGV.removeFirst();
-                        Thread.sleep(1000);
+                            Thread.sleep(1000);
+
+                        } else if (ds.cap < ds.initial_cap) { //avlämningsplats
+                            //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
+                            // - ökar kapaciteten
+                            // - påbörjar rutt till närmsta upphämtningsplats
+                            counter = 0;
+                            for (int k = 0; k < ds.arcRoute.size(); k++) {
+                                ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
+                            }
+                            ds.arcRoute.clear();
+                            stop.dropoff();
+//                        ds.instructionsAGV.removeFirst();
+                            Thread.sleep(1000);
+                        }
                     }
+                    ds.korinstruktion = ds.instructionsAGV.removeFirst();
                 }
 
                 ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
@@ -187,19 +183,25 @@ public class RobotRead implements Runnable {
                     ds.spegling += agv[j];
                 }
 
-                //Kollar så att speglingen har samma kontrollvariabel som vi skickade iväg
-                if (Character.getNumericValue(split_in[5]) != ds.kontroll) {
-                    start = "1"; //Eftersom detta får AGV:n att starta om
-                    //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
-                }
+                //Kollar så att speglingen har samma kontrollvariabel som vi skickade iväg DETTA FÖRSTÖR JUST NU, KOMMER ALLTID IN I FÖRSTA
+//                if (Character.getNumericValue(split_in[5]) != ds.kontroll) {
+//                    start = "1"; //Eftersom detta får AGV:n att starta om
+//                    //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
+//                }
+//
+//                //Kollar att AGVns kontrollvariable är ny varje gång de skickar något
+//                if (Character.getNumericValue(split_in[11]) == ds.kontrollAGV) {
+//                    start = "1";
+//                    //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
+//                }
 
-                //Kollar att AGVns kontrollvariable är ny varje gång de skickar något
-                if (Character.getNumericValue(split_in[11]) == ds.kontrollAGV) {
+                ds.kontrollAGV = split_in[11]; // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel.
+                if (split_in[9] == 'b') {
+                    gui.appendErrorMessage("AGV har tappat körinstruktioner");
                     start = "1";
-                    //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
+                } else {
+                    start = "#";
                 }
-
-                ds.kontrollAGV = split_in[11]; // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel. 
 
 //                ds.flagCoordinates = true;
 //                //currentX = 30; //Här ska robotens koordinater läggas till, kanske direkt från BT-metoden istället för via DS?
