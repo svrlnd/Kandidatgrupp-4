@@ -45,6 +45,7 @@ public class Stop {
         }
         
         bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), ds.currentPassengers1);
+        System.out.println("Currentpassengers1 = " + ds.currentPassengers1);
         
         if (ds.currentPassengers2 > 0){
             bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), ds.currentPassengers2);
@@ -146,6 +147,9 @@ public class Stop {
     public void dropoff() {
 
         ds.distanceDO = 0;
+        
+        System.out.println("CP1 " + ds.currentPassengers1);
+        System.out.println("CP2 " + ds.currentPassengers2);
 
         // - ökar kapaciteten
         if (ds.currentPassengers1 == 0) {
@@ -156,6 +160,8 @@ public class Stop {
             ds.cap += ds.currentPassengers1;
             ds.currentPassengers1 = 0;
         }
+        
+        System.out.println("Cap " + ds.cap);
         // - påbörja rutt till närmsta upphämtningsplats eller avlämningsplats
         if (ds.cap == ds.initial_cap) { //Åk till upphämtningsplats
 

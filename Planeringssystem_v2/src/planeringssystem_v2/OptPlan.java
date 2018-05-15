@@ -421,6 +421,8 @@ System.out.println("arcRoute: " + ds.arcRoute);
 
         int counter = 0;
         for (int i = 0; i < ds.instructions.size(); i++){
+            
+            
              if ((ds.instructions.get(i) == "D") && (ds.instructions.get(i + 1) == "B") && (ds.instructions.get(i + 2) == "B") && (ds.instructions.get(i + 3) == "D")) {
                 ds.instructionsAGV.add("H");
                 i += 3;
@@ -457,6 +459,9 @@ System.out.println("arcRoute: " + ds.arcRoute);
  
             else if (ds.instructions.get(i) == "F") {
                 ds.instructionsAGV.add("F");
+            }
+              else if (ds.instructions.get(i) == "G") {
+                ds.instructionsAGV.add("G");
             }
 //            else if (ds.instructions.get(i) == "D") {
 //                ds.instructionsAGV.add("D");

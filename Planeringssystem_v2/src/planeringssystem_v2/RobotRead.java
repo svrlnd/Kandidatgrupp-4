@@ -140,9 +140,10 @@ public class RobotRead implements Runnable {
                             // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
                             // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
 
+                            
                             counter = 0;
                             for (int k = 0; k < ds.arcRoute.size(); k++) {
-                                ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
+                                ds.arcColor[ds.arcRoute.get(k)] = 0;
                             }
                             ds.arcRoute.clear();
                             stop.pickup();
@@ -163,7 +164,9 @@ public class RobotRead implements Runnable {
                             Thread.sleep(1000);
                         }
                     }
+                  
                     ds.korinstruktion = ds.instructionsAGV.removeFirst();
+                    
                 }
 
                 ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag

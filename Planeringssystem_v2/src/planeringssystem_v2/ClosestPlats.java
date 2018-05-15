@@ -25,7 +25,7 @@ public class ClosestPlats {
     public void getClosestPlats() {
 
         if (ds.counterFirstInstructions == 0) {
-            ds.a = 42;
+            ds.a = 32;
             //Om plats: platsens första nod
             //Om uppdrag: uppdragets första nod
             ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
@@ -63,6 +63,7 @@ public class ClosestPlats {
             for (int j = 0; j < ds.tomPlats.size(); j++) {
                 if (ds.tomPlats.get(j) == ds.platser[i]) {
                     skippis = true;
+                    System.out.println("NU SKA DET VARA EN PLATS SOM INTE HADE NÅGRA UPPDRAG KVAR, DET BORDE VARA PLATS" + ds.tomPlats);
                 }
             }
             
