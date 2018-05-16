@@ -49,7 +49,7 @@ public class RobotRead implements Runnable {
                 //gui.appendErrorMessage("BT-anslutning redo");
 //                System.out.println("BT-anslutning redo");
                 while (!gui.getButtonState()) {
-                    gui.appendErrorMessage("BT-anslutning redo");
+                    //gui.appendErrorMessage("BT-anslutning redo");
                     Thread.sleep(400);
                 }
                 /*
@@ -66,19 +66,18 @@ public class RobotRead implements Runnable {
                 ds.meddelande_ut = start + ds.enable + ds.ordernummer
                         + ds.antal_passagerare + ds.korinstruktion + ds.kontroll
                         + " " + " " + ds.spegling;
-
-                do{
-                ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
+                ds.meddelande_in = "";
+                do {
+                    ds.meddelande_in = tr.Transceiver(ds.meddelande_ut);//ds.meddelande_in = "#12345 .1234   $";//meddelande vi får från AGV //
+                    System.out.println("Meddelande_in: "+ ds.meddelande_in);
 //                if (meddelande_in.equals("")) {
-                Thread.sleep(400);
-                } while(ds.meddelande_in.length() != 16);
+                    Thread.sleep(400);
+                } while (ds.meddelande_in.length() != 16 || ds.meddelande_in.equals(""));
 
                 //System.out.println("Mottaget: " + ds.meddelande_in);
                 gui.appendErrorMessage("Mottaget: " + ds.meddelande_in);
 
                 split_in = ds.meddelande_in.toCharArray();
-
-                
 
 //              System.out.println("Split in "+Arrays.toString(split_in));
                 //Uppdaterar meddelandet
@@ -90,7 +89,10 @@ public class RobotRead implements Runnable {
                 //Används för att ta fram vilken arc i arcRoute vi är på just nu. 
                 if (split_in[8] == ds.ordernummer) { //AGVn meddelar att den utfört order, dvs förflyttat sig till ny länk
                     System.out.println("BYTT ORDERNUMMER");
-                    ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET.
+                    ds.ordernummer += 1; // Vi vill "nollställa" ordernummer till varje ny rutt - FIXA DET. FIXAT KOLLA HÄR NEDANFÖR
+                    if ((int) ds.ordernummer == 126) {
+                        ds.ordernummer = 33;
+                    }
                     if (ds.korinstruktion == "A" || ds.korinstruktion == "B") {
                         //Stark vänster och vänster
                         ds.arcColor[ds.arcRoute.get(counter)] = 1;
@@ -118,7 +120,7 @@ public class RobotRead implements Runnable {
                         counter += 4;
                         resetCounter = 4;
                     }
-                    if ((counter) <= ds.arcRoute.size()) { // här har vi haft counter-1 förut! kanske fortfarande gäller
+                    if ((counter) < ds.arcRoute.size()) { // här har vi haft counter-1 förut! kanske fortfarande gäller
                         ds.currentArc = ds.arcRoute.get(counter);
                         if (ds.currentArc != ds.arcRoute.getLast()) {
                             ds.distanceCP -= ((resetCounter - 1) * 30) + ds.arcCost[ds.currentArc];
@@ -140,7 +142,6 @@ public class RobotRead implements Runnable {
                             // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
                             // - påbörjar rutt till uppdragets avlämningsplats: uppdaterar dest_node och last_node samt kallar på op.createPlan och op.createInstructions
 
-                            
                             counter = 0;
                             for (int k = 0; k < ds.arcRoute.size(); k++) {
                                 ds.arcColor[ds.arcRoute.get(k)] = 0;
@@ -166,13 +167,12 @@ public class RobotRead implements Runnable {
                             Thread.sleep(500);
                         }
                     }
-                  
+
                     ds.korinstruktion = ds.instructionsAGV.removeFirst();
-                    
+
                 }
 
                 //ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
-
                 ds.kontroll++; //kontrollvariablen förändras varje gång vi skickar något, bör den nollställas ibland? Vad händer när den kommer till slutet av ASCI-tabellen
 
                 if ((int) ds.kontroll == 126) {
@@ -199,7 +199,6 @@ public class RobotRead implements Runnable {
 //                    start = "1";
 //                    //DETTA MÅSTE HÄNDA INNAN MEDDELANDET SKICKAS DÄR UPPE
 //                }
-
                 ds.kontrollAGV = split_in[11]; // Spara kontrollvariabeln för att kunna jämföra den med nästa variabel.
                 if (split_in[9] == 'b') {
                     gui.appendErrorMessage("AGV har tappat körinstruktioner");

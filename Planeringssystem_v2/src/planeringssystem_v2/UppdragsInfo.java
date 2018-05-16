@@ -124,7 +124,7 @@ public class UppdragsInfo implements Runnable {
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
                     }
                     ds.uppdragFylld = true;
-                    System.out.println("DS.UPPDRAGFYLLD i uppdragsinfo" + ds.uppdragFylld);
+                    
                 } else {
                     ds.uppdragFylld = false;
                     ds.tomPlats.add(ds.valdPlats);

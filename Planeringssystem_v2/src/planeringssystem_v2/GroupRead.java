@@ -78,10 +78,8 @@ public class GroupRead implements Runnable {
                 }
                 if (countDS_uppdrag == 0) {
                     if (uppdrag.size() == 1) {
-                        gui.appendCapacity("uppdrag vi säger till gruppen vill ta är: " + uppdrag.get(0));
                         msg = ds.valdPlats + "!" + ds.distanceCP + "!" + uppdrag.get(0);
                     } else if (uppdrag.size() > 1) {
-                        gui.appendCapacity("uppdrag vi säger till gruppen vill ta är: " + uppdrag.get(0) + " , " + uppdrag.get(1));
                         msg = ds.valdPlats + "!" + ds.distanceCP + "!" + uppdrag.get(0) + "," + uppdrag.get(1);
                     }
 
@@ -93,11 +91,9 @@ public class GroupRead implements Runnable {
                 while (uppdrag.size() != 0) {
 
                     if (uppdrag.size() == 1) {
-                        gui.appendCapacity("uppdrag vi säger till gruppen vill ta är: " + uppdrag.get(0));
                         msg = ds.valdPlats + "!" + ds.distanceCP + "!" + uppdrag.get(0);
                     } else if (uppdrag.size() > 1) {
-                        gui.appendCapacity("uppdrag vi säger till gruppen vill ta är: " + uppdrag.get(0) + " , " + uppdrag.get(1) + "   " + ds.valdPlats + "!" + ds.distanceCP);
-                        msg = ds.valdPlats + "!" + ds.distanceCP + "!" + uppdrag.get(0) + "," + uppdrag.get(1);                           //HÄR BLIR DET ALLTID NÅN GÅNG FEL!!!!! FATTAR INTE VAD DET ÄR FÖR FEL!!!!
+                        msg = ds.valdPlats + "!" + ds.distanceCP + "!" + uppdrag.get(0) + "," + uppdrag.get(1);
                     }
                     hg.putmessage(msg);
                     listGroupList = hg.getmessage();
@@ -106,15 +102,10 @@ public class GroupRead implements Runnable {
 
                         for (int i = 0; i < listGroupList.length; i++) {
                             groupList = listGroupList[i].split(";");
-                        }
-
-                        //Dela upp meddelandet från HTTPgrupp
-                        for (int i = 0; i < 3; i++) {
                             tempos[i] = Integer.parseInt(groupList[1]);
                             groupDate[i] = groupList[0];
                             groupID[i] = groupList[1];
                             groupMessage[i] = groupList[2];
-
                         }
 
                         //Swoopa meddelandet i rätt ordning med en bubblesort
@@ -178,6 +169,10 @@ public class GroupRead implements Runnable {
                                 }
                             }
                         }
+
+                        gui.appendGroupRead("Grupp 1 avser ta: " + uppdragGroup1 + " på plats " + groupPlats[0] + "\n"
+                                          + "Grupp 4 avser ta: " + uppdragGroup4 + " på plats " + groupPlats[1] + "\n"
+                                          + "Grupp 5 avser ta: " + uppdragGroup5 + " på plats " + groupPlats[2] + "\n");
 
 //                System.out.println("Grupp 1 Uppdrag" + uppdragGroup1);
 //                System.out.println("Grupp 4 Uppdrag" + uppdragGroup4);

@@ -9,6 +9,7 @@ public class Stop {
     HTTPanrop ha;
     OptPlan op;
     ClosestPlats cp;
+    GUI gui;
     String bevNek;
     String bevNek1;
     private LinkedList<Integer> tempDUStart;
@@ -17,13 +18,14 @@ public class Stop {
     private int currentPassengers1;
     private int currentPassengers2;
     private int cap;
-    private int s; 
+    private int s;
 
-    public Stop(DataStore ds, HTTPanrop ha, OptPlan op, ClosestPlats cp) {
+    public Stop(DataStore ds, HTTPanrop ha, OptPlan op, ClosestPlats cp, GUI gui) {
         this.ds = ds;
         this.ha = ha;
         this.op = op;
         this.cp = cp;
+        this.gui = gui;
         tempDUStart = new LinkedList<Integer>();
         tempDUSlut = new LinkedList<Integer>();
         uppdrag = new LinkedList<String>();
@@ -176,6 +178,8 @@ public class Stop {
                 op.createPlan(ds.a, ds.dest_node);
                 op.createInstructions();
             } 
+            
+        gui.appendPassengers("Current passengers "+ds.antal_passagerare);       
         ds.cap = cap;
         }
     
@@ -236,6 +240,8 @@ public class Stop {
             ds.a = tempDUSlut.get(1);
             cp.getClosestPlats();
         }
+        
+        gui.appendPassengers("Current passengers: "+ds.antal_passagerare);  
         ds.cap = cap;
     }
 }

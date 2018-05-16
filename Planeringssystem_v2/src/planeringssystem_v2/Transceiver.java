@@ -12,6 +12,7 @@ public class Transceiver {
     StreamConnection anslutning;
     InputStream bluetooth_in;
     byte buffer[];
+    int antal_bytes;
 
     public Transceiver(DataStore ds) { //Den här tar in en ds för att kunna sätta ds.connection till true, men vet inte hur det ska funka än./A
         meddelande_in = "";
@@ -45,12 +46,16 @@ public class Transceiver {
                 System.out.println("Meddelande_ut: " + ds.meddelande_ut);
                 bluetooth_ut.print(meddelande_ut);
                 
-                Thread.sleep(250);
-
-                //System.out.print("F");
-                int antal_bytes = bluetooth_in.read(buffer);
-                //System.out.print("E");
                 
+               // do {
+                //System.out.print("F");
+                antal_bytes = bluetooth_in.read(buffer);
+                //System.out.print("E");
+                Thread.sleep(250);
+                //}
+                
+                //while (antal_bytes != 16);
+                        
                 String meddelande_in = "";
                 meddelande_in = new String(buffer, 0, antal_bytes);
 //                System.out.println("L");

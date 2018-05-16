@@ -1,7 +1,5 @@
 package planeringssystem_v2;
 
-import java.util.Arrays;
-
 public class ClosestPlats {
 
     private DataStore ds;
@@ -22,16 +20,14 @@ public class ClosestPlats {
     public void getClosestPlats() {
 
         try {
-            
-            listaplatserList = ha.messagetype();
-            
-            if (ds.counterFirstInstructions == 0) {
-                ds.a = 4;
-                //Om plats: platsens första nod
-                //Om uppdrag: uppdragets första nod
-                ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
 
+            listaplatserList = ha.messagetype();
+
+            if (ds.counterFirstInstructions == 0) {
+                ds.a = 44;
+                ds.counterFirstInstructions = ds.counterFirstInstructions + 1;
             }
+
             int len = Integer.parseInt(listaplatserList[0]);
             ds.platsLista = new String[len];
             ds.startSlutNoder = new String[len];
@@ -40,14 +36,12 @@ public class ClosestPlats {
             ds.startnod = new int[len];
             ds.slutnod = new int[len];
 
-            //lägg alla upphämtningsplatser i "platser", samt deras NODER (start, slut) som alltså representerar en länk.
             for (int i = 0; i < len; i++) {
                 ds.platsLista = listaplatserList[i + 1].split(";");
                 ds.platser[i] = ds.platsLista[0];
                 ds.noder[i] = ds.platsLista[1];
             }
 
-            //Dela upp noderna i varsin array ("startnod" och "slutnod").
             for (int j = 0; j < len; j++) {
                 ds.startSlutNoder = ds.noder[j].split(",");
                 ds.startnod[j] = Integer.parseInt(ds.startSlutNoder[0]) - 1;
@@ -69,18 +63,15 @@ public class ClosestPlats {
                     }
                 }
                 String nuvarande = ha.messagetype(ds.platser[i])[0];
-                System.out.println("NUVARANDE "+nuvarande);
+                System.out.println("NUVARANDE " + nuvarande);
                 if (!skippis) {
-                    
-                    if (!nuvarande.equals("0")){
 
-                        //System.out.println("Curnode: " + ds.a + " Startnod: " + ds.startnod[i]);
-                        tempis = op.getCost(ds.a, ds.startnod[i]); //HÄR ÄR NÅGOT KNAS, FÅR TA EN KIK PÅ DET NÄSTA GÅNG
-                        //System.out.println("Tempis är " + tempis);
-                        if (tempis < min) { // Vilken plats är närmast? (just nu kollar vi från nod 17 men vi vill kolla från föregående avlämningsplats typ?)
+                    if (!nuvarande.equals("0")) {
+
+                        tempis = op.getCost(ds.a, ds.startnod[i]);
+                        if (tempis < min) {
                             min = tempis;
                             cP = ds.platser[i];
-                            //System.out.println("Närmsta upphämtningsplats är " + cP);
                             dN = ds.startnod[i];
                             lN = ds.slutnod[i];
                         }
@@ -94,7 +85,6 @@ public class ClosestPlats {
             ds.last_node = lN;
             ds.valdPlats = cP;
 
-            //Mät avstånd från startnod (AGVns position) till varje upphämtningsplats (dest_node) som har uppdrag med op.createPlan
         } catch (InterruptedException e) {
         }
 

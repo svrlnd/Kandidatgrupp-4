@@ -22,8 +22,8 @@ public class GUI extends javax.swing.JFrame {
         
     }
     
-    public void appendCapacity(String s) {
-        jTextArea1.append(s + "\n");
+    public void appendGroupRead(String s) {
+        jTextArea1.setText(s + "\n");
         jTextArea1.setCaretPosition(jTextArea1.getDocument().getLength());
     }
     
@@ -34,6 +34,11 @@ public class GUI extends javax.swing.JFrame {
     
     public boolean getButtonState() {
         return jToggleButton1.isSelected();
+    }
+    
+    public void appendPassengers(String s) {
+        jTextField2.setText(s + "\n");
+        jTextField2.setCaretPosition(jTextField2.getDocument().getLength());
     }
     
     private void myinitComponents() {
@@ -81,6 +86,7 @@ public class GUI extends javax.swing.JFrame {
         
         jTextField2.setEditable(true);
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField2.setText("Current passengers: "+ds.antal_passagerare);
         
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

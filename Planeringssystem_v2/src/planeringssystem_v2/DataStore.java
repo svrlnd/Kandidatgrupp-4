@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package planeringssystem_v2;
 
 import java.io.File;
@@ -12,12 +7,9 @@ import static java.lang.Math.sqrt;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-/**
- *
- * @author Simon
- */
 public class DataStore {
 
+    //Används i Datastore
     String fileName = null;
     int nodes;
     int arcs;
@@ -27,13 +19,36 @@ public class DataStore {
     int[] arcEnd;
     int[] arcCost;
     boolean networkRead;
-    boolean updateUIflag;
-    boolean dropoff2flag;
-    int[] arcColor;
     double[] nodeNumber;
-    int[] closeArc;
+    double[] closeArc;
     double dummyX;
     double dummyY;
+    
+    //Används i Optplan
+    LinkedList<Integer> dummyArcEnd;
+    LinkedList<Integer> dummyArcStart;
+    LinkedList<Integer> dummyStartKoorX;
+    LinkedList<Integer> dummyStartKoorY;
+    LinkedList<Integer> dummyEndKoorX;
+    LinkedList<Integer> dummyEndKoorY;
+    LinkedList<String> instructions;
+    LinkedList<String> instructionsAGV;
+    LinkedList<Integer> arcRoute;
+    String direction;
+    String directionNextArc;
+    
+    //Används i Uppdragsinfo
+    String[] uppdragsIDArray;
+    String[] destinationPlatserArray;
+    String[] destinationUppdragArray;
+    String[] passengersArray;
+    String[] samakningArray;
+    String[] pointsArray;
+    String[] destinationUppdragStart;
+    String[] destinationUppdragSlut;
+     LinkedList<String> tomPlats;
+    
+    //Används i RobotRead
     String meddelande_in;
     String meddelande_ut;
     char enable;
@@ -45,8 +60,17 @@ public class DataStore {
     char kontrollAGV;
     String spegling;
     char antal_passagerare;
+    int currentArc;
+    
+    //Används i Stop
+    boolean dropoff2flag;
+    
+    //Används i Mappanel
+    int[] arcColor;
+    
+    //Används i closetsPlats
     int counterFirstInstructions;
-    String[] platsLista;
+     String[] platsLista;
     String[] startSlutNoder;
     String[] platser;
     String[] noder;
@@ -58,40 +82,20 @@ public class DataStore {
     int first_node;
     String valdPlats;
     int a;
-    LinkedList<Integer> dummyArcEnd;
-    LinkedList<Integer> dummyArcStart;
-    LinkedList<Integer> dummyStartKoorX;
-    LinkedList<Integer> dummyStartKoorY;
-    LinkedList<Integer> dummyEndKoorX;
-    LinkedList<Integer> dummyEndKoorY;
-    LinkedList<String> instructions;
-    LinkedList<String> instructionsAGV;
-    LinkedList<Integer> arcRoute;
-    LinkedList<String> tomPlats;
-    String direction;
-    String directionNextArc;
-
-    String[] uppdragsIDArray;
-    String[] destinationPlatserArray;
-    String[] destinationUppdragArray;
-    String[] passengersArray;
-    String[] samakningArray;
-    String[] pointsArray;
-    String[] destinationUppdragStart;
-    String[] destinationUppdragSlut;
+    
+    //boolean updateUIflag;
+    
     LinkedList<String> uppdrag;
-    
-    
     int currentPassengers1; // så många kunder vi faktiskt tar från första uppdraget i kön
     int currentPassengers2; // Så många kunder vi faktiskt tar från ett annat uppdrag i listan (samåkning)
     boolean bt;
     boolean uppdragFylld;
-    
-    int currentArc;
     int distanceDO;
     int s;
 
     public DataStore() {
+        
+        //Används i Datastore
         nodes = 0;
         arcs = 0;
         nodeX = new double[1000];
@@ -99,13 +103,15 @@ public class DataStore {
         arcStart = new int[1000];
         arcEnd = new int[1000];
         arcCost = new int[1000];
+        closeArc = new double[1000];
         networkRead = false;
-        updateUIflag = false;
-        arcColor = new int[1000];
-        nodeNumber = new double[1000];
-        closeArc = new int[1000];
         dummyX = 0;
         dummyY = 0;
+        
+        //pdateUIflag = false;
+        arcColor = new int[1000];
+        nodeNumber = new double[1000];
+        
         meddelande_in = "";
         meddelande_ut = "";
         ordernummer = '!';
@@ -120,7 +126,7 @@ public class DataStore {
         distanceCP = 0;
         dest_node = 0;
         last_node = 0;
-        first_node = 1;
+        first_node = 41;
         direction = "E";
         valdPlats = "";
         a = 0;
@@ -170,9 +176,6 @@ public class DataStore {
             line = scanner.nextLine();
             arcs = Integer.parseInt(line.trim());
 
-            // Debug printout: network size data
-//            System.out.println("Nodes: " + nodes);
-//            System.out.println("Arcs: " + arcs);
             // Read nodes as number, x, y
             for (int i = 0; i < nodes; i++) {
                 line = scanner.nextLine();
@@ -183,8 +186,6 @@ public class DataStore {
                 nodeY[i] = Double.parseDouble(sline[2].trim());
             }
 
-            // Debug printout: print data for node 1
-//            System.out.println("Node 1: " + nodeX[0] + " " + nodeY[0]);
             // Read arc list as start node number, end node number
             for (int i = 0; i < arcs; i++) {
                 line = scanner.nextLine();
@@ -192,7 +193,7 @@ public class DataStore {
                 sline = line.split(" ");
                 arcStart[i] = Integer.parseInt(sline[0].trim());
                 arcEnd[i] = Integer.parseInt(sline[1].trim());
-                closeArc[i] = Integer.parseInt(sline[2].trim());
+                closeArc[i] = Double.parseDouble(sline[2].trim());
 
                 // Här beräknas längden av länkarna
                 dummyX = nodeX[arcStart[i] - 1] - nodeX[arcEnd[i] - 1];
