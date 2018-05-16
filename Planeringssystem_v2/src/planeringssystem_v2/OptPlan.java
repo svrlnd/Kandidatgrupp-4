@@ -95,7 +95,7 @@ public class OptPlan {
         //Lägg till sista länken i arcroute genom att hitta noderna för upphämtning eller avlämningen
         //Om: Upphämtning på en plats
         for (int i = 0; i < ds.arcs; i++) {
-            if (ds.dest_node + 1 == ds.arcStart[i] && ds.last_node + 1 == ds.arcEnd[i]) {
+            if (dest_node + 1 == ds.arcStart[i] && ds.last_node + 1 == ds.arcEnd[i]) {
                 ds.arcRoute.addLast(i);
                 ds.arcColor[i] = 1;
 

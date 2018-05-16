@@ -118,7 +118,7 @@ public class RobotRead implements Runnable {
                         counter += 4;
                         resetCounter = 4;
                     }
-                    if ((counter - 1) <= ds.arcRoute.size()) {
+                    if ((counter) <= ds.arcRoute.size()) { // här har vi haft counter-1 förut! kanske fortfarande gäller
                         ds.currentArc = ds.arcRoute.get(counter);
                         if (ds.currentArc != ds.arcRoute.getLast()) {
                             ds.distanceCP -= ((resetCounter - 1) * 30) + ds.arcCost[ds.currentArc];
@@ -146,9 +146,10 @@ public class RobotRead implements Runnable {
                                 ds.arcColor[ds.arcRoute.get(k)] = 0;
                             }
                             ds.arcRoute.clear();
+                            Thread.sleep(500);
                             stop.pickup();
 //                        ds.instructionsAGV.removeFirst();
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
 
                         } else if (ds.cap < ds.initial_cap) { //avlämningsplats
                             //lämna av passagerare, kanske med en metod i klassen stop som gör följande: 
@@ -159,9 +160,10 @@ public class RobotRead implements Runnable {
                                 ds.arcColor[ds.arcRoute.get(k) - 1] = 0;
                             }
                             ds.arcRoute.clear();
+                            Thread.sleep(500);
                             stop.dropoff();
 //                        ds.instructionsAGV.removeFirst();
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
                         }
                     }
                   
@@ -169,7 +171,7 @@ public class RobotRead implements Runnable {
                     
                 }
 
-                ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
+                //ds.antal_passagerare = '4'; // DENNA SKA ÄNDRAS varje gång vi plockar upp eller lämnar av passagerare. Borde hänga ihop med tauppdrag
 
                 ds.kontroll++; //kontrollvariablen förändras varje gång vi skickar något, bör den nollställas ibland? Vad händer när den kommer till slutet av ASCI-tabellen
 

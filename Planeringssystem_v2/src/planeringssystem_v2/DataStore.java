@@ -28,6 +28,7 @@ public class DataStore {
     int[] arcCost;
     boolean networkRead;
     boolean updateUIflag;
+    boolean dropoff2flag;
     int[] arcColor;
     double[] nodeNumber;
     int[] closeArc;
@@ -119,8 +120,8 @@ public class DataStore {
         distanceCP = 0;
         dest_node = 0;
         last_node = 0;
-        first_node = 29;
-        direction = "NE";
+        first_node = 1;
+        direction = "E";
         valdPlats = "";
         a = 0;
         dummyArcEnd = new LinkedList<Integer>();
@@ -139,6 +140,7 @@ public class DataStore {
         currentPassengers2 = 0;
         bt = false;
         uppdragFylld = false;
+        dropoff2flag = true;
         distanceDO = 0;
     }
 

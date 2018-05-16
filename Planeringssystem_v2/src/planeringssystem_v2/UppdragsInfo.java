@@ -54,7 +54,9 @@ public class UppdragsInfo implements Runnable {
                     ds.destinationUppdragSlut = new String[len];
                     temp_cap = ds.initial_cap;
                     min_cost = Integer.MAX_VALUE;
-                    ds.s = -1;
+                    if (ds.dropoff2flag || len == 1) {
+                        ds.s = -1;
+                    }
                     ds.uppdrag.clear();
 
                     //Lägg rätt information i respektive array
@@ -71,14 +73,14 @@ public class UppdragsInfo implements Runnable {
                         ds.destinationUppdragSlut[i] = dummyList2[1];
                     }
 
-
-
                     if (temp_cap <= Integer.parseInt(ds.passengersArray[0])) {
                         ds.currentPassengers1 = temp_cap;
                         temp_cap = 0;
+
                     } else {
                         ds.currentPassengers1 = Integer.parseInt(ds.passengersArray[0]);
                         temp_cap -= Integer.parseInt(ds.passengersArray[0]); //Räknar kvarvarande kapacitet
+
                     }
 
                     if (Integer.parseInt(ds.samakningArray[0]) == 0 || temp_cap == 0 || len == 1) {
@@ -88,11 +90,12 @@ public class UppdragsInfo implements Runnable {
                     } else {
                         for (int i = 1; i < len; i++) {
                             if (Integer.parseInt(ds.samakningArray[i]) == 1) {
-
+                                
                                 //Detta låg i temp_cost innan: Integer.parseInt(ds.destinationUppdragStart[0])
                                 temp_cost = op.getCost(ds.dummyArcEnd.getLast(), Integer.parseInt(ds.destinationUppdragStart[i]));
 
                                 if (temp_cost < min_cost) {
+                                    System.out.println("ds.S FYLLS PÅ MED ETT TAL");
                                     min_cost = temp_cost;
                                     ds.s = i; //Sparar vilket uppdrag som är närmast
                                 }
@@ -100,23 +103,31 @@ public class UppdragsInfo implements Runnable {
                         }
                     }
                     if (ds.s != -1) {
-
+                        System.out.println("temp_cap= "+temp_cap);
+                        System.out.println("ds.passengersArray= "+Arrays.toString(ds.passengersArray));
                         if (temp_cap <= Integer.parseInt(ds.passengersArray[ds.s])) {
                             ds.currentPassengers2 = temp_cap;
                             temp_cap = 0;
+
                         } else {
                             ds.currentPassengers2 = Integer.parseInt(ds.passengersArray[ds.s]);
                             temp_cap -= Integer.parseInt(ds.passengersArray[ds.s]); //Räknar kvarvarande kapacitet
+
                         }
 
                         ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
                         ds.uppdrag.add(ds.uppdragsIDArray[ds.s]);
 
                     }
+                    
+                    else {
+                        ds.uppdrag.addFirst(ds.uppdragsIDArray[0]);
+                    }
                     ds.uppdragFylld = true;
                     System.out.println("DS.UPPDRAGFYLLD i uppdragsinfo" + ds.uppdragFylld);
                 } else {
                     ds.uppdragFylld = false;
+                    ds.tomPlats.add(ds.valdPlats);
                 }
 
                 Thread.sleep(1000);

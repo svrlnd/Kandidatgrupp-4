@@ -14,6 +14,10 @@ public class Stop {
     private LinkedList<Integer> tempDUStart;
     private LinkedList<Integer> tempDUSlut;
     private LinkedList<String> uppdrag;
+    private int currentPassengers1;
+    private int currentPassengers2;
+    private int cap;
+    private int s; 
 
     public Stop(DataStore ds, HTTPanrop ha, OptPlan op, ClosestPlats cp) {
         this.ds = ds;
@@ -28,13 +32,18 @@ public class Stop {
     public void pickup() { // HÄR KANKSE VI BORDE KALLA PÅ SIMONS GREJ SOM KOLLAR SAMÅKNING OCKSÅ?
         // - kallar på tauppdrag: ha.messagetype(String plats, int id, int passagerare, int grupp) 
         //Spara destinationUppdragStart och destainationUppdragSlut
+        currentPassengers1 = ds.currentPassengers1;
+        currentPassengers2 = ds.currentPassengers2;
+        cap = ds.cap;
+        s = ds.s;
+        
         int tempcap = ds.initial_cap;
         System.out.println("duStart: " + Arrays.toString(ds.destinationUppdragStart));
         tempDUStart.addFirst(Integer.parseInt(ds.destinationUppdragStart[0]) - 1);
         tempDUSlut.addFirst(Integer.parseInt(ds.destinationUppdragSlut[0]) - 1);
         System.out.println("PICKUP");
 
-        if (ds.s != -1) {
+        if (s != -1) {
             tempDUStart.add(1, Integer.parseInt(ds.destinationUppdragStart[ds.s]) - 1);
             tempDUSlut.add(1, Integer.parseInt(ds.destinationUppdragSlut[ds.s]) - 1);
         }
@@ -44,11 +53,13 @@ public class Stop {
             uppdrag.add(1, ds.uppdrag.get(1));
         }
         
-        bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), ds.currentPassengers1);
-        System.out.println("Currentpassengers1 = " + ds.currentPassengers1);
+        bevNek = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(0)), currentPassengers1);
+        System.out.println("Currentpassengers1 = " + currentPassengers1);
+        System.out.println("Currentpassengers2 = " + currentPassengers2);
         
-        if (ds.currentPassengers2 > 0){
-            bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), ds.currentPassengers2);
+        
+        if (currentPassengers2 > 0){
+            bevNek1 = ha.messagetype(ds.valdPlats, Integer.parseInt(ds.uppdrag.get(ds.s)), currentPassengers2);
         }
             
 // Detta behöver läggas i uppdragsinfo istället eftersom vi måste skicka rätt uppdrag till gruppen, härifrån *********************************
@@ -84,7 +95,7 @@ public class Stop {
             System.out.println("BEVNEK: " + bevNek + "bevneK: " + bevNek1);
             System.out.println("PICKUP 2");
 
-            if ((bevNek.equals("beviljas\n") && ds.s == -1) || (bevNek.equals("beviljas\n") && bevNek1.equals("beviljas\n"))) {
+            if ((bevNek.equals("beviljas\n") && s == -1) || (bevNek.equals("beviljas\n") && bevNek1.equals("beviljas\n"))) {
 
                 System.out.println("riktning" + ds.direction);
                 //Vi har tagit ett uppdrag och kan åka och lämna kunderna, dvs det är tillåtet att starta nästa 
@@ -99,10 +110,13 @@ public class Stop {
 //            op.createPlan(ds.a, ds.dest_node);
 //            op.createInstructions();
                 // - minskar kapaciteten: ds.cap = ds.cap - (antal passagerare vi tar upp)
-                ds.cap = ds.cap - ds.currentPassengers1 - ds.currentPassengers2;
-                ds.antal_passagerare = (char) (ds.currentPassengers1 + ds.currentPassengers2);
+                cap = cap - currentPassengers1 - currentPassengers2; 
+                System.out.println("CAP = "+cap);
+                ds.antal_passagerare += (char) (currentPassengers1);
+                ds.antal_passagerare += (char) (currentPassengers2);
 
                 if (uppdrag.size() == 1) { //1. Åk till avlämningsplats, 2. Åk till upphämtningsplats
+                    //ds.s = -1;
                     ds.first_node = ds.dest_node;
                     ds.a = ds.last_node;
                     ds.dest_node = tempDUStart.get(0);
@@ -131,16 +145,38 @@ public class Stop {
                     ds.distanceDO += op.getCost(tempDUSlut.get(0), tempDUStart.get(1));
                     ds.distanceDO += op.getCost(tempDUStart.get(1), tempDUSlut.get(1));
                     ds.a = tempDUSlut.get(1);
+                    ds.dropoff2flag = false;
 
                     cp.getClosestPlats();
                 }
 
-            } else {// uppdraget var redan taget och vi får ta ett nytt, antingen nästa uppdrag i listan eller hitta en ny plats. 
+            } else if ((bevNek.equals("nekas\n") && bevNek1.equals("beviljas\n"))) { 
                 //Listauppdrag på platsen
                 System.out.println("Nu är vi i elsen i pickup som kallas från robotread");
+                
+                cap = cap - currentPassengers2;
+                ds.antal_passagerare = (char) (currentPassengers2);
+                
+                ds.first_node = ds.dest_node;
+                    ds.a = ds.last_node;
+                    ds.dest_node = tempDUStart.get(1);
+                    ds.last_node = tempDUSlut.get(1);
+                    op.createPlan(ds.a, ds.dest_node);
+                    op.createInstructions();
+                    
+                    ds.distanceDO = op.getCost(ds.a, ds.dest_node);
+                    ds.distanceDO += op.getCost(tempDUStart.get(1), tempDUSlut.get(1));
+                    ds.a = tempDUSlut.get(1);
+                    cp.getClosestPlats();
 
             }
-
+            else {//Båda uppdragen eller det ena nekades
+                ds.a = ds.last_node;
+                cp.getClosestPlats();
+                op.createPlan(ds.a, ds.dest_node);
+                op.createInstructions();
+            } 
+        ds.cap = cap;
         }
     
 
@@ -148,24 +184,29 @@ public class Stop {
 
         ds.distanceDO = 0;
         
-        System.out.println("CP1 " + ds.currentPassengers1);
-        System.out.println("CP2 " + ds.currentPassengers2);
+        System.out.println("CP1 " + currentPassengers1);
+        System.out.println("CP2 " + currentPassengers2);
 
         // - ökar kapaciteten
-        if (ds.currentPassengers1 == 0) {
-            ds.cap += ds.currentPassengers2;
+        if (currentPassengers1 == 0) { //andra gången
+            cap += currentPassengers2;
+            ds.antal_passagerare -= (char) (currentPassengers2); 
+            currentPassengers2 = 0;
             ds.currentPassengers2 = 0;
+            
 
-        } else {
-            ds.cap += ds.currentPassengers1;
+        } else { //Första gången
+            cap += currentPassengers1;
+            ds.antal_passagerare -= (char) (currentPassengers1); 
+            currentPassengers1 = 0;
             ds.currentPassengers1 = 0;
         }
         
-        System.out.println("Cap " + ds.cap);
+        System.out.println("Cap " + cap);
         // - påbörja rutt till närmsta upphämtningsplats eller avlämningsplats
-        if (ds.cap == ds.initial_cap) { //Åk till upphämtningsplats
+        if (cap == ds.initial_cap) { //Åk till upphämtningsplats
 
-            if (ds.s == -1) {
+            if (s == -1) {
                 ds.first_node = tempDUStart.get(0);
                 ds.a = tempDUSlut.get(0);
                 cp.getClosestPlats();
@@ -173,17 +214,21 @@ public class Stop {
                 op.createInstructions();
 
             } else {
+                System.out.println("NU ÄR VI KLARA MED AVLÄMNING AV UPPDRAG 2");
+                ds.dropoff2flag = true;
                 ds.first_node = tempDUStart.get(1);
                 ds.a = tempDUSlut.get(1);
                 cp.getClosestPlats();
                 op.createPlan(ds.a, ds.dest_node);
                 op.createInstructions();
+                
             }
 
         } else { //Åk till avlämningsplats sen upphämtningsplats (de samåkte, så vi skulle lämna av två uppdrag)
 
             ds.first_node = tempDUStart.get(0);
             ds.last_node = tempDUSlut.get(1);
+            ds.dest_node = tempDUStart.get(1); 
             op.createPlan(tempDUSlut.get(0), tempDUStart.get(1));
             op.createInstructions();
             ds.distanceDO = op.getCost(tempDUSlut.get(0), tempDUStart.get(1));
@@ -191,5 +236,6 @@ public class Stop {
             ds.a = tempDUSlut.get(1);
             cp.getClosestPlats();
         }
+        ds.cap = cap;
     }
 }
